@@ -11,6 +11,7 @@ from cuisine import ssh_keygen, text_strip_margin, file_write, file_exists
 from cuisine import dir_ensure, dir_exists, run, file_attribs, group_user_ensure
 from cuisine import file_local_read, user_passwd
 from datetime import datetime
+from pprint import pformat
 import os
 import ConfigParser
 
@@ -57,6 +58,8 @@ def import_config():
     env.deployment_user = config.get(env.branch, 'deployment_user')
     env.ops_user = config.get(env.branch, 'ops_user')
     env.admin_user = config.get(env.branch, 'admin_user')
+    puts(cyan('Deployment settings:\n{0}'.format(pformat(env))))
+    prompt('Press enter to continue')
 
 
 def install_packages():
