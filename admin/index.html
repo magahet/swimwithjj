@@ -101,22 +101,48 @@
                             <dt ng-show="s.location">Location</dt><dd>{{s.location}}</dd>
                             <dt ng-show="s.name">Parent</dt><dd>{{s.name}}</dd>
                             <dt ng-show="s.email">Email</dt>
-                            <dd><a target="_blank"href="mailto:{{s.email}}">{{s.email}}</a></dd>
+                            <dd><a target="_blank" href="mailto:{{s.email}}">{{s.email}}</a></dd>
                             <dt ng-show="s.phone">Phone</dt><dd>{{s.phone}}</dd>
-                            <dt ng-show="s.cost">Payment Total</dt><dd>{{s.cost / 100 | currency}}</dd>
+                            <dt ng-show="s.cost">Payment Total</dt>
+                            <dd ng-hide="editingCost">
+                                {{s.cost / 100 | currency}}
+                                <a href="" title="edit payment total"
+                                    ng-click="editingCost = true; costEdit = s.cost" ><i class="icon-edit"></i></a></span>
+                            </dd>
+                            <dd ng-show="editingCost">
+                                <input class="input" type="text" ng-model="costEdit"></input>
+                                <button class="btn btn-link"
+                                    ng-click="saveCost(s._id, costEdit)">save</button>
+                                <button class="btn btn-link"
+                                    ng-click="editingCost = null">cancel</button>
+                                <br>
+                            </dd>
                             <dt ng-show="s.customer_id">Customer ID</dt>
                             <dd>
-                                <a target="_blank"
+                                <a target="_blank" title="go to card payment interface"
                                     href="https://manage.stripe.com/test/customers/{{s.customer_id}}">{{s.customer_id}}</a>
                             </dd>
                             <dt>Payment Status</dt>
                             <dd>
-                                <span ng-show="s.payment_received">Payment Received</span>
-                                <button class="btn btn-info btn-mini"
-                                    ng-hide="s.payment_received"
-                                    ng-click="markReceived(s)">Mark Payment Received</button>
+                                <span class="text-success" ng-show="s.payment_received">Received</span>
+                                <span class="text-error" ng-hide="s.payment_received">Pending</span>
+                                <a href="" title="toggle payment received"
+                                    ng-click="togglePaymentReceived(s._id)"><i class="icon-refresh"></i></a>
                             </dd>
-                            <dt ng-show="s.process_status">Process Status</dt><dd>{{s.process_status}}</dd>
+                            <dt>Process Status</dt>
+                            <dd ng-hide="editingStatus">
+                                {{s.process_status || 'signup form received'}}
+                                <a href="" title="edit process status"
+                                    ng-click="editingStatus = true; statusEdit = s.process_status || 'signup form received'" ><i class="icon-edit"></i></a></span>
+                            </dd>
+                            <dd ng-show="editingStatus">
+                                <input class="input" type="text" ng-model="statusEdit"></input>
+                                <button class="btn btn-link"
+                                    ng-click="saveStatus(s._id, statusEdit)">save</button>
+                                <button class="btn btn-link"
+                                    ng-click="editingStatus = null">cancel</button>
+                                <br>
+                            </dd>
                         </dl>
                         <div ng-show="s.request">
                             <strong>Request</strong><br>
@@ -128,7 +154,7 @@
                         <div class="control-group" ng-class="{success: s.savingNotesSuccess, error: s.savingNotesAlert}">
                             <label><strong>Notes</strong></label>
                             <textarea class="input-block-level" ng-model="s.notes"></textarea>
-                            <span class="help-block" ng-show="s.savingNotesAlert">Could not save notes</span>
+                            <span class="help-block text-error" ng-show="s.savingNotesAlert">Could not save notes</span>
                             <button class="btn btn-mini" ng-click="saveNotes(s)" ng-disabled="s.savingNotes">Save Changes</button>
                         </div>
                     </div>
@@ -139,10 +165,34 @@
                         <li><strong>{{c.child_name}}</strong></li>
                         <li>{{getAge(c.birthday)}}</li>
                         <li>{{c.swim_level}}</li>
-                        <li>
+                        <li>Sessions:
                             <ul>
-                                <li ng-repeat="i in c.sessions">{{i}}</li>
+                                <li ng-repeat="i in c.sessions">
+                                <span ng-hide="$parent.editing == $index">{{i}} <a href="" title="edit session"
+                                        ng-click="$parent.editing = $index; sessionEdit = i" ><i class="icon-edit"></i></a></span>
+                                <div ng-show="$parent.editing == $index">
+                                    <input class="input-block-level" type="text" ng-model="sessionEdit"></input>
+                                    <button class="btn btn-link"
+                                        ng-click="saveSession(s._id, $parent.$index, $index, sessionEdit)">save</button>
+                                    <button class="btn btn-link"
+                                        ng-click="removeSession(s._id, $parent.$index, $index, i)">remove</button>
+                                    <button class="btn btn-link"
+                                        ng-click="$parent.editing = null">cancel</button>
+                                </div>
+                                </li>
                             </ul>
+                            <button ng-show="editing == null" class="btn btn-link" ng-click="editing = -1">add</button>
+                            <div ng-show="editing == -1">
+                                <select ng-model="newSession"
+                                        ng-options="availableSession for
+                                                    availableSession in
+                                                    getSessions(s.location, c.sessions)">
+                                </select>
+                                <button type="submit" class="btn btn-link"
+                                    ng-click="addSession(s._id, $index, newSession)">add</button>
+                                <button class="btn btn-link" ng-click="editing=null">cancel</button>
+                            </div>
+                            <div class="alert alert-error" ng-show="s.savingSessionAlert">Could not save changes to sessions</div>
                         </li>
                     </ul>
                 </div><!--span8-->
