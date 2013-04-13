@@ -136,7 +136,12 @@
                                     ng-click="editingStatus = true; statusEdit = s.process_status || 'signup form received'" ><i class="icon-edit"></i></a></span>
                             </dd>
                             <dd ng-show="editingStatus">
-                                <input class="input" type="text" ng-model="statusEdit"></input>
+                                <select ng-model="statusEdit"
+                                        ng-options="statusMessage for
+                                                    statusMessage in
+                                                    getStatusMessages(s.process_status)">
+                                    <option value="">-- chose status --</option>
+                                </select>
                                 <button class="btn btn-link"
                                     ng-click="saveStatus(s._id, statusEdit)">save</button>
                                 <button class="btn btn-link"
@@ -187,6 +192,7 @@
                                         ng-options="availableSession for
                                                     availableSession in
                                                     getSessions(s.location, c.sessions)">
+                                    <option value="">-- chose session --</option>
                                 </select>
                                 <button type="submit" class="btn btn-link"
                                     ng-click="addSession(s._id, $index, newSession)">add</button>
