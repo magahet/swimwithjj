@@ -25,6 +25,8 @@ function mainController($scope, $http, $location) {
             error(function(data) {
                 $scope.paymentInfo = {error: true};
             });
+    } else {
+        $scope.paymentInfo = {error: true};
     }
 
     $scope.creditRate = 1.029;
