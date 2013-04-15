@@ -1,6 +1,6 @@
 "use strict";
 
-var stripePublishableKey = 'pk_test_gvLZ2MpYpGpdOrhIyVewmhGT';
+var stripePublishableKey = 'pk_live_3d6XsGmNpMEpRKWCDTDaxaAt';
 
 var payByCardApp = angular.module('payByCardApp', [], function($locationProvider){
     $locationProvider.html5Mode(true);
