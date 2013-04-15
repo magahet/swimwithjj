@@ -60,6 +60,7 @@ class EmailService(object):
             '': self.send_signup_confirmation,
             'signup form received': self.send_signup_confirmation,
             'lessons scheduled': self.send_lesson_confirmation,
+            'payment received': self.send_payment_confirmation,
         }
         for record in self.get_records():
             self.logger.debug('Processing record: [%s]', str(record))
@@ -216,6 +217,53 @@ class EmailService(object):
                          success_status='lesson confirmation sent',
                          error_status=('error: failed to send '
                                        'lesson confirmation email'))
+
+    def send_payment_confirmation(self, record):
+        cost_str = self._get_cost_str(record)
+        if not cost_str:
+            return
+        if record.get('customer_id', ''):
+            record['payment_message'] = text_strip_margin('''
+                |Payment has been charged to the credit card you provided.
+                |
+                |Total amount charged: {0}
+            ''').format(cost_str)
+        else:
+            due_date = date.today() + timedelta(days=6)
+            oid = record.get('_id', '')
+            record['payment_message'] = text_strip_margin('''
+                |Your payment has been received.
+                |
+                |Total amount received: {cost}
+            ''').format(due_date=due_date, cost=cost_str, oid=str(oid))
+        template = text_strip_margin('''
+            |Your payment has been received!
+            |
+            |The following sessions and times have been reserved:
+            |
+            |{{#children}}
+            |Lessons for {{child_name}}:
+            |{{#sessions}}
+            |{{.}}
+            |{{/sessions}}
+            |
+            |{{/children}}
+            |
+            |{{payment_message}}
+            |
+            |If you need directions to the pool, please see the Lesson Info section on the website.
+            |
+            |Should you have any questions, please do not reply to this email.
+            |You can contact me via the website at www.swimwithjj.com.
+            |
+            |Thank you and I look forward to seeing you and your little swimmers soon!
+            |
+            ''')
+        self._send_email(record, pystache.render(template, record),
+                         'Payment and Lesson Confirmation',
+                         success_status='payment confirmation sent',
+                         error_status=('error: failed to send '
+                                       'payment confirmation email'))
 
 
 if __name__ == '__main__':
