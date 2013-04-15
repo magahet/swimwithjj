@@ -12,6 +12,22 @@ function adminController($scope, $http, $timeout, $filter) {
         return _.difference(_.pluck($scope.availableSessions[signupLocation], 'name'), currentSessions);
     };
 
+    $scope.getStatusMessages= function(currentStatusMessage) {
+        if (!currentStatusMessage) {
+            var currentStatusMessage = 'signup form received';
+        }
+        return _.difference($scope.statusMessages, currentStatusMessage);
+    };
+
+    $scope.statusMessages = [
+        'signup form received',
+        'signup confirmation sent',
+        'lessons scheduled',
+        'lesson confirmation sent',
+        'payment received',
+        'payment confirmation sent'
+    ];
+
     $scope.availableSessions = {
         laCrescenta: [
             {name: 'Session 1 - June 5th to June 20th - Morning', price: 189},

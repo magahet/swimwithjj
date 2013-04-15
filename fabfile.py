@@ -239,7 +239,7 @@ def ensure_email_service():
         |
         |script
         |   cd /var/www/swimwithjj.com/scripts
-        |   email-service.py
+        |   ./email-service.py
         |end script
     ''')
     file_write('/etc/init/email.conf', service_config, mode=644,

@@ -7,6 +7,7 @@ import stripe
 import ConfigParser
 from datetime import datetime
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 
 
 class FormProcessor(object):
@@ -29,6 +30,8 @@ class FormProcessor(object):
             'message': self.send_message_to_jj,
             'signup': self.process_signup,
             'save-card': self.save_card,
+            'add-card': self.add_card,
+            'get-payment-info': self.get_payment_info,
         }
         if action not in handlers:
             return None
@@ -52,6 +55,7 @@ class FormProcessor(object):
         email_sent = emailer.send(from_email, password, to_address,
                                   subject, message,
                                   sender_name=from_name)
+        return email_sent
 
     def save_signup_notification(self):
         email = self.params.get('email', '')
@@ -76,6 +80,17 @@ class FormProcessor(object):
         except stripe.CardError as error:
             return {'error': str(error)}
         return {'customer_id': customer.id}
+
+    def add_card(self):
+        oid = self.params.get('oid', '')
+        if not oid:
+            return None
+        result = self.save_card()
+        customer_id = result.get('customer_id', '')
+        if not customer_id:
+            return result
+        return self.db.signup.update({'_id': ObjectId(oid)},
+                                     {'$set': {'customer_id': customer_id}})
 
     def process_signup(self):
         try:
@@ -107,6 +122,26 @@ class FormProcessor(object):
             'children': children_list
         }
         return self.save_to_db(self.params.get('id'), signup_form)
+
+    def get_payment_info(self):
+        oid = self.params.get('oid', '')
+        result = self.db.signup.find_one({'_id': ObjectId(oid)})
+        if result is None:
+            return None
+        try:
+            cost = int(result.get('cost', 0))
+        except ValueError:
+            return None
+        session_count = len([s for
+                             c in result.get('children', []) for
+                             s in c.get('sessions', [])])
+        card_saved = bool(result.get('customer_id', False))
+        if cost and session_count:
+            return {
+                'cost': cost,
+                'sessionCount': session_count,
+                'cardSaved': card_saved
+            }
 
 
 def get_cgi_dict():

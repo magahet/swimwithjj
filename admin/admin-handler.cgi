@@ -64,8 +64,9 @@ class FormProcessor(object):
         state = self.params.get('payment_received')
         if not oid or state is None:
             return None
+        state = True if state == 'true' else False
         return self.signup.update({'_id': ObjectId(oid)},
-                                  {'$set': {'payment_received': bool(state)}})
+                                  {'$set': {'payment_received': state}})
 
     def save_notes(self):
         oid = self.params.get('oid', '')
