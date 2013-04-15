@@ -126,8 +126,8 @@ function ($scope, $http) {
         culverCity: [
             {name: 'Session 1 - May 17th to June 2nd - Afternoon', price: 189},
             {name: 'Session 2 - June 14th to June 30th - Afternoon', price: 189},
-            {name: 'Session 3 - July 16th to August 1th - Morning', price: 189},
-            {name: 'Session 3 - July 16th to August 1th - Afternoon', price: 189},
+            {name: 'Session 3 - July 16th to August 1st - Morning', price: 189},
+            {name: 'Session 3 - July 16th to August 1st - Afternoon', price: 189},
             {name: 'Session 4 - August 6th to August 22nd - Morning', price: 189},
             {name: 'Session 4 - August 6th to August 22nd - Afternoon', price: 189}
         ]
