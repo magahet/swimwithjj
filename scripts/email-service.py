@@ -1,6 +1,7 @@
 #!/usr/bin/python2.7
 
 import os
+import sys
 import atexit
 from time import sleep
 import locale
@@ -12,6 +13,7 @@ import argparse
 import emailer
 import ConfigParser
 from datetime import date, timedelta
+import signal
 
 
 class EmailService(object):
@@ -40,10 +42,13 @@ class EmailService(object):
             raise Exception('pidfile already exists: '
                             '[{0}]'.format(self.pidfile))
         file(self.pidfile, 'w').write(pid)
-        atexit.register(self.del_pid_file)
+        atexit.register(self.exit)
+        signal.signal(signal.SIGTERM, self.exit)
+        signal.signal(signal.SIGHUP, signal.SIG_IGN)
 
-    def del_pid_file(self):
+    def exit(self):
         os.remove(self.pidfile)
+        sys.exit(0)
 
     def run(self):
         try:
