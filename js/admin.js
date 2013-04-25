@@ -61,20 +61,27 @@ function adminController($scope, $http, $timeout, $filter) {
     });
 
     $scope.getAge = function (birthday) {
-        var then = moment(birthday, 'YYYY-MM-DD');
+        console.log(birthday);
         var now = moment();
+        //var then = moment(birthday, 'YYYY-MM-DD');
+        var then = moment(Date.parse(birthday));
+        console.log(then);
         if (!then || !then.isValid()) {
             return birthday;
         }
         var ms = now.diff(then, 'milliseconds', true);
         var years = Math.floor(moment.duration(ms).asYears());
+        if (years < 0 || years > 50) {
+            return birthday;
+        }
+
         now = now.subtract('years', years);
         ms = now.diff(then, 'milliseconds', true);
         var months = Math.floor(moment.duration(ms).asMonths());
         if (years > 0) {
-            return years + ' years, ' + months + ' months';
+            return years + ' years, ' + months + ' months' + ' (' + birthday + ')';
         } else {
-            return months + ' months';
+            return months + ' months' + ' (' + birthday + ')';
         }
     };
 
