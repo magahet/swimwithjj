@@ -32,13 +32,14 @@ class FormProcessor(object):
             'set_cost': self.set_cost,
             'set_status': self.set_status,
             'save_session': self.save_session,
+            'delete': self.delete,
         }
         if action not in handlers:
             return None
         return handlers[action]()
 
     def get_signups(self):
-        return [r for r in self.signup.find({})]
+        return [r for r in self.signup.find({'deleted': {'$exists': False}})]
 
     def set_status(self):
         oid = self.params.get('oid', '')
@@ -103,6 +104,13 @@ class FormProcessor(object):
             return None
         return self.signup.update({'_id': ObjectId(oid)},
                                   {'$set': {'children.{0}.sessions.{1}'.format(child_index, session_index): session}})
+
+    def delete(self):
+        oid = self.params.get('oid', '')
+        if not oid:
+            return None
+        return self.signup.update({'_id': ObjectId(oid)},
+                                  {'$set': {'deleted': True}})
 
 
 def get_cgi_dict():
