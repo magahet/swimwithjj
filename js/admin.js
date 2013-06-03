@@ -117,6 +117,21 @@ function adminController($scope, $http, $timeout, $filter) {
         });
     };
 
+    $scope.deleteRecord = function(signupId) {
+        var signup = _.findWhere($scope.signups, {'_id': signupId});
+        var params = { 
+            action: 'delete',
+            oid: signup._id.$oid,
+        };
+        $http.get('admin-handler.cgi', {params: params}).
+            success(function(data) {
+                if (data.response) {
+                    var index = _.indexOf($scope.signups, signup);
+                    $scope.signups.splice(index, 1);
+                }
+        });
+    };
+
     $scope.saveStatus = function(signupId, newStatus) {
         var signup = _.findWhere($scope.signups, {'_id': signupId});
         var params = { 

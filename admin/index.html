@@ -92,6 +92,7 @@
         
 
         <div class="row-fluid" ng-repeat="s in signups | filter:searchText | orderBy:predicate:reverse">
+
             <div class="well">
                 <div class="span6">
                     <div class="well well-small">
@@ -154,6 +155,15 @@
                             {{s.request}}
                         </div>
                     </div>
+
+
+                    <div>
+                        <button ng-hide="deletingStatus" ng-click="deletingStatus = true" class="btn btn-mini btn-danger">Delete Signup</button>
+                        <div class="alert alert-error" ng-show="deletingStatus">
+                            Are you sure you want to delete this record? This cannot be undone! <button class="btn btn-mini btn-danger" ng-click="deleteRecord(s._id)">Delete</button> <button class="btn btn-mini" ng-click="deletingStatus = null">Cancel</button>
+                        </div>
+                    </div>
+
 
                     <div class="well well-small">
                         <div class="control-group" ng-class="{success: s.savingNotesSuccess, error: s.savingNotesAlert}">
