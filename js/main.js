@@ -6,15 +6,17 @@ angular.module('swjjApp', ['ngSanitize'])
     .controller('mainController', ['$scope', '$http',
 function ($scope, $http) {
     var now = moment();
-    var then = moment([2013, 2, 30]); // March 29th, 2013
+    var then = moment([2014, 4, 30]); // March 29th, 2013
     var ms = then.diff(now, 'milliseconds', true);
-    $scope.daysTillSignup = Math.floor(moment.duration(ms).asDays());
+    //$scope.daysTillSignup = Math.floor(moment.duration(ms).asDays());
     
     if ($scope.daysTillSignup && $scope.daysTillSignup >= 1) {
         $scope.signupsActive = false;
     } else {
         $scope.signupsActive = true;
     }
+
+    $scope.signupsActive = false;
 
     $scope.lessonInfoActive = true;
     $scope.maxChildren = 4;
@@ -67,69 +69,62 @@ function ($scope, $http) {
         culverCity: [
             {
                 num: 1,
-                dates: 'May 17th to June 2nd',
+                dates: 'May 23rd to June 8th',
                 days: 'Fri, Sat, Sun',
-                times: 'between 3pm and 5pm',
-                price: 189},
+                times: 'between 3:30pm and 5:30pm',
+                price: 199
+            },
             {
                 num: 2,
-                dates: 'June 14th to June 30th',
-                days: 'Fri, Sat, Sun',
-                times: 'between 3pm and 5pm',
-                price: 189},
+                dates: 'June 17th to July 3rd',
+                days: 'Tue, Wed, Thu',
+                times: 'between 3:30pm and 5:30pm',
+                price: 199
+            },
             {
                 num: 3,
-                dates: 'July 16th to August 1st',
+                dates: 'July 8th to July 24th',
                 days: 'Tue, Wed, Thu',
-                times: 'between 10am and 5pm',
-                price: 189},
+                times: 'between 3:30pm and 5:30pm',
+                price: 199
+            },
             {
                 num: 4,
-                dates: 'August 6th to August 22nd',
+                dates: 'July 29th to August 14th',
                 days: 'Tue, Wed, Thu',
-                times: 'between 10am and 5pm',
-                price: 189}
+                times: 'between 3:30pm and 5:30pm',
+                price: 199
+            }
+            //},
+            //{
+                //num: 5,
+                //dates: 'September 5th to September 21st',
+                //days: 'Fri, Sat, Sun',
+                //times: 'between 3:30pm and 5:30pm',
+                //price: 199
+            //},
         ],
         laCrescenta: [
             {   
                 num: 1,
-                dates: 'June 5th to June 20th',
-                days: '<strong>1st week:</strong> Wed, Thu, Fri <br /><strong>2nd and 3rd week:</strong> Tue, Wed, Thu',
-                times: 'between 9:30am and 4:30pm',
-                price: 189
-            },
-            {   
-                num: 2,
-                dates: 'June 25th to July 11th',
-                days: '<strong>1st and 3rd week:</strong> Tue, Wed, Thu <br /><strong>2nd week:</strong> Mon, Tue, Wed',
-                times: 'between 9:30am and 4:30pm',
-                price: 189
-            },
-            {
-                num: 3,
-                dates: 'July 20th to August 4th',
-                days: 'Sat, Sun',
-                times: 'between 2pm and 5pm',
-                price: 126
+                dates: 'June 2th to June 5th',
+                days: 'Mon, Tue, Wed, Thu',
+                times: 'between 3:30pm and 6:30pm',
+                price: 199
             }
         ]
     };
 
     $scope.availableSessions = {
         laCrescenta: [
-            {name: 'Session 1 - June 5th to June 20th - Morning', price: 189},
-            {name: 'Session 1 - June 5th to June 20th - Afternoon', price: 189},
-            {name: 'Session 2 - June 25th to July 11th - Morning', price: 189},
-            {name: 'Session 2 - June 25th to July 11th - Afternoon', price: 189},
-            {name: 'Session 3 - July 20th to August 4th - Afternoon', price: 126}
+            {name: 'Session 1 - June 2th to June 5th', price: 199}
         ],
         culverCity: [
-            {name: 'Session 1 - May 17th to June 2nd - Afternoon', price: 189},
-            {name: 'Session 2 - June 14th to June 30th - Afternoon', price: 189},
-            {name: 'Session 3 - July 16th to August 1st - Morning', price: 189},
-            {name: 'Session 3 - July 16th to August 1st - Afternoon', price: 189},
-            {name: 'Session 4 - August 6th to August 22nd - Morning', price: 189},
-            {name: 'Session 4 - August 6th to August 22nd - Afternoon', price: 189}
+            {name: 'Session 1 - May 23rd to June 8th', price: 199},
+            {name: 'Session 2 - June 17th to July 3rd', price: 199},
+            {name: 'Session 3 - July 8th to July 24th', price: 199},
+            {name: 'Session 4 - July 29th to August 14th', price: 199},
+            {name: 'Session 5 - September 5th to September 21st', price: 199}
         ]
     };
 
