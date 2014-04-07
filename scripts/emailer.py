@@ -2,13 +2,14 @@
 
 import smtplib
 from email.MIMEText import MIMEText
+import string
 
 
 def send(sender_address, password, receivers,
          subject, message, sender_name=''):
     if not isinstance(receivers, list):
         receivers = [receivers]
-    msg = MIMEText(message)
+    msg = MIMEText(filter(lambda x: x in string.printable, message))
     msg['Subject'] = subject
     sender_name = sender_name if sender_name else sender_address
     msg['From'] = '{0} <{1}>'.format(sender_name, sender_address)
