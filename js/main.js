@@ -72,28 +72,28 @@ function ($scope, $http) {
                 dates: 'May 23rd to June 8th',
                 days: 'Fri, Sat, Sun',
                 times: 'between 3:30pm and 5:30pm',
-                price: 199
+                price: 195
             },
             {
                 num: 2,
                 dates: 'June 17th to July 3rd',
                 days: 'Tue, Wed, Thu',
                 times: 'between 3:30pm and 5:30pm',
-                price: 199
+                price: 195
             },
             {
                 num: 3,
                 dates: 'July 8th to July 24th',
                 days: 'Tue, Wed, Thu',
                 times: 'between 3:30pm and 5:30pm',
-                price: 199
+                price: 195
             },
             {
                 num: 4,
                 dates: 'July 29th to August 14th',
                 days: 'Tue, Wed, Thu',
                 times: 'between 3:30pm and 5:30pm',
-                price: 199
+                price: 195
             }
             //},
             //{
@@ -110,21 +110,21 @@ function ($scope, $http) {
                 dates: 'June 2th to June 5th',
                 days: 'Mon, Tue, Wed, Thu',
                 times: 'between 3:30pm and 6:30pm',
-                price: 199
+                price: 124
             }
         ]
     };
 
     $scope.availableSessions = {
         laCrescenta: [
-            {name: 'Session 1 - June 2th to June 5th', price: 199}
+            {name: 'Session 1 - June 2th to June 5th', price: 124}
         ],
         culverCity: [
-            {name: 'Session 1 - May 23rd to June 8th', price: 199},
-            {name: 'Session 2 - June 17th to July 3rd', price: 199},
-            {name: 'Session 3 - July 8th to July 24th', price: 199},
-            {name: 'Session 4 - July 29th to August 14th', price: 199},
-            {name: 'Session 5 - September 5th to September 21st', price: 199}
+            {name: 'Session 1 - May 23rd to June 8th', price: 195},
+            {name: 'Session 2 - June 17th to July 3rd', price: 195},
+            {name: 'Session 3 - July 8th to July 24th', price: 195},
+            {name: 'Session 4 - July 29th to August 14th', price: 195},
+            {name: 'Session 5 - September 5th to September 21st', price: 195}
         ]
     };
 
