@@ -123,8 +123,8 @@ function ($scope, $http) {
             {name: 'Session 1 - May 23rd to June 8th', price: 195},
             {name: 'Session 2 - June 17th to July 3rd', price: 195},
             {name: 'Session 3 - July 8th to July 24th', price: 195},
-            {name: 'Session 4 - July 29th to August 14th', price: 195},
-            {name: 'Session 5 - September 5th to September 21st', price: 195}
+            {name: 'Session 4 - July 29th to August 14th', price: 195}
+            //{name: 'Session 5 - September 5th to September 21st', price: 195}
         ]
     };
 
