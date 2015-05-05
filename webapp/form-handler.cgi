@@ -20,7 +20,7 @@ class FormProcessor(object):
         self.config.read(settings_file)
         with open(environment_file) as file_:
             self.environment = file_.read().strip()
-        client = MongoClient()
+        client = MongoClient(self.config.get(self.environment, 'db_host'))
         self.db = client[self.config.get(self.environment, 'db_name')]
 
     def process(self):

@@ -1,0 +1,18 @@
+web:
+    build: .
+    ports:
+        - "80:80"
+    volumes:
+        - webapp:/var/www/swimwithjj.com
+    links:
+        - mongo
+
+emailer:
+    build: email-service
+    links:
+        - mongo
+
+mongo:
+    image: mongo
+    volumes:
+        - db:/data/db

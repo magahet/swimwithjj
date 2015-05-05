@@ -5,7 +5,7 @@ import sys
 import atexit
 from time import sleep
 import locale
-from cuisine import text_strip_margin
+import textwrap
 from pymongo import MongoClient
 import pystache
 import logging
@@ -125,35 +125,35 @@ class EmailService(object):
         if not cost_str:
             return
         if record.get('customer_id', ''):
-            record['payment_message'] = text_strip_margin('''
-                |Your credit card will only be charged after you have received your lesson times.
-                |The total amount that will be charded is: {0}
+            record['payment_message'] = textwrap.dedent('''\
+                Your credit card will only be charged after you have received your lesson times.
+                The total amount that will be charded is: {0}
             ''').format(cost_str)
         else:
-            record['payment_message'] = text_strip_margin('''
-                |Your payment by check or cash will be due within five days after you have received your lesson times.
-                |The total amount due is: {0}
+            record['payment_message'] = textwrap.dedent('''\
+                Your payment by check or cash will be due within five days after you have received your lesson times.
+                The total amount due is: {0}
             ''').format(cost_str)
-        template = text_strip_margin('''
-            |Thank You!
-            |
-            |You have completed the signup process at www.swimwithjj.com
-            |JJ will contact you with your exact lesson times within the next three weeks.
-            |
-            |{{payment_message}}
-            |
-            |You have signed up for the following sessions:
-            |
-            |{{#children}}
-            |Lessons for {{child_name}}:
-            |{{#sessions}}
-            |{{.}}
-            |{{/sessions}}
-            |
-            |{{/children}}
-            |
-            |Should you have any questions, please do not reply to this email.
-            |You can contact me via the website at www.swimwithjj.com.
+        template = textwrap.dedent('''\
+            Thank You!
+
+            You have completed the signup process at www.swimwithjj.com
+            JJ will contact you with your exact lesson times within the next three weeks.
+
+            {{payment_message}}
+
+            You have signed up for the following sessions:
+
+            {{#children}}
+            Lessons for {{child_name}}:
+            {{#sessions}}
+            {{.}}
+            {{/sessions}}
+
+            {{/children}}
+
+            Should you have any questions, please do not reply to this email.
+            You can contact me via the website at www.swimwithjj.com.
             ''')
         self._send_email(record, pystache.render(template, record),
                          'Signup Confirmation',
@@ -166,56 +166,56 @@ class EmailService(object):
         if not cost_str:
             return
         if record.get('customer_id', ''):
-            record['payment_message'] = text_strip_margin('''
-                |Payment will be charged to the credit card you provided.
-                |The total amount that will be charged is: {0}
+            record['payment_message'] = textwrap.dedent('''\
+                Payment will be charged to the credit card you provided.
+                The total amount that will be charged is: {0}
             ''').format(cost_str)
         else:
             due_date = date.today() + timedelta(days=6)
             oid = record.get('_id', '')
-            record['payment_message'] = text_strip_margin('''
-                |Your payment by check or cash will be due by: {due_date:%A, %B %d}
-                |
-                |Please make checks out to: JJ MENDIOLA
-                |
-                |Checks can be mailed to:
-                |
-                |   4241 La Salle Ave.
-                |   Culver City, CA 90232
-                |
-                |
-                |Payment is NON-REFUNDABLE.
-                |Lesson reservations WILL BE LOST if payment is not received by the due date.
-                |
-                |The total amount due is: {cost}
-                |
-                |
-                |If you would like to pay by credit card, you may use the following form:
-                |
-                |http://www.swimwithjj.com/paybycard.html?id={oid}
-                |(a fee of 2.9% + 30 cents will be added to your total)
-                |
+            record['payment_message'] = textwrap.dedent('''\
+                Your payment by check or cash will be due by: {due_date:%A, %B %d}
+
+                Please make checks out to: JJ MENDIOLA
+
+                Checks can be mailed to:
+
+                   4241 La Salle Ave.
+                   Culver City, CA 90232
+
+
+                Payment is NON-REFUNDABLE.
+                Lesson reservations WILL BE LOST if payment is not received by the due date.
+
+                The total amount due is: {cost}
+
+
+                If you would like to pay by credit card, you may use the following form:
+
+                http://www.swimwithjj.com/paybycard.html?id={oid}
+                (a fee of 2.9% + 30 cents will be added to your total)
+
             ''').format(due_date=due_date, cost=cost_str, oid=str(oid))
-        template = text_strip_margin('''
-            |Your lesson times have been set!
-            |
-            |You have been scheduled for the following sessions and times:
-            |
-            |{{#children}}
-            |Lessons for {{child_name}}:
-            |{{#sessions}}
-            |{{.}}
-            |{{/sessions}}
-            |
-            |{{/children}}
-            |
-            |{{payment_message}}
-            |
-            |Should you have any questions, please do not reply to this email.
-            |You can contact me via the website at www.swimwithjj.com.
-            |
-            |Thank you and I look forward to seeing you and your little swimmers soon!
-            |
+        template = textwrap.dedent('''\
+            Your lesson times have been set!
+
+            You have been scheduled for the following sessions and times:
+
+            {{#children}}
+            Lessons for {{child_name}}:
+            {{#sessions}}
+            {{.}}
+            {{/sessions}}
+
+            {{/children}}
+
+            {{payment_message}}
+
+            Should you have any questions, please do not reply to this email.
+            You can contact me via the website at www.swimwithjj.com.
+
+            Thank you and I look forward to seeing you and your little swimmers soon!
+
             ''')
         self._send_email(record, pystache.render(template, record),
                          'Lesson Time and Payment Info',
@@ -228,41 +228,41 @@ class EmailService(object):
         if not cost_str:
             return
         if record.get('customer_id', ''):
-            record['payment_message'] = text_strip_margin('''
-                |Payment has been charged to the credit card you provided.
-                |
-                |Total amount charged: {0}
+            record['payment_message'] = textwrap.dedent('''\
+                Payment has been charged to the credit card you provided.
+
+                Total amount charged: {0}
             ''').format(cost_str)
         else:
             due_date = date.today() + timedelta(days=6)
             oid = record.get('_id', '')
-            record['payment_message'] = text_strip_margin('''
-                |Your payment has been received.
-                |
-                |Total amount received: {cost}
+            record['payment_message'] = textwrap.dedent('''\
+                Your payment has been received.
+
+                Total amount received: {cost}
             ''').format(due_date=due_date, cost=cost_str, oid=str(oid))
-        template = text_strip_margin('''
-            |Your payment has been received!
-            |
-            |The following sessions and times have been reserved:
-            |
-            |{{#children}}
-            |Lessons for {{child_name}}:
-            |{{#sessions}}
-            |{{.}}
-            |{{/sessions}}
-            |
-            |{{/children}}
-            |
-            |{{payment_message}}
-            |
-            |If you need directions to the pool, please see the Lesson Info section on the website.
-            |
-            |Should you have any questions, please do not reply to this email.
-            |You can contact me via the website at www.swimwithjj.com.
-            |
-            |Thank you and I look forward to seeing you and your little swimmers soon!
-            |
+        template = textwrap.dedent('''\
+            Your payment has been received!
+
+            The following sessions and times have been reserved:
+
+            {{#children}}
+            Lessons for {{child_name}}:
+            {{#sessions}}
+            {{.}}
+            {{/sessions}}
+
+            {{/children}}
+
+            {{payment_message}}
+
+            If you need directions to the pool, please see the Lesson Info section on the website.
+
+            Should you have any questions, please do not reply to this email.
+            You can contact me via the website at www.swimwithjj.com.
+
+            Thank you and I look forward to seeing you and your little swimmers soon!
+
             ''')
         self._send_email(record, pystache.render(template, record),
                          'Payment and Lesson Confirmation',
