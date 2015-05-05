@@ -13,7 +13,6 @@ TODO
 ----
 
 * add info box for parent and me / adult lessons
-* add delete record button to admin
 * add send lesson confirmation button to admin
 
 
@@ -21,63 +20,66 @@ Deployment
 ----------
 
 
-## settings.conf
+## Environment Variables
 
-settings.conf should have the following format:
+Deployment with docker requires the following environment variables be set in these files:
 
-    [DEFAULT]
-    server: <server fqdn>
-    repo_url: <git repo url>
-    deployment_user: <username for deployment>
-    ops_user: <username for server logins>
-    admin_user: <username for admin interface>
-    backup_path: <path to local dir for db backups>
-    email_sender_name: <Name for email sender>
-    email_sender_address: <address for email sender>
-    email_sender_password: <password for email sender (gmail)>
+    conf/common.env
 
-    # environment/branch name. Create more for feature testing
-    [master]
-    stripe_secret_key: <stripe secret key>
-    stripe_publish_key: <stripe publishable key>
-    db_name: <db name>
-    message_address: <email to send messages to>
+        # Credentials for site admin interface
+        ADMIN_USER=
+        ADMIN_PASS=
 
-    # example feature branch settings
-    [test]
-    stripe_secret_key: <stripe secret key>
-    stripe_publish_key: <stripe publishable key>
-    db_name: <db name>
-    message_address: <email to send messages to>
+        DB_HOST=
+        EMAIL_SENDER_NAME=
+        EMAIL_SENDER_ADDRESS=
+        EMAIL_SENDER_PASSWORD=
 
-    # An environment string matching one of these section names
-    # should be stored in the file: environment
+
+    conf/specific.env
+
+        STRIPE_SECRET_KEY=
+        STRIPE_PUBLISH_KEY=
+        DB_NAME=
+
+        # Email address to send messages from website
+        MESSAGE_ADDRESS=
 
 
 ## Deployment Process
 
-A fabric deployment script is included with the following tasks:
+This site is deployed as three docker containers:
 
-    backup_db    Save a copy of swimwithjj db to BACKUP_PATH
-    deploy       Setup server, install requirements, and deploy site code
-    show_emails  Show list of emails from signup notification form
-    update       Get latest version of site code from repo
+- Web: an apache service with python cgi scripts for form handling
+- Emailer: a python service that sends email based on signup status
+- Mongo: a mongodb service to stores signups
 
-The file, 'environment', will determine which branch of code will be deployed and which site settings to use. To deploy code from the master branch, save the string 'master' to the environment file. Then run the deployment script with:
+Dockerfiles exist for building the web and emailer images. Docker compose is used to launch the containers and relationships are defined in docker-compose.yml. 
 
-    fab deploy
 
-This will perform the following:
+### Building
 
- - install required packages
- - setup user accounts
- - configure apache
- - install site services and python modules
- - clone and pull site code
+    docker-compose build
 
-The following command will perform only the final step of pulling the latest commit from the repo:
 
-    fab update
+### Launching
+
+    docker-compose up -d
+
+
+## Troubleshooting
+
+View container status:
+
+    docker-compose ps
+
+View stdout:
+
+    docker-compose logs
+
+Dig into each container:
+
+    docker exec -it <container_name> bash
 
 
 ## LICENSE
