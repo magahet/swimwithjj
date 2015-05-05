@@ -1,10 +1,10 @@
 #!/usr/bin/python2.7
 
 import cgi
+import os
 import json
 import emailer
 import stripe
-import ConfigParser
 from datetime import datetime
 from pymongo import MongoClient
 from bson.objectid import ObjectId
@@ -13,15 +13,10 @@ from bson.objectid import ObjectId
 class FormProcessor(object):
     '''Provides methods for handling forms'''
 
-    def __init__(self, params, environment_file='environment',
-                 settings_file='/etc/swimwithjj/settings.conf'):
+    def __init__(self, params):
         self.params = params
-        self.config = ConfigParser.ConfigParser()
-        self.config.read(settings_file)
-        with open(environment_file) as file_:
-            self.environment = file_.read().strip()
-        client = MongoClient(self.config.get(self.environment, 'db_host'))
-        self.db = client[self.config.get(self.environment, 'db_name')]
+        client = MongoClient(os.getenv('DB_HOST', ''))
+        self.db = client[os.getenv('DB_NAME', '')]
 
     def process(self):
         action = self.params.get('id', '')
@@ -43,15 +38,15 @@ class FormProcessor(object):
         return True
 
     def send_message_to_jj(self):
-        to_address = self.config.get(self.environment, 'message_address')
+        to_address = os.getenv('MESSAGE_ADDRESS')
         subject = 'Message from: {0}'.format(self.params.get('name', 'Unknown'))
         message = '\n'.join(['{0}:\n{1}\n'.format(key, value) for
                             key, value in
                             self.params.iteritems()])
-        from_email = self.config.get(self.environment, 'email_sender_address')
-        password = self.config.get(self.environment, 'email_sender_password')
-        from_name = self.config.get(self.environment, 'email_sender_name')
-        to_address = self.config.get(self.environment, 'message_address')
+        from_email = os.getenv('EMAIL_SENDER_ADDRESS')
+        password = os.getenv('EMAIL_SENDER_PASSWORD')
+        from_name = os.getenv('EMAIL_SENDER_NAME')
+        to_address = os.getenv('MESSAGE_ADDRESS')
         email_sent = emailer.send(from_email, password, to_address,
                                   subject, message,
                                   sender_name=from_name)
@@ -73,7 +68,7 @@ class FormProcessor(object):
             return {'error': 'invalid token'}
         email = self.params.get('email')
         name = self.params.get('name')
-        stripe.api_key = self.config.get(self.environment, 'stripe_secret_key')
+        stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
         try:
             customer = stripe.Customer.create(card=token, email=email,
                                               description=name)

@@ -3,3 +3,4 @@
 settings.conf
 .vagrant/*
 db
+*.env

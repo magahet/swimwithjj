@@ -6,11 +6,17 @@ web:
         - webapp:/var/www/swimwithjj.com
     links:
         - mongo
+    env_file:
+        - conf/common.env
+        - conf/test.env
 
 emailer:
     build: email-service
     links:
         - mongo
+    env_file:
+        - conf/common.env
+        - conf/test.env
 
 mongo:
     image: mongo

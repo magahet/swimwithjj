@@ -5,6 +5,7 @@ RUN apt-get update \
     && apt-get install -y \
         python2.7 \
         python-pip \
+        language-pack-en \
     && rm -rf /var/lib/apt/lists/*
 
 COPY ./requirements.txt /tmp/requirements.txt

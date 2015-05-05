@@ -11,27 +11,21 @@ import pystache
 import logging
 import argparse
 import emailer
-import ConfigParser
 from datetime import date, timedelta
 import signal
 
 
 class EmailService(object):
     '''A daemon service for sending emails'''
-    def __init__(self, settings_file='/etc/swimwithjj/settings.conf',
-                 pidfile='/tmp/email-service.pid', interval=600,
-                 collection_name='signup',
-                 test_mode=False, environment='master'):
+    def __init__(self, pidfile='/tmp/email-service.pid', interval=600,
+                 collection_name='signup', test_mode=False):
         self.pidfile = pidfile
         self.interval = interval
         self.test_mode = test_mode
         self.pid_setup()
         locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
-        self.config = ConfigParser.ConfigParser()
-        self.environment = environment
-        self.config.read(settings_file)
-        client = MongoClient()
-        db = client[self.config.get(environment, 'db_name')]
+        client = MongoClient(os.getenv('DB_HOST'))
+        db = client[os.getenv('DB_NAME')]
         self.collection = db[collection_name]
         self.logger = logging.getLogger('EmailService')
         self.logger.setLevel(logging.INFO)
@@ -87,9 +81,9 @@ class EmailService(object):
 
     def _send_email(self, record, message, subject,
                     success_status='', error_status=''):
-        from_email = self.config.get(self.environment, 'email_sender_address')
-        password = self.config.get(self.environment, 'email_sender_password')
-        from_name = self.config.get(self.environment, 'email_sender_name')
+        from_email = os.getenv('EMAIL_SENDER_ADDRESS')
+        password = os.getenv('EMAIL_SENDER_PASSWORD')
+        from_name = os.getenv('EMAIL_SENDER_NAME')
         to_email = record.get('email', '')
         if not to_email:
             self.set_status('error: email not provided', record)
@@ -275,10 +269,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-t', '--test', help='run in test mode',
                         default=False, action='store_true')
-    parser.add_argument('-e', '--env', help='environment to poll',
-                        default='master')
-    parser.add_argument('-s', '--settings', help='settings file',
-                        default='/etc/swimwithjj/settings.conf')
     parser.add_argument('-p', '--pid', help='pid file',
                         default='/tmp/email-service.pid')
     parser.add_argument('-i', '--interval', help='interval (sec)',
@@ -286,7 +276,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
     print 'Starting Email Service'
     logging.basicConfig()
-    email_service = EmailService(settings_file=args.settings, pidfile=args.pid,
-                                 interval=args.interval, test_mode=args.test,
-                                 environment=args.env)
+    email_service = EmailService(pidfile=args.pid, interval=args.interval,
+                                 test_mode=args.test)
     email_service.run()
