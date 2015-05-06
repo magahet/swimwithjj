@@ -1,7 +1,7 @@
 "use strict";
 
 angular.module('swjjApp', ['ngSanitize', 'duScroll'])
-    .value('duScrollOffset', 20)
+    .value('duScrollOffset', 30)
     .controller('mainController', ['$scope', '$http', '$document',
 function ($scope, $http, $document) {
 
@@ -176,15 +176,15 @@ $(document).ready(function() {
         //}, 1000);
     //});
 
-    $('#location-tabs > button').click(function(){
-        //$('#location-alert').alert('close');
-        if (!$(this).hasClass('active')) {
-            var tabTarget = $(this).attr('data-target');
-            $('.tab-pane').fadeOut('slow', function() {
-                $('#' + tabTarget).fadeIn('slow');
-            });
-        }
-    });
+    //$('#location-tabs > button').click(function(){
+        ////$('#location-alert').alert('close');
+        //if (!$(this).hasClass('active')) {
+            //var tabTarget = $(this).attr('data-target');
+            //$('.tab-pane').fadeOut('slow', function() {
+                //$('#' + tabTarget).fadeIn('slow');
+            //});
+        //}
+    //});
 
     $('form').submit(function(e) {
         e.preventDefault();
