@@ -4,3 +4,4 @@ settings.conf
 .vagrant/*
 db
 *.env
+stripe.json

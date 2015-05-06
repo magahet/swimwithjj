@@ -1,0 +1,49 @@
+{
+    "sessionInfo": {
+        "desc": {
+            "culverCity": [
+                {
+                    "num": 1,
+                    "dates": "May 17th to June 2nd",
+                    "days": "Fri, Sat, Sun",
+                    "times": "between 3pm and 5pm",
+                    "price": 189
+                },
+                {
+                    "num": 2,
+                    "dates": "June 14th to June 30th",
+                    "days": "Fri, Sat, Sun",
+                    "times": "between 3pm and 5pm",
+                    "price": 189
+                },
+                {
+                    "num": 3,
+                    "dates": "July 16th to August 1st",
+                    "days": "Tue, Wed, Thu",
+                    "times": "between 10am and 5pm",
+                    "price": 189
+                },
+                {
+                    "num": 4,
+                    "dates": "August 6th to August 22nd",
+                    "days": "Tue, Wed, Thu",
+                    "times": "between 10am and 5pm",
+                    "price": 189
+                }
+            ],
+            "laCrescenta": []
+        },
+        "available": {
+            "laCrescenta": [],
+            "culverCity": [
+                {"name": "Session 1 - May 17th to June 2nd - Afternoon", "price": 189},
+                {"name": "Session 2 - June 14th to June 30th - Afternoon", "price": 189},
+                {"name": "Session 3 - July 16th to August 1st - Morning", "price": 189},
+                {"name": "Session 3 - July 16th to August 1st - Afternoon", "price": 189},
+                {"name": "Session 4 - August 6th to August 22nd - Morning", "price": 189},
+                {"name": "Session 4 - August 6th to August 22nd - Afternoon", "price": 189}
+            ]
+        }
+    }
+}
+

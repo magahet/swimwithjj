@@ -39,13 +39,13 @@
       <div class="navbar-inner">
         <div class="container-fluid">
             <ul class="nav">
-              <li class="active"><a href="#top">Home</a></li>
-              <li><a href="#about">About JJ</a></li>
-              <li><a href="#lesson-info">Lesson Info</a></li>
-              <li><a href="#faq">FAQ</a></li>
-              <li><a href="#testimonials">Testimonials</a></li>
-              <li><a href="#sign-up">Sign-Up</a></li>
-              <li><a href="#contact">Contact JJ</a></li>
+              <li><a href="#top" du-smooth-scroll du-scrollspy>Home</a></li>
+              <li><a href="#about" du-smooth-scroll du-scrollspy>About JJ</a></li>
+              <li><a href="#lesson-info" du-smooth-scroll du-scrollspy>Lesson Info</a></li>
+              <li><a href="#faq" du-smooth-scroll du-scrollspy>FAQ</a></li>
+              <li><a href="#testimonials" du-smooth-scroll du-scrollspy>Testimonials</a></li>
+              <li><a href="#sign-up" du-smooth-scroll du-scrollspy>Sign-Up</a></li>
+              <li><a href="#contact" du-smooth-scroll du-scrollspy>Contact JJ</a></li>
             </ul>
         </div>
       </div>
@@ -57,9 +57,9 @@
                 <div class="span7">
                     <h1>Swim With JJ</h1>
                         <p class="lead">Water Safety, Swim Lessons, and Stroke Technique in a comfortable and relaxing setting</p>
-                    <div class="pagenav"><a style="display: none;" href="#about" ng-hide="signupsActive || lessonInfoActive" class="btn btn-success btn-large">Learn More »</a></div>
-                    <div class="pagenav"><a style="display: none;" href="#lesson-info" ng-hide="signupsActive || !lessonInfoActive" class="btn btn-success btn-large">Learn More »</a></div>
-                    <div class="pagenav"><a style="display: none;" href="#sign-up" ng-show="signupsActive" class="btn btn-success btn-large">Sign-Up Now »</a></div>
+                    <div class="pagenav"><a style="display: none;" href="#about" ng-hide="config.signupsActive || config.lessonInfoActive" class="btn btn-success btn-large">Learn More »</a></div>
+                    <div class="pagenav"><a style="display: none;" href="#lesson-info" ng-hide="config.signupsActive || !config.lessonInfoActive" class="btn btn-success btn-large">Learn More »</a></div>
+                    <div class="pagenav"><a style="display: none;" href="#sign-up" ng-show="config.signupsActive" class="btn btn-success btn-large">Sign-Up Now »</a></div>
                 </div>
             </div>
         </div>
@@ -86,7 +86,9 @@
         <div class="pagenav nav-down"><a href="#about"><i class="icon-arrow-down"></i> Learn more about JJ</a></div>
     </section> 
 
-    <div id="about" class="section-header">
+    <div id="about">
+
+    <div class="section-header">
         <div class="container">
             <h1>About JJ</h1>
         </div>
@@ -109,10 +111,13 @@
 
         <div class="pagenav nav-down"><a href="#lesson-info"><i class="icon-arrow-down"></i> Get Lesson Details</a></div>
     </section> 
+    </div>
 
 
 
-    <div id="lesson-info" class="section-header">
+    <div id="lesson-info">
+
+    <div class="section-header">
         <div class="container">
             <h1>Lesson Info</h1>
         </div>
@@ -141,12 +146,12 @@
                 <div class="page-header">
                     <h3>Session Dates and Times <small>(La Crescenta)</small></h3>
                 </div>
-                <div class="coming-soon" ng-hide="lessonInfoActive">
+                <div class="coming-soon" ng-hide="config.lessonInfoActive">
                     <h1 class="muted">Session dates and times will be posted when sign-ups begin. You can be notified when sign-ups start by providing your email address.</h1>
                     <div class="pagenav"><a href="#sign-up" class="btn btn-success btn-large">Go to Notification Form »</a></div>
                 </div>
 
-                <div class="row-fluid" ng-show="lessonInfoActive">
+                <div class="row-fluid" ng-show="config.lessonInfoActive">
                     <div class="span4">
                         <table class="table-condensed table-bordered">
                             <thead>
@@ -361,13 +366,13 @@
 
                 <br>
 
-                <table class="table table-bordered" ng-show="lessonInfoActive">
+                <table class="table table-bordered" ng-show="config.lessonInfoActive">
                   <caption><h4>Sessions</h4></caption>
                   <thead>
                     <tr><th></th><th>Dates</th><th>Days</th><th>Price*</th></tr>
                   </thead>
                   <tbody>
-                      <tr ng-repeat="s in sessionDescriptions.laCrescenta">
+                      <tr ng-repeat="s in sessionInfo.desc.laCrescenta">
                           <td ng-class="'session' + s.num">{{s.num}}</td>
                           <td>
                               {{s.dates}}<br>
@@ -379,7 +384,7 @@
                   </tbody>
                 </table>
 
-                <ul class="unstyled" ng-show="lessonInfoActive">
+                <ul class="unstyled" ng-show="config.lessonInfoActive">
                     <li>*Payment in full is due <strong class="blue">within 5 days</strong> of receiving your confirmation e-mail.</li>
                     <li>*Payment is <strong class="blue">non-refundable</strong> (unless a lesson is canceled by JJ) and <strong class="blue">non-transferable.</strong></li>
                 </ul>
@@ -411,12 +416,12 @@
                     <h3>Session Dates and Times <small>(Culver City)</small></h3>
                 </div>
 
-                <div class="coming-soon" ng-hide="lessonInfoActive">
+                <div class="coming-soon" ng-hide="config.lessonInfoActive">
                     <h1 class="muted">Session dates and times will be posted when sign-ups begin. You can be notified when sign-ups start by providing your email address.</h1>
                     <div class="pagenav"><a href="#sign-up" class="btn btn-success btn-large">Go to Notification Form »</a></div>
                 </div>
 
-                <div class="row-fluid" ng-show="lessonInfoActive">
+                <div class="row-fluid" ng-show="config.lessonInfoActive">
                     <div class="span6">
                         <table class="table-condensed table-bordered">
                             <thead>
@@ -701,13 +706,13 @@
 
                 <br>
 
-                <table class="table table-bordered" ng-show="lessonInfoActive">
+                <table class="table table-bordered" ng-show="config.lessonInfoActive">
                   <caption><h4>Sessions</h4></caption>
                   <thead>
                     <tr><th></th><th>Dates</th><th>Days</th><th>Price*</th></tr>
                   </thead>
                   <tbody>
-                      <tr ng-repeat="s in sessionDescriptions.culverCity">
+                      <tr ng-repeat="s in sessionInfo.desc.culverCity">
                           <td ng-class="'session' + s.num">{{s.num}}</td>
                           <td>
                               {{s.dates}}<br>
@@ -719,7 +724,7 @@
                   </tbody>
                 </table>
 
-                <ul class="unstyled" ng-show="lessonInfoActive">
+                <ul class="unstyled" ng-show="config.lessonInfoActive">
                     <li>*Payment in full is due <strong class="blue">within 5 days</strong> of receiving your confirmation e-mail.</li>
                     <li>*Payment is <strong class="blue">non-refundable</strong> (unless a lesson is canceled by JJ) and <strong class="blue">non-transferable.</strong></li>
                 </ul>
@@ -742,13 +747,14 @@
 
         <div class="pagenav nav-down"><a href="#faq"><i class="icon-arrow-down"></i> Read the FAQs</a></div>
     </section> 
+    </div>
 
-    <div id="faq" class="section-header">
+    <div class="section-header">
         <div class="container">
             <h1>FAQ</h1>
         </div>
     </div>
-    <section class="container">
+    <section id="faq" class="container">
 
         <div class="pagenav nav-up"><a href="#lesson-info"><i class="icon-arrow-up"></i> Back to Lesson Info</a></div>
 
@@ -828,12 +834,12 @@
     </section> 
 
 
-    <div id="testimonials" class="section-header">
+    <div class="section-header">
         <div class="container">
             <h1>Testimonials</h1>
         </div>
     </div>
-    <section class="container">
+    <section id="testimonials" class="container">
         <div class="pagenav nav-up"><a href="#faq"><i class="icon-arrow-up"></i> Back to FAQs</a></div>
 
         <img class="wrap-left" src="./img/boy2.svg" />
@@ -875,15 +881,15 @@
     </section> 
 
 
-    <div id="sign-up" class="section-header">
+    <div class="section-header">
         <div class="container">
             <h1>Sign-up</h1>
         </div>
     </div>
-    <section class="container">
+    <section id="sign-up" class="container">
         <div class="pagenav nav-up"><a href="#faq"><i class="icon-arrow-up"></i> Back to Testimonials</a></div>
 
-        <div class="coming-soon" ng-hide="signupsActive">
+        <div class="coming-soon" ng-hide="config.signupsActive">
             <h1 class="muted">Coming Soon...</h1>
             <div ng-show="daysTillSignup">
                 <h1>{{daysTillSignup}} <small> days until signups begin!</small></h1>
@@ -897,7 +903,7 @@
             </form>
         </div>
 
-        <form class="form-horizontal" id="signup-form" ng-show="signupsActive">
+        <form class="form-horizontal" id="signup-form" ng-show="config.signupsActive">
 
             <fieldset>
                 <legend>Location</legend>
@@ -1064,13 +1070,13 @@
         <div class="pagenav nav-down"><a href="#contact"><i class="icon-arrow-down"></i> Send JJ a Message</a></div>
     </section> 
 
-
-    <div id="contact" class="section-header">
+  
+    <div class="section-header">
         <div class="container">
             <h1>Contact JJ</h1>
         </div>
     </div>
-    <section class="container">
+    <section id="contact" class="container">
         <div class="pagenav nav-up"><a href="#sign-up"><i class="icon-arrow-up"></i> Back to Sign-Up</a></div>
 
         <p class="lead">Send any questions or concerns and JJ will respond as soon as possible.</p>
@@ -1132,6 +1138,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.0/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.0.0/moment.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-scroll/0.7.0/angular-scroll.min.js"></script>
     <script src="https://checkout.stripe.com/v2/checkout.js"></script>
     <script src="./js/main.js"></script>
     <script type="text/javascript">

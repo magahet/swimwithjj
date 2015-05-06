@@ -1,29 +1,44 @@
 "use strict";
 
-var stripePublishableKey = 'pk_test_gvLZ2MpYpGpdOrhIyVewmhGT';
+angular.module('swjjApp', ['ngSanitize', 'duScroll'])
+    .value('duScrollOffset', 20)
+    .controller('mainController', ['$scope', '$http', '$document',
+function ($scope, $http, $document) {
 
-angular.module('swjjApp', ['ngSanitize'])
-    .controller('mainController', ['$scope', '$http',
-function ($scope, $http) {
-    var now = moment();
-    var then = moment([2013, 2, 30]); // March 29th, 2013
-    var ms = then.diff(now, 'milliseconds', true);
-    $scope.daysTillSignup = Math.floor(moment.duration(ms).asDays());
-    
-    if ($scope.daysTillSignup && $scope.daysTillSignup >= 1) {
-        $scope.signupsActive = false;
-    } else {
-        $scope.signupsActive = true;
-    }
+    $scope.toTheTop = function() {
+        $document.scrollTopAnimated(0, 5000).then(function() {
+            console && console.log('You just scrolled to the top!');
+        });
+    };
 
-    $scope.lessonInfoActive = true;
-    $scope.maxChildren = 4;
+    $scope.selectedSession = [];
+    $scope.config = {
+        maxChildren: 0
+    };
+    $scope.sessionInfo = {
+        available: {},
+        desc: {}
+    };
+
+    $scope.stripePublishableKey = '';
+
+    $http.get('conf/config.json').success(function(json) {
+        $scope.config = json;
+        $scope.selectedSession = Array(json.maxChildren);
+    });
+
+    $http.get('conf/sessions.json').success(function(json) {
+        $scope.sessionInfo = json.sessionInfo;
+    });
+
+    $http.get('conf/stripe.json').success(function(json) {
+        $scope.stripePublishableKey = json.stripePublishableKey;
+    });
 
     $scope.childCount = 1;
-    $scope.selectedSession = Array($scope.maxChildren);
 
     $scope.maxChildrenRange = function() {
-        return _.range($scope.maxChildren);
+        return _.range($scope.config.maxChildren);
     };
 
     $scope.childRange = function() {
@@ -63,78 +78,8 @@ function ($scope, $http) {
         $scope.childCount = num;
     };
 
-    $scope.sessionDescriptions = {
-        culverCity: [
-            {
-                num: 1,
-                dates: 'May 17th to June 2nd',
-                days: 'Fri, Sat, Sun',
-                times: 'between 3pm and 5pm',
-                price: 189},
-            {
-                num: 2,
-                dates: 'June 14th to June 30th',
-                days: 'Fri, Sat, Sun',
-                times: 'between 3pm and 5pm',
-                price: 189},
-            {
-                num: 3,
-                dates: 'July 16th to August 1st',
-                days: 'Tue, Wed, Thu',
-                times: 'between 10am and 5pm',
-                price: 189},
-            {
-                num: 4,
-                dates: 'August 6th to August 22nd',
-                days: 'Tue, Wed, Thu',
-                times: 'between 10am and 5pm',
-                price: 189}
-        ],
-        laCrescenta: [
-            {   
-                num: 1,
-                dates: 'June 5th to June 20th',
-                days: '<strong>1st week:</strong> Wed, Thu, Fri <br /><strong>2nd and 3rd week:</strong> Tue, Wed, Thu',
-                times: 'between 9:30am and 4:30pm',
-                price: 189
-            },
-            {   
-                num: 2,
-                dates: 'June 25th to July 11th',
-                days: '<strong>1st and 3rd week:</strong> Tue, Wed, Thu <br /><strong>2nd week:</strong> Mon, Tue, Wed',
-                times: 'between 9:30am and 4:30pm',
-                price: 189
-            },
-            {
-                num: 3,
-                dates: 'July 20th to August 4th',
-                days: 'Sat, Sun',
-                times: 'between 2pm and 5pm',
-                price: 126
-            }
-        ]
-    };
-
-    $scope.availableSessions = {
-        laCrescenta: [
-            {name: 'Session 1 - June 5th to June 20th - Morning', price: 189},
-            {name: 'Session 1 - June 5th to June 20th - Afternoon', price: 189},
-            {name: 'Session 2 - June 25th to July 11th - Morning', price: 189},
-            {name: 'Session 2 - June 25th to July 11th - Afternoon', price: 189},
-            {name: 'Session 3 - July 20th to August 4th - Afternoon', price: 126}
-        ],
-        culverCity: [
-            {name: 'Session 1 - May 17th to June 2nd - Afternoon', price: 189},
-            {name: 'Session 2 - June 14th to June 30th - Afternoon', price: 189},
-            {name: 'Session 3 - July 16th to August 1st - Morning', price: 189},
-            {name: 'Session 3 - July 16th to August 1st - Afternoon', price: 189},
-            {name: 'Session 4 - August 6th to August 22nd - Morning', price: 189},
-            {name: 'Session 4 - August 6th to August 22nd - Afternoon', price: 189}
-        ]
-    };
-
     $scope.childsAvailableSessions = function(childIndex) {
-        return _.difference($scope.availableSessions[$scope.selectedLocation], $scope.sessions[childIndex]);
+        return _.difference($scope.sessionInfo.available[$scope.selectedLocation], $scope.sessions[childIndex]);
     };
 
     $scope.add = function(childIndex) {
@@ -183,7 +128,7 @@ function ($scope, $http) {
     $scope.payWithCard = function() {
         $scope.paymentError = null;
         StripeCheckout.open({
-            key:         stripePublishableKey,
+            key:         $scope.stripePublishableKey,
             address:     true,
             amount:      Math.floor($scope.creditTotal() * 100),
             name:        'SwimWithJJ',
@@ -221,15 +166,15 @@ $(document).ready(function() {
 
     $('button').button();
 
-    var $spy = $('body').scrollspy({target: '#topnav', offset: Math.floor($(window).height() / 2)});
+    //var $spy = $('body').scrollspy({target: '#topnav', offset: Math.floor($(window).height() / 2)});
 
-    $('.pagenav a').bind('click',function(event){
-        event.preventDefault();
-        var $anchor = $(this);
-        $('html, body').stop().animate({
-            scrollTop: $($anchor.attr('href')).offset().top - $('#topnav').height()
-        }, 1000);
-    });
+    //$('.pagenav a').bind('click',function(event){
+        //event.preventDefault();
+        //var $anchor = $(this);
+        //$('html, body').stop().animate({
+            //scrollTop: $($anchor.attr('href')).offset().top - $('#topnav').height()
+        //}, 1000);
+    //});
 
     $('#location-tabs > button').click(function(){
         //$('#location-alert').alert('close');
