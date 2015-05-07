@@ -1,66 +1,9 @@
-/* Large desktop */
-@media (min-width: 1200px) {
+.navbar-inverse .navbar-nav>li>a:focus {
+    color: #9d9d9d;
 }
- 
-/* Portrait tablet to landscape and desktop */
-@media (min-width: 768px) and (max-width: 979px) {
-    .navbar-fixed-top {
-        position: fixed !important;
-    }
-    .navbar-inner {
-        padding: 0px !important;
-    }
-    body {
-        padding-top: 40px;
-    }
-}
- 
-/* Landscape phone to portrait tablet */
-@media (max-width: 767px) {
-    .navbar-fixed-top {
-        position: fixed !important;
-    }
-    .navbar-inner {
-        padding: 0px !important;
-    }
-    body {
-        padding-top: 40px;
-        padding-right: 0px !important;
-        padding-left: 0px !important;
-    }
-    section, #topnav {
-        padding-right: 20px;
-        padding-left: 20px;
-    }
-    .navbar .nav > li > a {
-        padding-right: 7px;
-        padding-left: 7px;
-        font-size: 13px;
-    }
-    .hero-unit .container {
-        padding: 10px;
-    }
-}
- 
-/* Landscape phones and down */
-@media (max-width: 480px) { 
-    .navbar-inner {
-        padding: 0px !important;
-    }
-    .navbar-fixed-top {
-        position: static !important;
-    }
-    body {
-        padding-right: 0px !important;
-        padding-left: 0px !important;
-        padding-top: 0px;
-    }
-}
-
-.nav>li>a.active {
+.navbar-inverse .navbar-nav>li>a.active {
     color: #fff;
 }
-
 .session1 {
     background-color: #468847;
 }
@@ -74,14 +17,6 @@
     background-color: #f89406;
 }
 
-.navbar-fixed-top {
-    margin-bottom: 0px !important;
-}
-
-.hero-unit {
-    margin-top: 0 !important;
-}
-
 *[hidden] { display: none; }
 
 #img-la-crescenta, #img-culver-city {
@@ -92,7 +27,7 @@
     box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
 }
 
-.hero-unit {
+.jumbotron {
     background-color: #003399;
     align: center;
     -webkit-border-radius: 0;
@@ -116,7 +51,7 @@
     padding: 10px;
 }
 
-.hero-unit h1, .hero-unit small, .hero-unit .lead {
+.jumbotron h1, .jumbotron small, .jumbotron .lead {
     color: white;
     text-shadow: 0px 1px 1px rgba(55, 97, 122, 0.5);
     letter-spacing: inherit;
@@ -170,7 +105,7 @@ strong.tall {
     background-size: cover;
 }
 
-section {
+.section {
     padding: 30px 0px 300px 0;
 }
 .spaced, .spaced-list li {

@@ -11,12 +11,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <img src="./img/underwater_crop.jpg" hidden/>
     <style>
-        .backgroundsize .hero-unit {
+        .backgroundsize .jumbotron {
             background: url(./img/underwater_crop.jpg) no-repeat top;
             background-size: 100% 350px;
         }
     </style>
-    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <!--<link href="./css/bootstrap.min.css" rel="stylesheet">-->
     <style>
         body {
             padding-top: 40px;
@@ -25,7 +25,8 @@
             display: none;
         }
     </style>
-    <link href="./css/bootstrap-responsive.min.css" rel="stylesheet">
+    <!--<link href="./css/bootstrap-responsive.min.css" rel="stylesheet">-->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
     <link href="./css/style.css" rel="stylesheet">
     <script src="js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
   </head>
@@ -37,9 +38,8 @@
 
     <div id="home">
     <div id="topnav" class="pagenav navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
         <div class="container-fluid">
-            <ul class="nav">
+            <ul class="nav navbar-nav">
               <li><a href="#top" du-smooth-scroll du-scrollspy>Home</a></li>
               <li><a href="#about" du-smooth-scroll du-scrollspy>About JJ</a></li>
               <li><a href="#lesson-info" du-smooth-scroll du-scrollspy>Lesson Info</a></li>
@@ -49,43 +49,42 @@
               <li><a href="#contact" du-smooth-scroll du-scrollspy>Contact JJ</a></li>
             </ul>
         </div>
-      </div>
     </div>
 
-    <div class="hero-unit" id="top">
+    <div class="jumbotron" id="top">
         <div class="container pad50">
             <div class="row">
-                <div class="span7">
+                <div class="col-md-7">
                     <h1>Swim With JJ</h1>
                         <p class="lead">Water Safety, Swim Lessons, and Stroke Technique in a comfortable and relaxing setting</p>
-                    <div class="pagenav"><a style="display: none;" href="#about" ng-hide="config.signupsActive || config.lessonInfoActive" class="btn btn-success btn-large">Learn More »</a></div>
-                    <div class="pagenav"><a style="display: none;" href="#lesson-info" ng-hide="config.signupsActive || !config.lessonInfoActive" class="btn btn-success btn-large">Learn More »</a></div>
-                    <div class="pagenav"><a style="display: none;" href="#sign-up" ng-show="config.signupsActive" class="btn btn-success btn-large">Sign-Up Now »</a></div>
+                    <div class="pagenav"><a style="display: none;" href="#about" ng-hide="config.signupsActive || config.lessonInfoActive" class="btn btn-success btn-lg">Learn More »</a></div>
+                    <div class="pagenav"><a style="display: none;" href="#lesson-info" ng-hide="config.signupsActive || !config.lessonInfoActive" class="btn btn-success btn-lg">Learn More »</a></div>
+                    <div class="pagenav"><a style="display: none;" href="#sign-up" ng-show="config.signupsActive" class="btn btn-success btn-lg">Sign-Up Now »</a></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <section class="container">
+    <div class="container section">
         <div class="row">
-            <div class="span4">
+            <div class="col-sm-4">
               <img src='./img/lifejacket.jpg'>
               <h2>Safety First, Fun Next</h2>
               <p>The primary focus for each class is <strong class="blue tall">water safety</strong>. The water should be a place to have fun and be playful, but staying afloat is the first priority. JJ teaches her students <strong class="blue tall">not to rely on swimming aids</strong> or help from others. Kids are taught to stay calm if they fall into the water, how to float on their own, and how to get back to the wall.</p>
             </div>
-            <div class="span4">
+            <div class="col-sm-4">
               <img src='./img/swimming.png'>
               <h2>Small Group Learning</h2>
               <p>Lessons are made up of <strong class="blue tall">2 to 4 students</strong> at the same level of swimming proficiency. The groups are small enough that each child receives <strong class="blue tall">personalized instruction</strong>. At the same time, the group setting allows kids to learn from watching others and to receive <strong class="blue tall">positive reinforcement</strong> from their peers.</p>
             </div>
-            <div class="span4">
+            <div class="col-sm-4">
               <img src='./img/diver.jpg'>
               <h2>Underwater Adventure</h2>
               <p>Anxiety around the water is a normal reaction. However, many of JJ's swimmers develop an <strong class="blue tall">excitement and confidence</strong> in their abilities that surprises and inspires them. JJ finds the <strong class="blue tall">balance between empathy and firmness</strong> that empowers her students to abandon their fears and learn to love the water.</p>
             </div>
         </div>
-        <div class="pagenav nav-down"><a href="#about"><i class="icon-arrow-down"></i> Learn more about JJ</a></div>
-    </section> 
+        <!--<div class="pagenav nav-down"><a href="#about"><i class="glyphicon glyphicon-arrow-down"></i> Learn more about JJ</a></div>-->
+    </div> 
     </div>
 
     <div id="about">
@@ -94,8 +93,8 @@
             <h1>About JJ</h1>
         </div>
     </div>
-    <section class="container">
-        <div class="pagenav nav-up"><a href="#top"><i class="icon-arrow-up"></i> Back to Top</a></div>
+    <div class="container section">
+        <!--<div class="pagenav nav-up"><a href="#top"><i class="glyphicon glyphicon-arrow-up"></i> Back to Top</a></div>-->
         <div class="lead">
             <img class="img-polaroid wrap-right shadow" src="./img/jjandkids-2013.png">
 
@@ -110,8 +109,8 @@
             <p><strong class="tall blue">-JJ</strong></p>
         </div>
 
-        <div class="pagenav nav-down"><a href="#lesson-info"><i class="icon-arrow-down"></i> Get Lesson Details</a></div>
-    </section> 
+        <!--<div class="pagenav nav-down"><a href="#lesson-info"><i class="glyphicon glyphicon-arrow-down"></i> Get Lesson Details</a></div>-->
+    </div> 
     </div>
 
 
@@ -123,20 +122,18 @@
             <h1>Lesson Info</h1>
         </div>
     </div>
-    <section class="container">
 
-        <div class="pagenav nav-up"><a href="#about"><i class="icon-arrow-up"></i> Back to About JJ</a></div>
+    <div class="container section">
+
+        <!--<div class="pagenav nav-up"><a href="#about"><i class="glyphicon glyphicon-arrow-up"></i> Back to About JJ</a></div>-->
+
         <div id="location-alert" class="alert alert-success fade in">
             <strong>Where would you like to attend lessons?</strong>
         </div>
 
-        <div class="tabbable">
-          <div id="location-tabs" class="nav btn-group" data-toggle="buttons-radio">
-              <button type="button" class="btn btn-large active" data-target="tabs-pane1">La Crescenta <i class="icon-chevron-down"></i></button>
-              <button type="button" class="btn btn-large" data-target="tabs-pane2">Culver City <i class="icon-chevron-down"></i></button>
-          </div>
-          <div class="tab-content">
-            <div id="tabs-pane1" class="tab-pane active">
+        <tabset>
+            <tab>
+                <tab-heading><h3>La Crescenta</h3></tab-heading>
                 <div class="page-header">
                     <h3>General Info <small>(La Crescenta)</small></h3>
                 </div>
@@ -149,11 +146,11 @@
                 </div>
                 <div class="coming-soon" ng-hide="config.lessonInfoActive">
                     <h1 class="muted">Session dates and times will be posted when sign-ups begin. You can be notified when sign-ups start by providing your email address.</h1>
-                    <div class="pagenav"><a href="#sign-up" class="btn btn-success btn-large">Go to Notification Form »</a></div>
+                    <div class="pagenav"><a href="#sign-up" class="btn btn-success btn-lg">Go to Notification Form »</a></div>
                 </div>
 
-                <div class="row-fluid" ng-show="config.lessonInfoActive">
-                    <div class="span4">
+                <div class="row" ng-show="config.lessonInfoActive">
+                    <div class="col-md-4">
                         <table class="table-condensed table-bordered">
                             <thead>
                                 <tr>
@@ -229,7 +226,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="span4">
+                    <div class="col-md-4">
                         <table class="table-condensed table-bordered">
                             <thead>
                                 <tr>
@@ -296,7 +293,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="span4">
+                    <div class="col-md-4">
                         <table class="table-condensed table-bordered">
                             <thead>
                                 <tr>
@@ -385,7 +382,7 @@
                   </tbody>
                 </table>
 
-                <ul class="unstyled" ng-show="config.lessonInfoActive">
+                <ul class="list-unstyled" ng-show="config.lessonInfoActive">
                     <li>*Payment in full is due <strong class="blue">within 5 days</strong> of receiving your confirmation e-mail.</li>
                     <li>*Payment is <strong class="blue">non-refundable</strong> (unless a lesson is canceled by JJ) and <strong class="blue">non-transferable.</strong></li>
                 </ul>
@@ -403,9 +400,10 @@
                     <img class="img-polaroid shadow" src="./img/la-crescenta-map.png">
                     <div class="pad50"></div>
                 </a>
-            </div>
+            </tab>
 
-            <div id="tabs-pane2" class="tab-pane">
+            <tab active="true">
+                <tab-heading><h3>Culver City</h3></tab-heading>
                 <div class="page-header">
                     <h3>General Info <small>(Culver City)</small></h3>
                 </div>
@@ -419,11 +417,11 @@
 
                 <div class="coming-soon" ng-hide="config.lessonInfoActive">
                     <h1 class="muted">Session dates and times will be posted when sign-ups begin. You can be notified when sign-ups start by providing your email address.</h1>
-                    <div class="pagenav"><a href="#sign-up" class="btn btn-success btn-large">Go to Notification Form »</a></div>
+                    <div class="pagenav"><a href="#sign-up" class="btn btn-success btn-lg">Go to Notification Form »</a></div>
                 </div>
 
-                <div class="row-fluid" ng-show="config.lessonInfoActive">
-                    <div class="span6">
+                <div class="row" ng-show="config.lessonInfoActive">
+                    <div class="col-md-6">
                         <table class="table-condensed table-bordered">
                             <thead>
                                 <tr>
@@ -490,7 +488,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="span6">
+                    <div class="col-md-6">
                         <table class="table-condensed table-bordered">
                             <thead>
                                 <tr>
@@ -568,8 +566,8 @@
                     </div>
                 </div>
                 <br>
-                <div class="row-fluid">
-                    <div class="span6">
+                <div class="row">
+                    <div class="col-md-6">
                         <table class="table-condensed table-bordered">
                             <thead>
                                 <tr>
@@ -636,7 +634,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="span6">
+                    <div class="col-md-6">
                         <table class="table-condensed table-bordered">
                             <thead>
                                 <tr>
@@ -703,7 +701,7 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
+                </tab>
 
                 <br>
 
@@ -725,7 +723,7 @@
                   </tbody>
                 </table>
 
-                <ul class="unstyled" ng-show="config.lessonInfoActive">
+                <ul class="list-unstyled" ng-show="config.lessonInfoActive">
                     <li>*Payment in full is due <strong class="blue">within 5 days</strong> of receiving your confirmation e-mail.</li>
                     <li>*Payment is <strong class="blue">non-refundable</strong> (unless a lesson is canceled by JJ) and <strong class="blue">non-transferable.</strong></li>
                 </ul>
@@ -743,11 +741,10 @@
                     <div class="pad50"></div>
                 </a>
             </div>
-          </div><!-- /.tab-content -->
-        </div>
+        </tabset>
 
-        <div class="pagenav nav-down"><a href="#faq"><i class="icon-arrow-down"></i> Read the FAQs</a></div>
-    </section> 
+        <!--<div class="pagenav nav-down"><a href="#faq"><i class="glyphicon glyphicon-arrow-down"></i> Read the FAQs</a></div>-->
+    </div> 
     </div>
 
     <div id="faq">
@@ -756,11 +753,12 @@
             <h1>FAQ</h1>
         </div>
     </div>
-    <section class="container">
 
-        <div class="pagenav nav-up"><a href="#lesson-info"><i class="icon-arrow-up"></i> Back to Lesson Info</a></div>
+    <div class="container section">
 
-        <ul class="unstyled">
+        <!--<div class="pagenav nav-up"><a href="#lesson-info"><i class="glyphicon glyphicon-arrow-up"></i> Back to Lesson Info</a></div>-->
+
+        <ul class="list-unstyled">
             <li class="lead">
                 <h3 class="blue">I'm not sure of my summer schedule. Can I sign up and then cancel?</h3>
                 <p>Unfortunately, <strong>I am not able to give refunds</strong>. I recommend making swim lessons a priority and scheduling other activities around it.  ;)</p>
@@ -832,8 +830,8 @@
 
         </ol>
 
-        <div class="pagenav nav-down"><a href="#testimonials"><i class="icon-arrow-down"></i> See Testimonials</a></div>
-    </section> 
+        <!--<div class="pagenav nav-down"><a href="#testimonials"><i class="glyphicon glyphicon-arrow-down"></i> See Testimonials</a></div>-->
+    </div> 
     </div>
 
 
@@ -843,8 +841,9 @@
             <h1>Testimonials</h1>
         </div>
     </div>
-    <section class="container">
-        <div class="pagenav nav-up"><a href="#faq"><i class="icon-arrow-up"></i> Back to FAQs</a></div>
+
+    <div class="container section">
+        <!--<div class="pagenav nav-up"><a href="#faq"><i class="glyphicon glyphicon-arrow-up"></i> Back to FAQs</a></div>-->
 
         <img class="wrap-left" src="./img/boy2.svg" />
 
@@ -881,8 +880,8 @@
             <small>Xenia (mom to Alani, age 5)</small>
         </blockquote>
 
-        <div class="pagenav nav-down"><a href="#sign-up"><i class="icon-arrow-down"></i> Sign-Up for Lessons</a></div>
-    </section> 
+        <!--<div class="pagenav nav-down"><a href="#sign-up"><i class="glyphicon glyphicon-arrow-down"></i> Sign-Up for Lessons</a></div>-->
+    </div> 
     </div>
 
 
@@ -892,8 +891,9 @@
             <h1>Sign-up</h1>
         </div>
     </div>
-    <section class="container">
-        <div class="pagenav nav-up"><a href="#faq"><i class="icon-arrow-up"></i> Back to Testimonials</a></div>
+
+    <div class="container section">
+        <!--<div class="pagenav nav-up"><a href="#faq"><i class="glyphicon glyphicon-arrow-up"></i> Back to Testimonials</a></div>-->
 
         <div class="coming-soon" ng-hide="config.signupsActive">
             <h1 class="muted">Coming Soon...</h1>
@@ -913,15 +913,15 @@
 
             <fieldset>
                 <legend>Location</legend>
-                <div class="control-group" ng-class="{info: !selectedLocation, success: selectedLocation}">
-                    <label class="control-label" for="location-select">Location</label>
-                    <div class="controls">
-                        <select name="location-select" placeholder="Select a location" ng-change="clearSessions()" ng-model="selectedLocation">
+                <div class="form-group form-group-lg" ng-class="{'has-warning': !selectedLocation, 'has-success': selectedLocation}">
+                    <label class="col-sm-2 control-label" for="location-select">Location</label>
+                    <div class="col-sm-4">
+                        <select class="form-control" id="location-select" placeholder="Select a location" ng-change="clearSessions()" ng-model="selectedLocation">
                             <option value="">Please select</option>
                             <option value="laCrescenta">La Crescenta</option>
                             <option value="culverCity">Culver City</option>
                         </select>
-                        <span class="help-inline" ng-hide="selectedLocation">required to list sessions</span>
+                        <p class="help-block" ng-hide="selectedLocation">required to list sessions</p>
 
                     </div>
                 </div>
@@ -929,31 +929,31 @@
 
             <fieldset>
                 <legend>parent's information</legend>
-                <div class="control-group">
-                    <label class="control-label" for="name">Name</label>
-                    <div class="controls">
-                        <input type="text" name="name" placeholder="First and last name"/>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="name">Name</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" type="text" name="name" placeholder="First and last name"/>
                     </div>
                 </div>
-                <div class="control-group">
-                    <label class="control-label" for="phone">Phone</label>
-                    <div class="controls">
-                        <input type="tel" name="phone" placeholder="123-456-7890"/>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="phone">Phone</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" type="tel" name="phone" placeholder="123-456-7890"/>
                     </div>
                 </div>
-                <div class="control-group">
-                    <label class="control-label" for="email">Email</label>
-                    <div class="controls">
-                        <input type="text" name="email" placeholder="example@domain.com"/>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="email">Email</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" type="text" name="email" placeholder="example@domain.com"/>
                     </div>
                 </div>
             </fieldset>
 
-                <div class="control-group">
-                    <label class="control-label">How many children are you signing up?</label>
-                    <div class="controls">
-                        <div class="nav btn-group" data-toggle="buttons-radio" >
-                            <button type="button" id="numChildren-{{num}}" class="btn btn-large" ng-click="changeChildCount(num + 1)" ng-class="{active : $index == childCount - 1}" ng-repeat="num in maxChildrenRange()">{{num + 1}}</button>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">How many children are you signing up?</label>
+                    <div class="col-sm-10">
+                        <div class="btn-group">
+                            <label id="numChildren-{{num}}" class="btn btn-default btn-lg" ng-click="changeChildCount(num + 1)" ng-class="{active : $index == childCount - 1}" ng-repeat="num in maxChildrenRange()">{{num + 1}}</label>
                         </div>
                     </div>
                 </div>
@@ -962,22 +962,22 @@
             <fieldset class="child-info" ng-repeat="childIndex in childRange()">
                 <legend>{{childLabel(childIndex)}}</legend>
                 <div class="child-info">
-                    <div class="control-group">
-                        <label class="control-label" for="child_name">Name</label>
-                        <div class="controls">
-                            <input type="text" name="child_name-{{childIndex}}" placeholder="First name"/>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="child_name">Name</label>
+                        <div class="col-sm-4">
+                            <input class="form-control" type="text" name="child_name-{{childIndex}}" placeholder="First name"/>
                         </div>
                     </div>
-                    <div class="control-group">
-                        <label class="control-label" for="birthday">Birthday</label>
-                        <div class="controls">
-                            <input type="date" name="birthday-{{childIndex}}"/>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="birthday">Birthday</label>
+                        <div class="col-sm-4">
+                            <input class="form-control" type="date" name="birthday-{{childIndex}}"/>
                         </div>
                     </div>
-                    <div class="control-group">
-                        <label class="control-label" for="swim_level">Swimming Level</label>
-                        <div class="controls">
-                            <select name="swim_level-{{childIndex}}" class="input-xxlarge">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="swim_level">Swimming Level</label>
+                        <div class="col-sm-10">
+                            <select name="swim_level-{{childIndex}}" class="form-control">
                                 <option></option>
                                 <option>uncomfortable putting his or her face in the water</option>
                                 <option>comfortable putting his or her face in the water</option>
@@ -986,16 +986,16 @@
                             </select>
                         </div>
                     </div>
-                    <div class="control-group" ng-class="{warning: !selectedLocation}">
-                        <label class="control-label" for="session-select">Sessions</label>
-                        <div class="controls">
+                    <div class="form-group" ng-class="{warning: !selectedLocation}">
+                        <label class="col-sm-2 control-label" for="session-select">Sessions</label>
+                        <div class="col-sm-10">
                             <div class="selected-sessions">
                                 <div class="alert alert-success session" ng-repeat="s in sessions[childIndex]">
                                     {{s.name}}
                                     <button type="button" class="close" ng-click="remove(childIndex, $index)">×</button>
                                 </div>
                             </div>
-                            <select name="selected-session-{{childIndex}}" class="select-session input-xxlarge"
+                            <select name="selected-session-{{childIndex}}" class="select-session form-control"
                                 ng-model="selectedSession[childIndex]"
                                 ng-change="add(childIndex)"
                                 ng-options="s.name for s in childsAvailableSessions(childIndex)">
@@ -1017,10 +1017,10 @@
 
             <fieldset>
                 <legend>special requests/needs</legend>
-                <div class="control-group">
-                    <label class="control-label" for="request">Request</label>
-                    <div class="controls">
-                        <textarea name="request" rows="3" class="input-xxlarge"></textarea>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="request">Request</label>
+                    <div class="col-sm-10">
+                        <textarea name="request" rows="3" class="form-control"></textarea>
                         <span class="help-block"><small>in a lesson with a friend, a specific time slot, etc.</small></span>
                     </div>
                 </div>
@@ -1045,7 +1045,7 @@
                     <div class="pad10">
                         <span class="lead">Total: </span><span class="lead">{{creditTotal() | currency}}</span>
                     </div>
-                    <button type="button" class="btn" ng-click="payWithCard()" ng-disabled="cardButtonMessage != 'Pay with Card'" ng-class="{'btn-primary': !customerId}">{{cardButtonMessage}}</button>
+                    <button type="button" class="btn btn-default" ng-click="payWithCard()" ng-disabled="cardButtonMessage != 'Pay with Card'" ng-class="{'btn-primary': !customerId}">{{cardButtonMessage}}</button>
                 </div>
             </fieldset>
 
@@ -1062,19 +1062,21 @@
             <input type="hidden" name="id" value="signup"/>
             <input type="hidden" name="cost" value="{{paymentTotal()}}">
             <input type="hidden" name="customer_id" value="{{customerId}}">
-            <div class="form-actions">
-                <button type="submit" class="btn btn-large btn-primary"
-                    data-loading-text="sending sign-up form..."
-                    ng-disabled="cardButtonMessage == 'saving payment information'">Send Sign-Up Form</button>
+
+            <div class="text-center"</div>
+              <button type="submit" class="btn btn-lg btn-primary"
+                  data-loading-text="sending sign-up form..."
+                  ng-disabled="cardButtonMessage == 'saving payment information'">Send Sign-Up Form</button>
             </div>
+
             <div style="display:none;" id="signup-complete-alert" class="alert alert-block alert-success">
                 <h4>Thank You!</h4>
                 You have completed the signup process. JJ will confirm your exact lesson times <strong>within the next 3 weeks.</strong> If you have any additional questions, please let her know by using the contact form below.
             </div>
         </form>
 
-        <div class="pagenav nav-down"><a href="#contact"><i class="icon-arrow-down"></i> Send JJ a Message</a></div>
-    </section> 
+        <!--<div class="pagenav nav-down"><a href="#contact"><i class="glyphicon glyphicon-arrow-down"></i> Send JJ a Message</a></div>-->
+    </div> 
     </div>
 
   
@@ -1084,42 +1086,48 @@
             <h1>Contact JJ</h1>
         </div>
     </div>
-    <section class="container">
-        <div class="pagenav nav-up"><a href="#sign-up"><i class="icon-arrow-up"></i> Back to Sign-Up</a></div>
+
+    <div class="container section">
+        <!--<div class="pagenav nav-up"><a href="#sign-up"><i class="glyphicon glyphicon-arrow-up"></i> Back to Sign-Up</a></div>-->
 
         <p class="lead">Send any questions or concerns and JJ will respond as soon as possible.</p>
                 
         <form class="form-horizontal" id="contact-form">
-            <div class="control-group">
+            <div class="form-group">
                 <label class="control-label" for="name">Name</label>
-                <div class="controls">
-                    <input type="text" name="name" placeholder="First and last name"/>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="name" placeholder="First and last name"/>
                 </div>
             </div>
-            <div class="control-group">
+            <div class="form-group">
                 <label class="control-label" for="email">Email</label>
-                <div class="controls">
-                    <input type="text" name="email" placeholder="example@domain.com"/>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="email" placeholder="example@domain.com"/>
                 </div>
             </div>
-            <div class="control-group">
+            <div class="form-group">
                 <label class="control-label" for="number">Phone Number</label>
-                <div class="controls">
-                    <input type="tel" name="number" placeholder="123-456-7890"/>
+                <div class="col-sm-10">
+                    <input type="tel" class="form-control" name="number" placeholder="123-456-7890"/>
                 </div>
             </div>
-            <div class="control-group">
+            <div class="form-group">
                 <label class="control-label" for="message">Message</label>
-                <div class="controls">
-                    <textarea name="message" rows="5" class="input-xxlarge"></textarea>
+                <div class="col-sm-10">
+                    <textarea name="message" rows="5" class="form-control input-lg"></textarea>
                 </div>
             </div>
+
             <input type="hidden" name="id" value="message"/>
-            <div class="form-actions">
-                <button type="submit" class="btn btn-large btn-primary" data-loading-text="sending message...">Send Message</button>
+
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-lg btn-primary" data-loading-text="sending message...">Send Message</button>
+              </div>
             </div>
+
         </form>
-    </section> 
+    </div> 
     </div>
 
     <hr>
@@ -1136,20 +1144,21 @@
     <div id="formModal" class="modal hide fade">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h3 class="muted"></h3>
+            <h3 class="text-muted"></h3>
         </div>
         <div class="modal-body">
             <p class="lead"></p>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn" data-dismiss="modal" aria-hidden="true">close</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">close</button>
         </div>
     </div>
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.min.js"></script> 
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular-sanitize.min.js"></script> 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.0/bootstrap.min.js"></script>
+    <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script> 
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-sanitize.min.js"></script> 
+    <!--<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.0.3/bootstrap.min.js"></script>-->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.0/ui-bootstrap-tpls.min.js"></script> 
     <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.0.0/moment.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular-scroll/0.7.0/angular-scroll.min.js"></script>

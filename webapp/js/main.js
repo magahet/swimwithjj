@@ -1,15 +1,9 @@
 "use strict";
 
-angular.module('swjjApp', ['ngSanitize', 'duScroll'])
+angular.module('swjjApp', ['ngSanitize', 'duScroll', 'ui.bootstrap'])
     .value('duScrollOffset', 30)
     .controller('mainController', ['$scope', '$http', '$document',
 function ($scope, $http, $document) {
-
-    $scope.toTheTop = function() {
-        $document.scrollTopAnimated(0, 5000).then(function() {
-            console && console.log('You just scrolled to the top!');
-        });
-    };
 
     $scope.selectedSession = [];
     $scope.config = {
@@ -162,9 +156,9 @@ function ($scope, $http, $document) {
 
 
 
-$(document).ready(function() {
+//$(document).ready(function() {
 
-    $('button').button();
+    //$('button').button();
 
     //var $spy = $('body').scrollspy({target: '#topnav', offset: Math.floor($(window).height() / 2)});
 
@@ -186,78 +180,78 @@ $(document).ready(function() {
         //}
     //});
 
-    $('form').submit(function(e) {
-        e.preventDefault();
-        var submitButton = $(this).find('button[type="submit"]')
-        submitButton.button();
-        submitButton.button('loading');
-        var params = $(this).serializeArray();
-        submitForm(params, $(this), submitButton);
-    });
+    //$('form').submit(function(e) {
+        //e.preventDefault();
+        //var submitButton = $(this).find('button[type="submit"]')
+        //submitButton.button();
+        //submitButton.button('loading');
+        //var params = $(this).serializeArray();
+        //submitForm(params, $(this), submitButton);
+    //});
 
-    $('#formModal').modal({
-        show: false
-    });
+    //$('#formModal').modal({
+        //show: false
+    //});
 
-});
+//});
 
-function submitForm(params, form, submitButton) {
-    $.ajax({
-        url: 'form-handler.cgi',
-        type: 'post',
-        data: params,
-        dataType: 'json',
-        timeout: 5000,
-        success: function(json) {
-            if (!json || !json.params || !json.params.id) {
-                showErrorMessage();
-            } else if (json.params.id == 'signup-notification') {
-                showSuccessMessage('Thank You', '<strong>Your address has been saved.</strong> You will receive an email as soon as sign-ups are available');
-                form.children('input:not([name="id"])').val('');
-            } else if (json.params.id == 'message') {
-                showSuccessMessage('Thank You', '<strong>Your message has been sent.</strong> JJ will respond to your inquiry as soon as possible.');
-                form.find('input:not([name="id"]),textarea').val('');
-            } else if (json.params.id == 'signup') {
-                console.log(json);
-                if (json.response) {
-                    showSuccessMessage('Thank You', '<div class="pad10"><strong>Your signup form has been submitted successfully.</strong></div> <div class="pad10">JJ will contact you with your lesson times within the next <strong class="blue">3 weeks</strong>.</div> <div class="pad10">If you have paid by credit card, you will be charged <strong class="blue">after you receive your lesson times</strong>. Otherwise your payment will be <strong class="blue">due within 5 days</strong> of receiving your lesson times notification.</div>');
-                    $('div#signup-complete-alert').show();
-                } else {
-                    showErrorMessage();
-                }
-                resetSignupForm(form);
-            } else {
-                showErrorMessage();
-            }
-            submitButton.button('reset');
-        },
-        error: function(xhr, textStatus, error) {
-            showErrorMessage();
-            submitButton.button('reset');
-        }
-    });
-}
+//function submitForm(params, form, submitButton) {
+    //$.ajax({
+        //url: 'form-handler.cgi',
+        //type: 'post',
+        //data: params,
+        //dataType: 'json',
+        //timeout: 5000,
+        //success: function(json) {
+            //if (!json || !json.params || !json.params.id) {
+                //showErrorMessage();
+            //} else if (json.params.id == 'signup-notification') {
+                //showSuccessMessage('Thank You', '<strong>Your address has been saved.</strong> You will receive an email as soon as sign-ups are available');
+                //form.children('input:not([name="id"])').val('');
+            //} else if (json.params.id == 'message') {
+                //showSuccessMessage('Thank You', '<strong>Your message has been sent.</strong> JJ will respond to your inquiry as soon as possible.');
+                //form.find('input:not([name="id"]),textarea').val('');
+            //} else if (json.params.id == 'signup') {
+                //console.log(json);
+                //if (json.response) {
+                    //showSuccessMessage('Thank You', '<div class="pad10"><strong>Your signup form has been submitted successfully.</strong></div> <div class="pad10">JJ will contact you with your lesson times within the next <strong class="blue">3 weeks</strong>.</div> <div class="pad10">If you have paid by credit card, you will be charged <strong class="blue">after you receive your lesson times</strong>. Otherwise your payment will be <strong class="blue">due within 5 days</strong> of receiving your lesson times notification.</div>');
+                    //$('div#signup-complete-alert').show();
+                //} else {
+                    //showErrorMessage();
+                //}
+                //resetSignupForm(form);
+            //} else {
+                //showErrorMessage();
+            //}
+            //submitButton.button('reset');
+        //},
+        //error: function(xhr, textStatus, error) {
+            //showErrorMessage();
+            //submitButton.button('reset');
+        //}
+    //});
+//}
 
-function resetSignupForm(form) {
-    form[0].reset();
-    var scope = angular.element(form).scope();
-    scope.$apply(function() {
-        scope.customerId = null;
-        scope.cardButtonMessage = 'Pay with Card';
-        scope.changeChildCount(1);
-        scope.clearSessions();
-        scope.paymentTotal();
-    });
-}
+//function resetSignupForm(form) {
+    //form[0].reset();
+    //var scope = angular.element(form).scope();
+    //scope.$apply(function() {
+        //scope.customerId = null;
+        //scope.cardButtonMessage = 'Pay with Card';
+        //scope.changeChildCount(1);
+        //scope.clearSessions();
+        //scope.paymentTotal();
+    //});
+//}
 
-function showSuccessMessage(title, message) {
-    $('#formModal h3').html(title);
-    $('#formModal p').html(message);
-    $('#formModal').modal('show');
-}
+//function showSuccessMessage(title, message) {
+    //$('#formModal h3').html(title);
+    //$('#formModal p').html(message);
+    //$('#formModal').modal('show');
+//}
 
-function showErrorMessage() {
-    $('#formModal h3').html('Our Apologies');
-    $('#formModal p').html('<strong>We seem to be having a problem.</strong> A message has been sent letting us know something is broken. Please be patient while we work to fix the issue.');
-    $('#formModal').modal('show');
-}
+//function showErrorMessage() {
+    //$('#formModal h3').html('Our Apologies');
+    //$('#formModal p').html('<strong>We seem to be having a problem.</strong> A message has been sent letting us know something is broken. Please be patient while we work to fix the issue.');
+    //$('#formModal').modal('show');
+//}
