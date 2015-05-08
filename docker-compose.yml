@@ -10,6 +10,16 @@ web:
         - conf/common.env
         - conf/test.env
 
+formhandler:
+    build: form-handler
+    ports:
+        - "8080:8080"
+    links:
+        - mongo
+    env_file:
+        - conf/common.env
+        - conf/test.env
+
 emailer:
     build: email-service
     links:
