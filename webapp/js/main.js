@@ -14,6 +14,36 @@ function ($scope, $http, $document) {
         desc: {}
     };
 
+    $scope.signup = {
+        place: 'culverCity',
+        name: '',
+        phone: '',
+        email: '',
+        children: [{name: '', birthday: '', sessions: []}],
+        request: '',
+        customerId: null,
+        cost: 0
+    };
+
+    $scope.clearSessions = function() {
+        for (var i = 0; i < $scope.signup.children.length; i++) {
+            $scope.signup.children[i].sessions = [];
+        }
+    }
+    $scope.changeChildCount = function(num) {
+        var currentNum = $scope.signup.children.length;
+        if (num > currentNum) {
+            for (var i = num - currentNum; i > 0 ; i--) {
+                $scope.signup.children.push({name: '', birthday: '', sessions: []});
+            }
+        } else if (num < currentNum) {
+            for (i = currentNum - num; i > 0 ; i--) {
+                $scope.signup.children.pop();
+            }
+        }
+        $scope.childCount = num;
+    };
+
     $scope.stripePublishableKey = '';
 
     $http.get('conf/config.json').success(function(json) {
@@ -58,45 +88,33 @@ function ($scope, $http, $document) {
 
     };
 
-    $scope.clearSessions = function() {
-        var sessions = [];
-        _.each($scope.maxChildrenRange(), function(i) {
-            sessions.push([]);
-        });
-        $scope.sessions = sessions;
-    };
 
-    $scope.clearSessions();
-
-    $scope.changeChildCount = function(num) {
-        $scope.childCount = num;
-    };
 
     $scope.childsAvailableSessions = function(childIndex) {
-        return _.difference($scope.sessionInfo.available[$scope.selectedLocation], $scope.sessions[childIndex]);
+        return _.difference($scope.sessionInfo.available[$scope.signup.place], $scope.signup.children[childIndex].sessions);
     };
 
-    $scope.add = function(childIndex) {
-        $scope.sessions[childIndex].push($scope.selectedSession[childIndex]);
+    $scope.addSession = function(childIndex) {
+        $scope.signup.children[childIndex].sessions.push($scope.selectedSession[childIndex]);
         $scope.selectedSession[childIndex] = {name: '-- Add Session --'};
     };
 
-    $scope.remove = function(childIndex, index) {
-        $scope.sessions[childIndex].splice(index, 1);
+    $scope.removeSession = function(childIndex, index) {
+        $scope.signup.children[childIndex].sessions.splice(index, 1);
     };
 
     $scope.sessionTotal = function() {
         var count = 0;
-        angular.forEach($scope.sessions.slice(0, $scope.childCount), function(value, key){
-            count += value.length;
+        angular.forEach($scope.signup.children, function(child){
+            count += child.sessions.length;
         });
         return count;
     };
 
     $scope.cashTotal = function() {
         var sum = 0;
-        _.each($scope.sessions.slice(0, $scope.childCount), function(sessions) {
-            sum += _.reduce(_.pluck(sessions, 'price'), function(m, n) {return m + n;}, 0);
+        _.each($scope.signup.children, function(child) {
+            sum += _.reduce(_.pluck(child.sessions, 'price'), function(m, n) {return m + n;}, 0);
         });
         return sum
     };
@@ -106,17 +124,19 @@ function ($scope, $http, $document) {
     };
 
     $scope.paymentTotal = function() {
-        if ($scope.customerId) {
-            return Math.floor($scope.creditTotal() * 100);
+        var total = 0.0;
+        if ($scope.signup.customerId) {
+            total = Math.floor($scope.creditTotal() * 100);
         } else {
-            return Math.floor($scope.cashTotal() * 100);
+            total = Math.floor($scope.cashTotal() * 100);
         }
+        $scope.signup.cost = total;
+        return total;
     };
 
     $scope.price = 189;
     $scope.creditRate = 1.029;
     $scope.chargeFee = 0.3;
-    $scope.customerId = null;
     $scope.cardButtonMessage = 'Pay with Card';
 
     $scope.payWithCard = function() {
@@ -139,7 +159,7 @@ function ($scope, $http, $document) {
                                     success(function(data, status, headers, config) {
                                         if (data.response && data.response.customer_id) {
                                             $scope.cardButtonMessage = 'payment complete';
-                                            $scope.customerId = data.response.customer_id;
+                                            $scope.signup.customerId = data.response.customer_id;
                                         } else if (data.response && data.response.error) {
                                             $scope.cardButtonMessage = 'Pay with Card';
                                             $scope.paymentError = data.response.error;
@@ -152,6 +172,20 @@ function ($scope, $http, $document) {
                          }
         });
     };
+
+    $scope.processSignup = function() {
+        $http.post('form-handler2.cgi', $scope.signup)
+            .success(function(data) {
+                if (!data.success) {
+                    $scope.errorName = data.errors.name;
+                    $scope.errorSuperhero = data.errors.superheroAlias;
+                } else {
+                    $scope.message = data.message;
+                }
+            }
+        );
+    };
+
 }]);
 
 
@@ -159,26 +193,6 @@ function ($scope, $http, $document) {
 //$(document).ready(function() {
 
     //$('button').button();
-
-    //var $spy = $('body').scrollspy({target: '#topnav', offset: Math.floor($(window).height() / 2)});
-
-    //$('.pagenav a').bind('click',function(event){
-        //event.preventDefault();
-        //var $anchor = $(this);
-        //$('html, body').stop().animate({
-            //scrollTop: $($anchor.attr('href')).offset().top - $('#topnav').height()
-        //}, 1000);
-    //});
-
-    //$('#location-tabs > button').click(function(){
-        ////$('#location-alert').alert('close');
-        //if (!$(this).hasClass('active')) {
-            //var tabTarget = $(this).attr('data-target');
-            //$('.tab-pane').fadeOut('slow', function() {
-                //$('#' + tabTarget).fadeIn('slow');
-            //});
-        //}
-    //});
 
     //$('form').submit(function(e) {
         //e.preventDefault();

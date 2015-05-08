@@ -909,19 +909,19 @@
             </form>
         </div>
 
-        <form class="form-horizontal" id="signup-form" ng-show="config.signupsActive">
+        <form class="form-horizontal" id="signup-form" ng-show="config.signupsActive" ng-submit="processSignup()">
 
             <fieldset>
                 <legend>Location</legend>
-                <div class="form-group form-group-lg" ng-class="{'has-warning': !selectedLocation, 'has-success': selectedLocation}">
+                <div class="form-group form-group-lg" ng-class="{'has-warning': !signup.place, 'has-success': signup.place}">
                     <label class="col-sm-2 control-label" for="location-select">Location</label>
                     <div class="col-sm-4">
-                        <select class="form-control" id="location-select" placeholder="Select a location" ng-change="clearSessions()" ng-model="selectedLocation">
+                        <select class="form-control" id="location-select" placeholder="Select a location" ng-change="clearSessions()" ng-model="signup.place">
                             <option value="">Please select</option>
                             <option value="laCrescenta">La Crescenta</option>
                             <option value="culverCity">Culver City</option>
                         </select>
-                        <p class="help-block" ng-hide="selectedLocation">required to list sessions</p>
+                        <p class="help-block" ng-hide="signup.place">required to list sessions</p>
 
                     </div>
                 </div>
@@ -932,19 +932,19 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label" for="name">Name</label>
                     <div class="col-sm-4">
-                        <input class="form-control" type="text" name="name" placeholder="First and last name"/>
+                        <input class="form-control" type="text" name="name" placeholder="First and last name" ng-model="signup.name"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label" for="phone">Phone</label>
                     <div class="col-sm-4">
-                        <input class="form-control" type="tel" name="phone" placeholder="123-456-7890"/>
+                        <input class="form-control" type="tel" name="phone" placeholder="123-456-7890" ng-model="signup.phone"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label" for="email">Email</label>
                     <div class="col-sm-4">
-                        <input class="form-control" type="text" name="email" placeholder="example@domain.com"/>
+                        <input class="form-control" type="text" name="email" placeholder="example@domain.com" ng-model="signup.email"/>
                     </div>
                 </div>
             </fieldset>
@@ -965,19 +965,19 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label" for="child_name">Name</label>
                         <div class="col-sm-4">
-                            <input class="form-control" type="text" name="child_name-{{childIndex}}" placeholder="First name"/>
+                            <input class="form-control" type="text" name="child_name-{{childIndex}}" placeholder="First name" ng-model="signup.children[childIndex].name"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label" for="birthday">Birthday</label>
                         <div class="col-sm-4">
-                            <input class="form-control" type="date" name="birthday-{{childIndex}}"/>
+                            <input class="form-control" type="date" name="birthday-{{childIndex}}" ng-model="signup.children[childIndex].birthday"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label" for="swim_level">Swimming Level</label>
                         <div class="col-sm-10">
-                            <select name="swim_level-{{childIndex}}" class="form-control">
+                            <select name="swim_level-{{childIndex}}" class="form-control" ng-model="signup.children[childIndex].swim_level">
                                 <option></option>
                                 <option>uncomfortable putting his or her face in the water</option>
                                 <option>comfortable putting his or her face in the water</option>
@@ -986,32 +986,32 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group" ng-class="{warning: !selectedLocation}">
+                    <div class="form-group" ng-class="{warning: !signup.place}">
                         <label class="col-sm-2 control-label" for="session-select">Sessions</label>
                         <div class="col-sm-10">
                             <div class="selected-sessions">
-                                <div class="alert alert-success session" ng-repeat="s in sessions[childIndex]">
+                                <div class="alert alert-success session" ng-repeat="s in signup.children[childIndex].sessions">
                                     {{s.name}}
-                                    <button type="button" class="close" ng-click="remove(childIndex, $index)">×</button>
+                                    <button type="button" class="close" ng-click="removeSession(childIndex, $index)">×</button>
                                 </div>
                             </div>
                             <select name="selected-session-{{childIndex}}" class="select-session form-control"
                                 ng-model="selectedSession[childIndex]"
-                                ng-change="add(childIndex)"
+                                ng-change="addSession(childIndex)"
                                 ng-options="s.name for s in childsAvailableSessions(childIndex)">
                                 <option value="">-- Add Session --</option>
                             </select>
-                            <span ng-hide="selectedLocation" class="help-block">
+                            <span ng-hide="signup.place" class="help-block">
                                 You need to select a Location at the top of the form
                             </span>
-                            <span ng-show="selectedLocation" class="help-block">
+                            <span ng-show="signup.place" class="help-block">
                                 <small>Add all the sessions you are interested in</small>
                             </span>
                         </div>
                     </div>
                 </div>
                 <input type="hidden" name="sessions-{{childIndex}}-{{$index}}" value="{{session.name}}"
-                    ng-repeat="session in sessions[childIndex]">
+                    ng-repeat="session in signup.sessions[childIndex]">
             </fieldset>
 
 
@@ -1020,11 +1020,17 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label" for="request">Request</label>
                     <div class="col-sm-10">
-                        <textarea name="request" rows="3" class="form-control"></textarea>
+                        <textarea name="request" rows="3" class="form-control" ng-model="signup.request"></textarea>
                         <span class="help-block"><small>in a lesson with a friend, a specific time slot, etc.</small></span>
                     </div>
                 </div>
             </fieldset>
+
+            <pre>
+                {{signup}}
+                {{childCount}}
+                {{config}}
+            </pre>
 
             <fieldset>
                 <legend>Payment</legend>
@@ -1045,7 +1051,7 @@
                     <div class="pad10">
                         <span class="lead">Total: </span><span class="lead">{{creditTotal() | currency}}</span>
                     </div>
-                    <button type="button" class="btn btn-default" ng-click="payWithCard()" ng-disabled="cardButtonMessage != 'Pay with Card'" ng-class="{'btn-primary': !customerId}">{{cardButtonMessage}}</button>
+                    <button type="button" class="btn btn-default" ng-click="payWithCard()" ng-disabled="cardButtonMessage != 'Pay with Card'" ng-class="{'btn-primary': !signup.customerId}">{{cardButtonMessage}}</button>
                 </div>
             </fieldset>
 
@@ -1055,13 +1061,13 @@
                 <p>{{paymentError}}</p>
             </div>
 
-            <div class="alert alert-block alert-info" ng-show="customerId">
+            <div class="alert alert-block alert-info" ng-show="signup.customerId">
                 <strong>You have saved your payment information; but don't forget to click "Send Sign-Up Form" below to complete the sign-up process.</strong>
             </div>
 
             <input type="hidden" name="id" value="signup"/>
             <input type="hidden" name="cost" value="{{paymentTotal()}}">
-            <input type="hidden" name="customer_id" value="{{customerId}}">
+            <input type="hidden" name="customer_id" value="{{signup.customerId}}">
 
             <div class="text-center"</div>
               <button type="submit" class="btn btn-lg btn-primary"
@@ -1094,26 +1100,26 @@
                 
         <form class="form-horizontal" id="contact-form">
             <div class="form-group">
-                <label class="control-label" for="name">Name</label>
-                <div class="col-sm-10">
+                <label class="col-sm-2 control-label" for="name">Name</label>
+                <div class="col-sm-4">
                     <input type="text" class="form-control" name="name" placeholder="First and last name"/>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label" for="email">Email</label>
-                <div class="col-sm-10">
+                <label class="col-sm-2 control-label" for="email">Email</label>
+                <div class="col-sm-4">
                     <input type="text" class="form-control" name="email" placeholder="example@domain.com"/>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label" for="number">Phone Number</label>
-                <div class="col-sm-10">
+                <label class="col-sm-2 control-label" for="number">Phone Number</label>
+                <div class="col-sm-4">
                     <input type="tel" class="form-control" name="number" placeholder="123-456-7890"/>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label" for="message">Message</label>
-                <div class="col-sm-10">
+                <label class="col-sm-2 control-label" for="message">Message</label>
+                <div class="col-sm-8">
                     <textarea name="message" rows="5" class="form-control input-lg"></textarea>
                 </div>
             </div>
