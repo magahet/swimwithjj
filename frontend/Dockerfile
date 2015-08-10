@@ -21,7 +21,7 @@ EXPOSE 80
 # Copy site into place.
 #COPY webapp /var/www/swimwithjj.com/
 
-COPY email-service/emailer.py /usr/local/lib/python2.7/dist-packages/
+COPY lib/emailer/emailer.py /usr/local/lib/python2.7/dist-packages/
 
 #COPY conf/settings.conf /etc/swimwithjj/
 
