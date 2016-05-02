@@ -3,7 +3,7 @@
 
     angular
         .module('swimwithjj', [
-            'ngMaterial',
+            'ui.router',
             'ngSanitize'
-        ]);
+        ])
 })();

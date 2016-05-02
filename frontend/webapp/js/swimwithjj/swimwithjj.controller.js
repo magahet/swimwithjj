@@ -66,9 +66,9 @@
             vm.sessionInfo = json.sessionInfo;
         });
 
-        $http.get('conf/stripe.json').success(function(json) {
-            vm.stripePublishableKey = json.stripePublishableKey;
-        });
+        //$http.get('conf/stripe.json').success(function(json) {
+            //vm.stripePublishableKey = json.stripePublishableKey;
+        //});
 
         vm.childCount = 1;
 
