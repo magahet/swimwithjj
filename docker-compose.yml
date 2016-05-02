@@ -14,6 +14,8 @@ formhandler:
     build: form-handler
     ports:
         - "8080:8080"
+    volumes:
+        - form-handler:/opt/swimwithjj
     links:
         - mongo
     env_file:

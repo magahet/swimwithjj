@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM debian:jessie
 MAINTAINER Gar Mendiola <magahet@gmail.com>
  
 RUN apt-get update \
