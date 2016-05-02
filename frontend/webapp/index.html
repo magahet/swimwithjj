@@ -1,55 +1,23 @@
 <!DOCTYPE html>
-<html ng-app="swjjApp" ng-controller="mainController">
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<html lang="en" ng-app="swimwithjj">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>SwimWithJJ</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <img src="./img/underwater_crop.jpg" hidden/>
-    <style>
-        .backgroundsize .jumbotron {
-            background: url(./img/underwater_crop.jpg) no-repeat top;
-            background-size: 100% 350px;
-        }
-    </style>
-    <!--<link href="./css/bootstrap.min.css" rel="stylesheet">-->
-    <style>
-        body {
-            padding-top: 40px;
-        }
-        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-            display: none;
-        }
-    </style>
-    <!--<link href="./css/bootstrap-responsive.min.css" rel="stylesheet">-->
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
-    <link href="./css/style.css" rel="stylesheet">
-    <script src="js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+      <!-- Angular Material style sheet -->
+      <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
   </head>
 
-  <body ng-cloak>
-    <!--[if lt IE 7]>
-        <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
-    <![endif]-->
+  <body ng-controller="SwimWithJJ as swjj">
 
-    <div id="home">
-    <div id="topnav" class="pagenav navbar navbar-inverse navbar-fixed-top">
-        <div class="container-fluid">
-            <ul class="nav navbar-nav">
-              <li><a href="#top" du-smooth-scroll du-scrollspy>Home</a></li>
-              <li><a href="#about" du-smooth-scroll du-scrollspy>About JJ</a></li>
-              <li><a href="#lesson-info" du-smooth-scroll du-scrollspy>Lesson Info</a></li>
-              <li><a href="#faq" du-smooth-scroll du-scrollspy>FAQ</a></li>
-              <li><a href="#testimonials" du-smooth-scroll du-scrollspy>Testimonials</a></li>
-              <li><a href="#sign-up" du-smooth-scroll du-scrollspy>Sign-Up</a></li>
-              <li><a href="#contact" du-smooth-scroll du-scrollspy>Contact JJ</a></li>
-            </ul>
+    <md-toolbar class="md-menu-toolbar">
+        <div class="md-toolbar-tools">
+            <md-button href="#top">Home</md-button>
+            <md-button href="#about">About JJ</md-button>
+            <md-button href="#lesson-info">Lesson Info</md-button>
+            <md-button href="#faq">FAQ</md-button>
+            <md-button href="#testimonials">Testimonials</md-button>
+            <md-button href="#sign-up">Sign-Up</md-button>
+            <md-button href="#contact">Contact JJ</md-button>
         </div>
-    </div>
+    </md-toolbar>
 
     <div class="jumbotron" id="top">
         <div class="container pad50">
@@ -57,9 +25,9 @@
                 <div class="col-md-7">
                     <h1>Swim With JJ</h1>
                         <p class="lead">Water Safety, Swim Lessons, and Stroke Technique in a comfortable and relaxing setting</p>
-                    <div class="pagenav"><a style="display: none;" href="#about" ng-hide="config.signupsActive || config.lessonInfoActive" class="btn btn-success btn-lg">Learn More »</a></div>
-                    <div class="pagenav"><a style="display: none;" href="#lesson-info" ng-hide="config.signupsActive || !config.lessonInfoActive" class="btn btn-success btn-lg">Learn More »</a></div>
-                    <div class="pagenav"><a style="display: none;" href="#sign-up" ng-show="config.signupsActive" class="btn btn-success btn-lg">Sign-Up Now »</a></div>
+                    <div class="pagenav"><a style="display: none;" href="#about" ng-hide="swjj.config.signupsActive || config.lessonInfoActive" class="btn btn-success btn-lg">Learn More »</a></div>
+                    <div class="pagenav"><a style="display: none;" href="#lesson-info" ng-hide="swjj.config.signupsActive || !config.lessonInfoActive" class="btn btn-success btn-lg">Learn More »</a></div>
+                    <div class="pagenav"><a style="display: none;" href="#sign-up" ng-show="swjj.config.signupsActive" class="btn btn-success btn-lg">Sign-Up Now »</a></div>
                 </div>
             </div>
         </div>
@@ -144,12 +112,12 @@
                 <div class="page-header">
                     <h3>Session Dates and Times <small>(La Crescenta)</small></h3>
                 </div>
-                <div class="coming-soon" ng-hide="config.lessonInfoActive">
+                <div class="coming-soon" ng-hide="swjj.config.lessonInfoActive">
                     <h1 class="muted">Session dates and times will be posted when sign-ups begin. You can be notified when sign-ups start by providing your email address.</h1>
                     <div class="pagenav"><a href="#sign-up" class="btn btn-success btn-lg">Go to Notification Form »</a></div>
                 </div>
 
-                <div class="row" ng-show="config.lessonInfoActive">
+                <div class="row" ng-show="swjj.config.lessonInfoActive">
                     <div class="col-md-4">
                         <table class="table-condensed table-bordered">
                             <thead>
@@ -364,13 +332,13 @@
 
                 <br>
 
-                <table class="table table-bordered" ng-show="config.lessonInfoActive">
+                <table class="table table-bordered" ng-show="swjj.config.lessonInfoActive">
                   <caption><h4>Sessions</h4></caption>
                   <thead>
                     <tr><th></th><th>Dates</th><th>Days</th><th>Price*</th></tr>
                   </thead>
                   <tbody>
-                      <tr ng-repeat="s in sessionInfo.desc.laCrescenta">
+                      <tr ng-repeat="s in swjj.sessionInfo.desc.laCrescenta">
                           <td ng-class="'session' + s.num">{{s.num}}</td>
                           <td>
                               {{s.dates}}<br>
@@ -382,7 +350,7 @@
                   </tbody>
                 </table>
 
-                <ul class="list-unstyled" ng-show="config.lessonInfoActive">
+                <ul class="list-unstyled" ng-show="swjj.config.lessonInfoActive">
                     <li>*Payment in full is due <strong class="blue">within 5 days</strong> of receiving your confirmation e-mail.</li>
                     <li>*Payment is <strong class="blue">non-refundable</strong> (unless a lesson is canceled by JJ) and <strong class="blue">non-transferable.</strong></li>
                 </ul>
@@ -415,12 +383,12 @@
                     <h3>Session Dates and Times <small>(Culver City)</small></h3>
                 </div>
 
-                <div class="coming-soon" ng-hide="config.lessonInfoActive">
+                <div class="coming-soon" ng-hide="swjj.config.lessonInfoActive">
                     <h1 class="muted">Session dates and times will be posted when sign-ups begin. You can be notified when sign-ups start by providing your email address.</h1>
                     <div class="pagenav"><a href="#sign-up" class="btn btn-success btn-lg">Go to Notification Form »</a></div>
                 </div>
 
-                <div class="row" ng-show="config.lessonInfoActive">
+                <div class="row" ng-show="swjj.config.lessonInfoActive">
                     <div class="col-md-6">
                         <table class="table-condensed table-bordered">
                             <thead>
@@ -705,13 +673,13 @@
 
                 <br>
 
-                <table class="table table-bordered" ng-show="config.lessonInfoActive">
+                <table class="table table-bordered" ng-show="swjj.config.lessonInfoActive">
                   <caption><h4>Sessions</h4></caption>
                   <thead>
                     <tr><th></th><th>Dates</th><th>Days</th><th>Price*</th></tr>
                   </thead>
                   <tbody>
-                      <tr ng-repeat="s in sessionInfo.desc.culverCity">
+                      <tr ng-repeat="s in swjj.sessionInfo.desc.culverCity">
                           <td ng-class="'session' + s.num">{{s.num}}</td>
                           <td>
                               {{s.dates}}<br>
@@ -723,7 +691,7 @@
                   </tbody>
                 </table>
 
-                <ul class="list-unstyled" ng-show="config.lessonInfoActive">
+                <ul class="list-unstyled" ng-show="swjj.config.lessonInfoActive">
                     <li>*Payment in full is due <strong class="blue">within 5 days</strong> of receiving your confirmation e-mail.</li>
                     <li>*Payment is <strong class="blue">non-refundable</strong> (unless a lesson is canceled by JJ) and <strong class="blue">non-transferable.</strong></li>
                 </ul>
@@ -895,9 +863,9 @@
     <div class="container section">
         <!--<div class="pagenav nav-up"><a href="#faq"><i class="glyphicon glyphicon-arrow-up"></i> Back to Testimonials</a></div>-->
 
-        <div class="coming-soon" ng-hide="config.signupsActive">
+        <div class="coming-soon" ng-hide="swjj.config.signupsActive">
             <h1 class="muted">Coming Soon...</h1>
-            <div ng-show="daysTillSignup">
+            <div ng-show="swjj.daysTillSignup">
                 <h1>{{daysTillSignup}} <small> days until signups begin!</small></h1>
             </div>
             <p class="lead">To be contacted when sign-ups open, you can leave your email address and JJ will let you know as soon as the fun begins.</p>
@@ -909,19 +877,19 @@
             </form>
         </div>
 
-        <form class="form-horizontal" id="signup-form" ng-show="config.signupsActive" ng-submit="processSignup()">
+        <form class="form-horizontal" id="signup-form" ng-show="swjj.config.signupsActive" ng-submit="swjj.processSignup()">
 
             <fieldset>
                 <legend>Location</legend>
-                <div class="form-group form-group-lg" ng-class="{'has-warning': !signup.place, 'has-success': signup.place}">
+                <div class="form-group form-group-lg" ng-class="{'has-warning': !swjj.signup.place, 'has-success': swjj.signup.place}">
                     <label class="col-sm-2 control-label" for="location-select">Location</label>
                     <div class="col-sm-4">
-                        <select class="form-control" id="location-select" placeholder="Select a location" ng-change="clearSessions()" ng-model="signup.place">
+                        <select class="form-control" id="location-select" placeholder="Select a location" ng-change="swjj.clearSessions()" ng-model="swjj.signup.place">
                             <option value="">Please select</option>
                             <option value="laCrescenta">La Crescenta</option>
                             <option value="culverCity">Culver City</option>
                         </select>
-                        <p class="help-block" ng-hide="signup.place">required to list sessions</p>
+                        <p class="help-block" ng-hide="swjj.signup.place">required to list sessions</p>
 
                     </div>
                 </div>
@@ -932,19 +900,19 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label" for="name">Name</label>
                     <div class="col-sm-4">
-                        <input class="form-control" type="text" name="name" placeholder="First and last name" ng-model="signup.name"/>
+                        <input class="form-control" type="text" name="name" placeholder="First and last name" ng-model="swjj.signup.name"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label" for="phone">Phone</label>
                     <div class="col-sm-4">
-                        <input class="form-control" type="tel" name="phone" placeholder="123-456-7890" ng-model="signup.phone"/>
+                        <input class="form-control" type="tel" name="phone" placeholder="123-456-7890" ng-model="swjj.signup.phone"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label" for="email">Email</label>
                     <div class="col-sm-4">
-                        <input class="form-control" type="text" name="email" placeholder="example@domain.com" ng-model="signup.email"/>
+                        <input class="form-control" type="text" name="email" placeholder="example@domain.com" ng-model="swjj.signup.email"/>
                     </div>
                 </div>
             </fieldset>
@@ -953,31 +921,31 @@
                     <label class="col-sm-2 control-label">How many children are you signing up?</label>
                     <div class="col-sm-10">
                         <div class="btn-group">
-                            <label id="numChildren-{{num}}" class="btn btn-default btn-lg" ng-click="changeChildCount(num + 1)" ng-class="{active : $index == childCount - 1}" ng-repeat="num in maxChildrenRange()">{{num + 1}}</label>
+                            <label id="numChildren-{{num}}" class="btn btn-default btn-lg" ng-click="swjj.changeChildCount(num + 1)" ng-class="{active : $index == swjj.childCount - 1}" ng-repeat="num in swjj.maxChildrenRange()">{{num + 1}}</label>
                         </div>
                     </div>
                 </div>
                 <input type="hidden" name="child_count" value="{{childCount}}"/>
 
-            <fieldset class="child-info" ng-repeat="childIndex in childRange()">
+            <fieldset class="child-info" ng-repeat="childIndex in swjj.childRange()">
                 <legend>{{childLabel(childIndex)}}</legend>
                 <div class="child-info">
                     <div class="form-group">
                         <label class="col-sm-2 control-label" for="child_name">Name</label>
                         <div class="col-sm-4">
-                            <input class="form-control" type="text" name="child_name-{{childIndex}}" placeholder="First name" ng-model="signup.children[childIndex].name"/>
+                            <input class="form-control" type="text" name="child_name-{{childIndex}}" placeholder="First name" ng-model="swjj.signup.children[swjj.childIndex].name"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label" for="birthday">Birthday</label>
                         <div class="col-sm-4">
-                            <input class="form-control" type="date" name="birthday-{{childIndex}}" ng-model="signup.children[childIndex].birthday"/>
+                            <input class="form-control" type="date" name="birthday-{{childIndex}}" ng-model="swjj.signup.children[swjj.childIndex].birthday"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label" for="swim_level">Swimming Level</label>
                         <div class="col-sm-10">
-                            <select name="swim_level-{{childIndex}}" class="form-control" ng-model="signup.children[childIndex].swim_level">
+                            <select name="swim_level-{{childIndex}}" class="form-control" ng-model="swjj.signup.children[childIndex].swim_level">
                                 <option></option>
                                 <option>uncomfortable putting his or her face in the water</option>
                                 <option>comfortable putting his or her face in the water</option>
@@ -986,32 +954,32 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group" ng-class="{warning: !signup.place}">
+                    <div class="form-group" ng-class="{warning: !swjj.signup.place}">
                         <label class="col-sm-2 control-label" for="session-select">Sessions</label>
                         <div class="col-sm-10">
                             <div class="selected-sessions">
-                                <div class="alert alert-success session" ng-repeat="s in signup.children[childIndex].sessions">
+                                <div class="alert alert-success session" ng-repeat="s in swjj.signup.children[childIndex].sessions">
                                     {{s.name}}
-                                    <button type="button" class="close" ng-click="removeSession(childIndex, $index)">×</button>
+                                    <button type="button" class="close" ng-click="swjj.removeSession(cswjj.hildIndex, $index)">×</button>
                                 </div>
                             </div>
                             <select name="selected-session-{{childIndex}}" class="select-session form-control"
-                                ng-model="selectedSession[childIndex]"
-                                ng-change="addSession(childIndex)"
-                                ng-options="s.name for s in childsAvailableSessions(childIndex)">
+                                ng-model="swjj.selectedSession[childIndex]"
+                                ng-change="swjj.addSession(childIndex)"
+                                ng-options="s.name for s in swjj.childsAvailableSessions(childIndex)">
                                 <option value="">-- Add Session --</option>
                             </select>
-                            <span ng-hide="signup.place" class="help-block">
+                            <span ng-hide="swjj.signup.place" class="help-block">
                                 You need to select a Location at the top of the form
                             </span>
-                            <span ng-show="signup.place" class="help-block">
+                            <span ng-show="swjj.signup.place" class="help-block">
                                 <small>Add all the sessions you are interested in</small>
                             </span>
                         </div>
                     </div>
                 </div>
                 <input type="hidden" name="sessions-{{childIndex}}-{{$index}}" value="{{session.name}}"
-                    ng-repeat="session in signup.sessions[childIndex]">
+                    ng-repeat="session in swjj.signup.sessions[childIndex]">
             </fieldset>
 
 
@@ -1020,7 +988,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label" for="request">Request</label>
                     <div class="col-sm-10">
-                        <textarea name="request" rows="3" class="form-control" ng-model="signup.request"></textarea>
+                        <textarea name="request" rows="3" class="form-control" ng-model="swjj.signup.request"></textarea>
                         <span class="help-block"><small>in a lesson with a friend, a specific time slot, etc.</small></span>
                     </div>
                 </div>
@@ -1051,17 +1019,17 @@
                     <div class="pad10">
                         <span class="lead">Total: </span><span class="lead">{{creditTotal() | currency}}</span>
                     </div>
-                    <button type="button" class="btn btn-default" ng-click="payWithCard()" ng-disabled="cardButtonMessage != 'Pay with Card'" ng-class="{'btn-primary': !signup.customerId}">{{cardButtonMessage}}</button>
+                    <button type="button" class="btn btn-default" ng-click="swjj.payWithCard()" ng-disabled="swjj.cardButtonMessage != 'Pay with Card'" ng-class="{'btn-primary': !swjj.signup.customerId}">{{swjj.cardButtonMessage}}</button>
                 </div>
             </fieldset>
 
-            <div class="alert alert-block alert-error" ng-show="paymentError">
+            <div class="alert alert-block alert-error" ng-show="swjj.paymentError">
                 <h4>Sorry</h4>
                 <p>There seems to be a problem saving your payment information. Below is the error received by the processing company:</p>
                 <p>{{paymentError}}</p>
             </div>
 
-            <div class="alert alert-block alert-info" ng-show="signup.customerId">
+            <div class="alert alert-block alert-info" ng-show="swjj.signup.customerId">
                 <strong>You have saved your payment information; but don't forget to click "Send Sign-Up Form" below to complete the sign-up process.</strong>
             </div>
 
@@ -1160,16 +1128,26 @@
         </div>
     </div>
 
-    <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script> 
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-sanitize.min.js"></script> 
-    <!--<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.0.3/bootstrap.min.js"></script>-->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.0/ui-bootstrap-tpls.min.js"></script> 
+    <!-- Angular Material requires Angular.js Libraries -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-sanitize.min.js"></script> 
+
+    <!-- Angular Material Library -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+
+    <!--Utils-->
     <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.0.0/moment.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-scroll/0.7.0/angular-scroll.min.js"></script>
     <script src="https://checkout.stripe.com/v2/checkout.js"></script>
-    <script src="./js/main.js"></script>
+
+    <!--App-->
+    <script src="./js/swimwithjj/swimwithjj.module.js"></script>
+    <script src="./js/swimwithjj/swimwithjj.controller.js"></script>
+
+    <!--Analytics-->
     <script type="text/javascript">
 
       var _gaq = _gaq || [];
@@ -1183,5 +1161,6 @@
       })();
 
     </script>
+
   </body>
 </html>

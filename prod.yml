@@ -1,9 +1,9 @@
-web:
-    build: .
+frontend:
+    build: frontend
     ports:
         - "80:80"
     volumes:
-        - webapp:/var/www/swimwithjj.com
+        - frontend/webapp:/var/www/swimwithjj.com
     links:
         - mongo
     env_file:

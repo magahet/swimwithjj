@@ -1,0 +1,36 @@
+frontend:
+    build: frontend
+    ports:
+        - "80:80"
+    volumes:
+        - frontend/webapp:/var/www/swimwithjj.com
+    links:
+        - mongo
+    env_file:
+        - conf/common.env
+        - conf/test.env
+
+formhandler:
+    build: form-handler
+    ports:
+        - "8080:8080"
+    links:
+        - mongo
+    env_file:
+        - conf/common.env
+        - conf/test.env
+
+emailer:
+    build: email-service
+    links:
+        - mongo
+    env_file:
+        - conf/common.env
+        - conf/test.env
+
+mongo:
+    image: mongo
+    ports:
+        - "27017:27017"
+    volumes:
+        - db:/data/db
