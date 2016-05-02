@@ -1,19 +1,22 @@
-.PHONY: build start stop restart
+.PHONY: build start stop restart start-frontend
 
 build:
-	sudo docker-compose build
+	sudo docker-compose -f $(ENV) build
 
 start:
-	docker-compose up -d
+	docker-compose -f $(ENV) up -d
+
+start-frontend:
+	docker-compose -f $(ENV) up -d frontend
 
 stop:
-	docker-compose stop
+	docker-compose -f $(ENV) stop
 
 restart:
-	docker-compose restart
+	docker-compose -f $(ENV) restart
 
 ps:
-	docker-compose ps
+	docker-compose -f $(ENV) ps
 
 default:
 	build
