@@ -1,114 +1,83 @@
-<div id="sign-up">
-  <div class="section-header">
-      <div class="container">
+<div class="section">
+  <div class="row">
+    <div class="col s12">
+      <div class="card-panel dim-paper">
           <h1>Sign-up</h1>
-      </div>
-  </div>
 
-  <div class="container section">
-      <!--<div class="pagenav nav-up"><a href="#faq"><i class="glyphicon glyphicon-arrow-up"></i> Back to Testimonials</a></div>-->
+          <div ng-hide="swjj.config.signupsActive">
+              <h1>Coming Soon...</h1>
+              <p class="lead">To be contacted when sign-ups open, you can leave your email address and JJ will let you know as soon as the fun begins.</p>
 
-      <div class="coming-soon" ng-hide="swjj.config.signupsActive">
-          <h1 class="muted">Coming Soon...</h1>
-          <div ng-show="swjj.daysTillSignup">
-              <h1>{{daysTillSignup}} <small> days until signups begin!</small></h1>
+              <form class="form-inline" id="signup-notification-form">
+                  <input type="email" name="email" placeholder="Enter your email here"/>
+                  <input type="hidden" name="id" value="signup-notification"/>
+                  <button type="submit" class="btn btn-primary" data-loading-text="saving address...">Notify Me</button>
+              </form>
           </div>
-          <p class="lead">To be contacted when sign-ups open, you can leave your email address and JJ will let you know as soon as the fun begins.</p>
 
-          <form class="form-inline" id="signup-notification-form">
-              <input type="email" name="email" placeholder="Enter your email here"/>
-              <input type="hidden" name="id" value="signup-notification"/>
-              <button type="submit" class="btn btn-primary" data-loading-text="saving address...">Notify Me</button>
-          </form>
-      </div>
-
-      <form class="form-horizontal" id="signup-form" ng-show="swjj.config.signupsActive" ng-submit="swjj.processSignup()">
-
-          <fieldset>
-              <legend>Location</legend>
-              <div class="form-group form-group-lg" ng-class="{'has-warning': !swjj.signup.place, 'has-success': swjj.signup.place}">
-                  <label class="col-sm-2 control-label" for="location-select">Location</label>
-                  <div class="col-sm-4">
-                      <select class="form-control" id="location-select" placeholder="Select a location" ng-change="swjj.clearSessions()" ng-model="swjj.signup.place">
-                          <option value="">Please select</option>
-                          <option value="laCrescenta">La Crescenta</option>
-                          <option value="culverCity">Culver City</option>
-                      </select>
-                      <p class="help-block" ng-hide="swjj.signup.place">required to list sessions</p>
-
-                  </div>
-              </div>
-          </fieldset>
-
-          <fieldset>
-              <legend>parent's information</legend>
-              <div class="form-group">
-                  <label class="col-sm-2 control-label" for="name">Name</label>
-                  <div class="col-sm-4">
-                      <input class="form-control" type="text" name="name" placeholder="First and last name" ng-model="swjj.signup.name"/>
-                  </div>
-              </div>
-              <div class="form-group">
-                  <label class="col-sm-2 control-label" for="phone">Phone</label>
-                  <div class="col-sm-4">
-                      <input class="form-control" type="tel" name="phone" placeholder="123-456-7890" ng-model="swjj.signup.phone"/>
-                  </div>
-              </div>
-              <div class="form-group">
-                  <label class="col-sm-2 control-label" for="email">Email</label>
-                  <div class="col-sm-4">
-                      <input class="form-control" type="text" name="email" placeholder="example@domain.com" ng-model="swjj.signup.email"/>
-                  </div>
-              </div>
-          </fieldset>
-
-              <div class="form-group">
-                  <label class="col-sm-2 control-label">How many children are you signing up?</label>
-                  <div class="col-sm-10">
-                      <div class="btn-group">
-                          <label id="numChildren-{{num}}" class="btn btn-default btn-lg" ng-click="swjj.changeChildCount(num + 1)" ng-class="{active : $index == swjj.childCount - 1}" ng-repeat="num in swjj.maxChildrenRange()">{{num + 1}}</label>
+  <div class="row">
+    <div class="col s12">
+      <div class="card-panel dark-paper">
+        <div class="row">
+          <form class="col s12" id="signup-form" ng-show="swjj.config.signupsActive" ng-submit="swjj.processSignup()">
+              <fieldset>
+                  <legend>parent's information</legend>
+                  <div class="row">
+                      <div class="input-field col s6">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input class="validate" type="text" id="name" ng-model="swjj.signup.name"/>
+                        <label class="active" for="name">Name (First and Last)</label>
+                      </div>
+                      <div class="input-field col s6">
+                        <i class="material-icons prefix">phone</i>
+                        <input class="validate" type="tel" id="phone" ng-model="swjj.signup.phone"/>
+                        <label class="active" for="phone">Phone #</label>
                       </div>
                   </div>
+                  <div class="row">
+                      <div class="input-field col s6">
+                        <i class="material-icons prefix">email</i>
+                        <input class="validate" type="text" id="email" ng-model="swjj.signup.email"/>
+                        <label class="active" for="email">Email Address</label>
+                      </div>
+                  </div>
+              </fieldset>
+
+              <div class="section">
+                <span>How many children are you signing up?</span>
+                <a class="waves-effect waves-light btn-large" id="numChildren-{{num}}" ng-click="swjj.changeChildCount(num + 1)" ng-class="{active : $index == swjj.childCount - 1}" ng-repeat="num in swjj.maxChildrenRange()">{{num + 1}}</a>
               </div>
+
               <input type="hidden" name="child_count" value="{{childCount}}"/>
 
-          <fieldset class="child-info" ng-repeat="childIndex in swjj.childRange()">
-              <legend>{{childLabel(childIndex)}}</legend>
-              <div class="child-info">
-                  <div class="form-group">
-                      <label class="col-sm-2 control-label" for="child_name">Name</label>
-                      <div class="col-sm-4">
-                          <input class="form-control" type="text" name="child_name-{{childIndex}}" placeholder="First name" ng-model="swjj.signup.children[swjj.childIndex].name"/>
+              <fieldset ng-repeat="childIndex in swjj.childRange()">
+                  <span>{{childLabel(childIndex)}}</span>
+                  <div class="row">
+                      <div class="input-field col s6">
+                        <input class="validate" type="text" id="child_name-{{childIndex}}" ng-model="swjj.signup.children[swjj.childIndex].name"/>
+                        <label class="active" for="child_name">Name</label>
                       </div>
-                  </div>
-                  <div class="form-group">
-                      <label class="col-sm-2 control-label" for="birthday">Birthday</label>
-                      <div class="col-sm-4">
-                          <input class="form-control" type="date" name="birthday-{{childIndex}}" ng-model="swjj.signup.children[swjj.childIndex].birthday"/>
+                      <div class="input-field col s6">
+                        <input class="validate" type="date" id="birthday-{{childIndex}}" ng-model="swjj.signup.children[swjj.childIndex].birthday"/>
+                        <label class="active" for="birthday">Birthday</label>
                       </div>
-                  </div>
-                  <div class="form-group">
-                      <label class="col-sm-2 control-label" for="swim_level">Swimming Level</label>
-                      <div class="col-sm-10">
-                          <select name="swim_level-{{childIndex}}" class="form-control" ng-model="swjj.signup.children[childIndex].swim_level">
-                              <option></option>
-                              <option>uncomfortable putting his or her face in the water</option>
-                              <option>comfortable putting his or her face in the water</option>
-                              <option>can swim the width of a pool</option>
-                              <option>advanced swimmer, can swim length of a pool</option>
-                          </select>
-                      </div>
-                  </div>
-                  <div class="form-group" ng-class="{warning: !swjj.signup.place}">
-                      <label class="col-sm-2 control-label" for="session-select">Sessions</label>
-                      <div class="col-sm-10">
+                      <label class="active" for="swim_level">Swimming Level</label>
+                      <select id="swim_level-{{childIndex}}" class="validate" ng-model="swjj.signup.children[childIndex].swim_level">
+                        <option></option>
+                        <option>uncomfortable putting his or her face in the water</option>
+                        <option>comfortable putting his or her face in the water</option>
+                        <option>can swim the width of a pool</option>
+                        <option>advanced swimmer, can swim length of a pool</option>
+                      </select>
+                      <div class="input-field col s6">
+                          <label class="active" for="session-select">Sessions</label>
                           <div class="selected-sessions">
                               <div class="alert alert-success session" ng-repeat="s in swjj.signup.children[childIndex].sessions">
                                   {{s.name}}
                                   <button type="button" class="close" ng-click="swjj.removeSession(cswjj.hildIndex, $index)">×</button>
                               </div>
                           </div>
-                          <select name="selected-session-{{childIndex}}" class="select-session form-control"
+                          <select name="selected-session-{{childIndex}}" class="select-session validate"
                               ng-model="swjj.selectedSession[childIndex]"
                               ng-change="swjj.addSession(childIndex)"
                               ng-options="s.name for s in swjj.childsAvailableSessions(childIndex)">
@@ -122,78 +91,79 @@
                           </span>
                       </div>
                   </div>
-              </div>
-              <input type="hidden" name="sessions-{{childIndex}}-{{$index}}" value="{{session.name}}"
-                  ng-repeat="session in swjj.signup.sessions[childIndex]">
-          </fieldset>
+                  <input type="hidden" name="sessions-{{childIndex}}-{{$index}}" value="{{session.name}}"
+                      ng-repeat="session in swjj.signup.sessions[childIndex]">
+              </fieldset>
 
 
-          <fieldset>
-              <legend>special requests/needs</legend>
-              <div class="form-group">
-                  <label class="col-sm-2 control-label" for="request">Request</label>
-                  <div class="col-sm-10">
-                      <textarea name="request" rows="3" class="form-control" ng-model="swjj.signup.request"></textarea>
-                      <span class="help-block"><small>in a lesson with a friend, a specific time slot, etc.</small></span>
+              <fieldset>
+                  <legend>special requests/needs</legend>
+                  <div class="form-group">
+                      <label class="col-sm-2 control-label" for="request">Request</label>
+                      <div class="col-sm-10">
+                          <textarea name="request" rows="3" class="validate" ng-model="swjj.signup.request"></textarea>
+                          <span class="help-block"><small>in a lesson with a friend, a specific time slot, etc.</small></span>
+                      </div>
                   </div>
-              </div>
-          </fieldset>
+              </fieldset>
 
-          <pre>
-              {{signup}}
-              {{childCount}}
-              {{config}}
-          </pre>
+              <!--<pre>-->
+                  <!--{{signup}}-->
+                  <!--{{childCount}}-->
+                  <!--{{config}}-->
+              <!--</pre>-->
 
-          <fieldset>
-              <legend>Payment</legend>
-              <div class="pad10">
-                  <span class="lead">Number of Sessions: </span><span class="lead">{{sessionTotal()}}</span>
-              </div>
-              <div class="pad10">
-                  <h4>Option 1: Check or Cash</h4>
-                  Payment by check or cash is due <strong class="blue">after JJ confirms your lesson times</strong>. Payment must be made within 5 days of receiving your confirmation.
+              <fieldset>
+                  <legend>Payment</legend>
                   <div class="pad10">
-                      <span class="lead">Total: </span><span class="lead">{{cashTotal() | currency}}</span>
+                      <span class="lead">Number of Sessions: </span><span class="lead">{{sessionTotal()}}</span>
                   </div>
-              </div>
-
-              <div class="pad10">
-                  <h4>Option 2: Credit Card</h4>
-                  A credit card processing fee of 2.9% of payment total + 30 cents will be added. <strong class="blue">Your card will only be charged after JJ confirms your lesson times.</strong>
                   <div class="pad10">
-                      <span class="lead">Total: </span><span class="lead">{{creditTotal() | currency}}</span>
+                      <h4>Credit Card</h4>
+                      <strong class="blue">Your card will only be charged after JJ confirms your lesson times.</strong>
+                      <div class="pad10">
+                          <span class="lead">Total: </span><span class="lead">{{paymentTotal() | currency}}</span>
+                      </div>
+                      <button type="button" class="btn btn-large btn-primary"
+                        ng-click="payWithCard()"
+                        ng-disabled="cardButtonMessage != 'Enter Payment Information'"
+                        ng-show="cardButtonMessage != 'Payment Information Saved'"
+                        ng-class="{'btn-primary': !swjj.signup.customerId}">{{swjj.cardButtonMessage}}</button>
                   </div>
-                  <button type="button" class="btn btn-default" ng-click="swjj.payWithCard()" ng-disabled="swjj.cardButtonMessage != 'Pay with Card'" ng-class="{'btn-primary': !swjj.signup.customerId}">{{swjj.cardButtonMessage}}</button>
+              </fieldset>
+
+              <div class="alert alert-block alert-error" ng-show="swjj.paymentError">
+                  <h4>Sorry</h4>
+                  <p>There seems to be a problem saving your payment information. Below is the error received by the processing company:</p>
+                  <p>{{paymentError}}</p>
               </div>
-          </fieldset>
 
-          <div class="alert alert-block alert-error" ng-show="swjj.paymentError">
-              <h4>Sorry</h4>
-              <p>There seems to be a problem saving your payment information. Below is the error received by the processing company:</p>
-              <p>{{paymentError}}</p>
-          </div>
+              <div class="alert alert-block alert-info" ng-show="swjj.signup.customerId">
+                  <strong>You have saved your payment information; but don't forget to click "Send Sign-Up Form" below to complete the sign-up process.</strong>
+              </div>
 
-          <div class="alert alert-block alert-info" ng-show="swjj.signup.customerId">
-              <strong>You have saved your payment information; but don't forget to click "Send Sign-Up Form" below to complete the sign-up process.</strong>
-          </div>
+              <input type="hidden" name="id" value="signup"/>
+              <input type="hidden" name="cost" value="{{paymentTotal()}}">
+              <input type="hidden" name="customer_id" value="{{customerId}}">
+              <div class="form-actions">
+                  <button type="submit" class="btn btn-large btn-primary"
+                      ng-show="customerId"
+                      data-loading-text="sending sign-up form..."
+                      ng-disabled="cardButtonMessage == 'saving payment information'">Send Sign-Up Form</button>
+              </div>
 
-          <input type="hidden" name="id" value="signup"/>
-          <input type="hidden" name="cost" value="{{paymentTotal()}}">
-          <input type="hidden" name="customer_id" value="{{signup.customerId}}">
+              <div style="display:none;" id="signup-complete-alert" class="alert alert-block alert-success">
+                  <h4>Thank You!</h4>
+                  You have completed the signup process. JJ will confirm your exact lesson times <strong>within the next 3 weeks.</strong> If you have any additional questions, please let her know by using the contact form below.
+              </div>
+          </form>
+        </div>
+      </div>
 
-          <div class="text-center"</div>
-            <button type="submit" class="btn btn-lg btn-primary"
-                data-loading-text="sending sign-up form..."
-                ng-disabled="cardButtonMessage == 'saving payment information'">Send Sign-Up Form</button>
-          </div>
-
-          <div style="display:none;" id="signup-complete-alert" class="alert alert-block alert-success">
-              <h4>Thank You!</h4>
-              You have completed the signup process. JJ will confirm your exact lesson times <strong>within the next 3 weeks.</strong> If you have any additional questions, please let her know by using the contact form below.
-          </div>
-      </form>
-
-      <!--<div class="pagenav nav-down"><a href="#contact"><i class="glyphicon glyphicon-arrow-down"></i> Send JJ a Message</a></div>-->
-  </div> 
+          <!--<div class="pagenav nav-down"><a href="#contact"><i class="glyphicon glyphicon-arrow-down"></i> Send JJ a Message</a></div>-->
+      </div> 
+    </div>
+      </div> 
+    </div>
+  </div>
 </div>

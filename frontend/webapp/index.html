@@ -4,45 +4,81 @@
       <!-- Angular Material style sheet -->
       <!--<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">-->
       <!--<link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.blue-pink.min.css" />-->
-      <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.blue_grey-blue.min.css" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <style>
+        body {
+          background: url('img/underwater_crop.jpg') no-repeat center center fixed; 
+          -webkit-background-size: cover;
+          -moz-background-size: cover;
+          -o-background-size: cover;
+          background-size: cover;;
+        }
+        .dark-paper {
+            background:rgba(0,0,0,0.5);
+            color:white;
+        }
+        .dim-paper {
+            background:rgba(0,0,0,0.35);
+            color:white;
+        }
+        .header-layout-transparent .mdl-layout__header,
+        .header-layout-transparent .mdl-layout__drawer-button,
+        .header-layout-transparent .mdl-navigation__link {
+            /* This background is dark, so we set text to white. Use 87% black instead if
+                 your background is light. */
+            color: white;
+        }
+        .pad10 {
+          padding: 10px;
+        }
+        .lpad10 {
+          padding-left: 10px;
+        }
+        .marg20 {
+          margin-left: 20px;
+          margin-right: 20px;
+        }
+        .session1 {
+            background-color: #468847;
+        }
+        .session2 {
+            background-color: #b94a48;
+        }
+        .session3 {
+            background-color: #3a87ad;
+        }
+        .session4 {
+            background-color: #f89406;
+        }
+      </style>
   </head>
 
   <body ng-controller="SwimWithJJ as swjj">
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-      <header class="mdl-layout__header">
-        <div class="mdl-layout__header-row">
-          <!-- Title -->
-          <span class="mdl-layout-title">Swim With JJ</span>
-          <!-- Add spacer, to align navigation to the right -->
-          <div class="mdl-layout-spacer"></div>
-          <!-- Navigation -->
-          <nav class="mdl-navigation">
-            <a class="mdl-navigation__link active" ui-sref="home">Home</a>
-            <a class="mdl-navigation__link" ui-sref="about">About JJ</a>
-            <a class="mdl-navigation__link" ui-sref="lesson-info">Lesson Info</a>
-            <a class="mdl-navigation__link" ui-sref="faq">FAQ</a>
-            <a class="mdl-navigation__link" ui-sref="testimonials">Testimonials</a>
-            <a class="mdl-navigation__link" ui-sref="sign-up">Sign-Up</a>
-            <a class="mdl-navigation__link" ui-sref="contact">Contact JJ</a>
-          </nav>
-        </div>
-      </header>
-      <main class="mdl-layout__content">
-        <div class="page-content">
-          <div ui-view></div>
+    <nav class="dark-paper">
+      <div class="nav-wrapper">
+        <a ui-sref="home" class="brand-logo"><span class="lpad10">Swim With JJ</span></a>
+        <ul class="right">
+          <li ui-sref-active="active"><a ui-sref="home">Home</a></li>
+          <li ui-sref-active="active"><a ui-sref="about">About JJ</a></li>
+          <li ui-sref-active="active"><a ui-sref="lesson-info">Lesson Info</a></li>
+          <li ui-sref-active="active"><a ui-sref="faq">FAQ</a></li>
+          <li ui-sref-active="active"><a ui-sref="testimonials">Testimonials</a></li>
+          <li ui-sref-active="active"><a ui-sref="sign-up">Sign-Up</a></li>
+          <li ui-sref-active="active"><a ui-sref="contact">Contact JJ</a></li>
+        </ul>
+      </div>
+    </nav>
 
-          <!--<footer class="mdl-mini-footer">-->
-            <!--<div class="mdl-mini-footer__left-section">-->
-              <!--<div class="mdl-logo">SwimWithJJ</div>-->
-            <!--</div>-->
-          <!--</footer>-->
+    <div ui-view></div>
 
-        </div>
-      </main>
-    </div>
-
+    <footer class="mdl-mini-footer">
+      <div class="mdl-mini-footer__left-section">
+        <div class="mdl-logo">SwimWithJJ</div>
+      </div>
+    </footer>
 
     <!-- Angular Material requires Angular.js Libraries -->
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
@@ -56,7 +92,8 @@
 
     <!-- Angular Material Library -->
     <!--<script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>-->
-    <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+    <!--<script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
 
     <!--Utils-->
     <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>

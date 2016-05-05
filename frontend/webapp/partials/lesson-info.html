@@ -1,172 +1,149 @@
-<div id="lesson-info" class="section-header">
-    <div class="container">
+<div class="section">
+  <div class="row">
+    <div class="col s12">
+      <div class="card-panel dim-paper">
         <h1>Lesson Info</h1>
-    </div>
-</div>
 
-<div class="container section">
+        <div class="divider"></div>
 
-    <div class="pagenav nav-up"><a href="#about"><i class="icon-arrow-up"></i> Back to About JJ</a></div>
+        <div class="section">
+          <h3>General Info</h3>
+          
+          <p class="flow-text">Lessons are <strong class="red-text text-lighten-2">30 minutes</strong> long with <strong class="red-text text-lighten-2">2-4 children per lesson</strong>. Sessions run <strong class="red-text text-lighten-2">2 consecutive weeks</strong>, with lessons <strong class="red-text text-lighten-2">4 days a week</strong>. Your child will come at the same time for his or her lesson for the entire session.</p>
+        </div> <!--section-->
 
-    <!--
-    <div id="location-alert" class="alert alert-success fade in">
-        <strong>Where would you like to attend lessons?</strong>
-    </div>
+        <div class="divider"></div>
 
-    <div class="tabbable">
-      <div id="location-tabs" class="nav btn-group" data-toggle="buttons-radio">
-          <button type="button" class="btn btn-large" data-target="tabs-pane1">La Crescenta <i class="icon-chevron-down"></i></button>
-          <button type="button" class="btn btn-large active" data-target="tabs-pane2">Culver City <i class="icon-chevron-down"></i></button>
-      </div>
-      <div class="tab-content">
-        <div id="tabs-pane1" class="tab-pane">
-            <div class="page-header">
-                <h3>General Info <small>(La Crescenta)</small></h3>
-            </div>
-            <img class="pull-right marg10 img-polaroid shadow city-image" src="./img/la-crescenta.jpg">
-            <p class="lead">I sincerely apologize; I will not be teaching lessons this summer in La Crescenta.</p>
-            <div class="clearfix"></div>
+        <div class="section">
+          <h3>Session Dates and Times</h3>
 
-        </div>
 
-        <div id="tabs-pane2" class="tab-pane active">
-    -->
-            <div class="page-header">
-                <h3>General Info</h3>
-            </div>
-            <img class="pull-right marg10 img-polaroid shadow city-image" src="./img/culver_city.jpg">
-            <p class="lead">Most lessons are <strong class="blue">30 minutes</strong> long with <strong class="blue">2-4 children per lesson</strong>. Sessions run <strong class="blue">2 consecutive weeks</strong>, with lessons <strong class="blue">4 days a week</strong>. Your child will come at the same time for his or her lesson for the entire session.</p>
-            <div class="clearfix"></div>
+          <div ng-hide="swjj.config.lessonInfoActive">
+              <h4>Session dates and times will be posted when sign-ups begin. You can be notified when sign-ups start by providing your email address.</h4>
+              <a ui-sref="sign-up" class="waves-effect waves-light btn-large"><i class="material-icons left">email</i>Go to Notification Form</a>
+          </div>
 
-            <div class="page-header">
-                <h3>Session Dates and Times <small>(Culver City)</small></h3>
-            </div>
+          <div class="row" ng-show="swjj.config.lessonInfoActive">
+              
+              <div class="col s4">  <!-- Month -->
+                <div class="card-panel black-text">
+                  <table class="bordered">
+                      <thead>
+                          <tr>
+                            <th colspan="7" >
+                              <strong>June 2016</strong>
+                            </th>
+                          </tr>
+                          <tr>
+                              <th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                        <!--Insert calendar weeks here.-->
+                        <tr><td></td><td></td><td></td><td>1</td><td>2</td><td>3</td><td>4</td></tr>
+                        <tr><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td></tr>
+                        <tr><td>12</td><td class="session1">13</td><td class="session1">14</td><td class="session1">15</td><td class="session1">16</td><td>17</td><td>18</td></tr>
+                        <tr><td>19</td><td class="session1">20</td><td class="session1">21</td><td class="session1">22</td><td class="session1">23</td><td>24</td><td>25</td></tr>
+                        <tr><td>26</td><td>27</td><td>28</td><td>29</td><td>30</td><td></td><td></td></tr>
+                      </tbody>
+                  </table>
+                </div>
+              </div> <!-- Month End -->
 
-            <div class="coming-soon" ng-hide="lessonInfoActive">
-                <h1 class="muted">Session dates and times will be posted when sign-ups begin. You can be notified when sign-ups start by providing your email address.</h1>
-                <div class="pagenav"><a href="#sign-up" class="btn btn-success btn-large">Go to Notification Form »</a></div>
-            </div>
+              <div class="col s4">  <!-- Month -->
+                <div class="card-panel black-text">
+                  <table class="bordered">
+                      <thead>
+                          <tr>
+                            <th colspan="7" >
+                              <strong>July 2016</strong>
+                            </th>
+                          </tr>
+                          <tr>
+                              <th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                        <!--Insert calendar weeks here.-->
+                        <tr><td></td><td></td><td></td><td></td><td></td><td>1</td><td>2</td></tr>
+                        <tr><td>3</td><td>4</td><td class="session2">5</td><td class="session2">6</td><td class="session2">7</td><td class="session2">8</td><td>9</td></tr>
+                        <tr><td>10</td><td class="session2">11</td><td class="session2">12</td><td class="session2">13</td><td class="session2">14</td><td>15</td><td>16</td></tr>
+                        <tr><td>17</td><td>18</td><td>19</td><td>20</td><td>21</td><td>22</td><td>23</td></tr>
+                        <tr><td>24</td><td class="session3">25</td><td class="session3">26</td><td class="session3">27</td><td class="session3">28</td><td>29</td><td>30</td></tr>
+                        <tr><td>31</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                      </tbody>
+                  </table>
+                </div>
+              </div> <!-- Month End -->
 
-            <div class="row-fluid" ng-show="lessonInfoActive">
-                
-                <div class="span6">  <!-- Month -->
-                    <table class="table-condensed table-bordered">
-                        <thead>
-                            <tr>
-                              <th colspan="7" >
-                                <strong>June 2016</strong>
-                              </th>
-                            </tr>
-                            <tr>
-                                <th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                          <!--Insert calendar weeks here.-->
-                          <tr><td></td><td></td><td></td><td>1</td><td>2</td><td>3</td><td>4</td></tr>
-                          <tr><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td></tr>
-                          <tr><td>12</td><td class="session1">13</td><td class="session1">14</td><td class="session1">15</td><td class="session1">16</td><td>17</td><td>18</td></tr>
-                          <tr><td>19</td><td class="session1">20</td><td class="session1">21</td><td class="session1">22</td><td class="session1">23</td><td>24</td><td>25</td></tr>
-                          <tr><td>26</td><td>27</td><td>28</td><td>29</td><td>30</td><td></td><td></td></tr>
-                        </tbody>
-                    </table>
-                </div> <!-- Month End -->
+              <div class="col s4">  <!-- Month -->
+                <div class="card-panel black-text">
+                  <table class="bordered">
+                      <thead>
+                          <tr>
+                            <th colspan="7" >
+                              <strong>August 2016</strong>
+                            </th>
+                          </tr>
+                          <tr>
+                              <th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                        <!--Insert calendar weeks here.-->
+                        <tr><td></td><td class="session3">1</td><td class="session3">2</td><td class="session3">3</td><td class="session3">4</td><td>5</td><td>6</td></tr>
+                        <tr><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td></tr>
+                        <tr><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td></tr>
+                        <tr><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td><td>27</td></tr>
+                        <tr><td>28</td><td>29</td><td>30</td><td>31</td><td></td><td></td><td></td></tr>
+                      </tbody>
+                  </table>
+                </div>
+              </div> <!-- Month End -->
 
-                <div class="span6">  <!-- Month -->
-                    <table class="table-condensed table-bordered">
-                        <thead>
-                            <tr>
-                              <th colspan="7" >
-                                <strong>July 2016</strong>
-                              </th>
-                            </tr>
-                            <tr>
-                                <th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                          <!--Insert calendar weeks here.-->
-                          <tr><td></td><td></td><td></td><td></td><td></td><td>1</td><td>2</td></tr>
-                          <tr><td>3</td><td>4</td><td class="session2">5</td><td class="session2">6</td><td class="session2">7</td><td class="session2">8</td><td>9</td></tr>
-                          <tr><td>10</td><td class="session2">11</td><td class="session2">12</td><td class="session2">13</td><td class="session2">14</td><td>15</td><td>16</td></tr>
-                          <tr><td>17</td><td>18</td><td>19</td><td>20</td><td>21</td><td>22</td><td>23</td></tr>
-                          <tr><td>24</td><td class="session3">25</td><td class="session3">26</td><td class="session3">27</td><td class="session3">28</td><td>29</td><td>30</td></tr>
-                          <tr><td>31</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                        </tbody>
-                    </table>
-                </div> <!-- Month End -->
+          </div> <!-- row end -->
 
-            </div> <!-- row end -->
-            <br>
+          <h4 ng-show="swjj.config.lessonInfoActive">Sessions</h4>
+          <table class="table table-bordered" ng-show="swjj.config.lessonInfoActive">
+            <thead>
+              <tr><th></th><th>Dates</th><th>Days</th><th>Price*</th></tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="s in swjj.sessionInfo.desc.culverCity">
+                    <td ng-class="'session' + s.num">{{s.num}}</td>
+                    <td>
+                        {{s.dates}}<br>
+                        {{s.times}}
+                    </td>
+                    <td ng-bind-html="s.days"></td>
+                    <td>${{s.price}}</td>
+                </tr>
+            </tbody>
+          </table>
 
-            <div class="row-fluid" ng-show="lessonInfoActive">
-                <div class="span6">  <!-- Month -->
-                    <table class="table-condensed table-bordered">
-                        <thead>
-                            <tr>
-                              <th colspan="7" >
-                                <strong>August 2016</strong>
-                              </th>
-                            </tr>
-                            <tr>
-                                <th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                          <!--Insert calendar weeks here.-->
-                          <tr><td></td><td class="session3">1</td><td class="session3">2</td><td class="session3">3</td><td class="session3">4</td><td>5</td><td>6</td></tr>
-                          <tr><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td></tr>
-                          <tr><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td></tr>
-                          <tr><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td><td>27</td></tr>
-                          <tr><td>28</td><td>29</td><td>30</td><td>31</td><td></td><td></td><td></td></tr>
-                        </tbody>
-                    </table>
-                </div> <!-- Month End -->
+          <ul class="unstyled" ng-show="swjj.config.lessonInfoActive">
+            <!--
+              <li>*Payment in full is due <strong class="red-text text-lighten-2">within 5 days</strong> of receiving your confirmation e-mail.</li>
+            -->
+              <li>*Payment is <strong class="red-text text-lighten-2">non-refundable</strong> (unless a lesson is canceled by JJ) and <strong class="red-text text-lighten-2">non-transferable.</strong></li>
+          </ul>
 
-            </div> <!-- row end -->
+        </div> <!--section-->
 
-            <h4>Sessions</h4>
-            <table class="table table-bordered" ng-show="lessonInfoActive">
-              <thead>
-                <tr><th></th><th>Dates</th><th>Days</th><th>Price*</th></tr>
-              </thead>
-              <tbody>
-                  <tr ng-repeat="s in sessionDescriptions.culverCity">
-                      <td ng-class="'session' + s.num">{{s.num}}</td>
-                      <td>
-                          {{s.dates}}<br>
-                          {{s.times}}
-                      </td>
-                      <td ng-bind-html="s.days"></td>
-                      <td>${{s.price}}</td>
-                  </tr>
-              </tbody>
-            </table>
+        <div class="divider"></div>
 
-            <ul class="unstyled" ng-show="lessonInfoActive">
-              <!--
-                <li>*Payment in full is due <strong class="blue">within 5 days</strong> of receiving your confirmation e-mail.</li>
-              -->
-                <li>*Payment is <strong class="blue">non-refundable</strong> (unless a lesson is canceled by JJ) and <strong class="blue">non-transferable.</strong></li>
-            </ul>
-
-            <div id="location" class="page-header">
-                <h3>Location <small>(Culver City)</small></h3>
-            </div>
-            <p class="lead">Culver City lessons are taught here:</p>
-            <a href="https://maps.google.com/maps?q=4261+Lincoln+Ave.+Culver+City,+CA+90232&hl=en&sll=34.020479,-118.411732&sspn=1.183749,0.928345&hnear=4261+Lincoln+Ave,+Culver+City,+Los+Angeles,+California+90232&t=m&z=17" target="_blank">
-                <address class="lead">
-                    4261 Lincoln Ave.<br>
-                    Culver City, CA 90232
-                </address>
-                <img class="img-polaroid shadow" src="./img/culver-city-map.png">
-                <div class="pad50"></div>
-            </a>
-        </div>
-    <!-- tab content
-      </div>
-    </div>
-    -->
-
-    <div class="pagenav nav-down"><a href="#faq"><i class="icon-arrow-down"></i> Read the FAQs</a></div>
-</div> 
+        <div class="section">
+          <h3>Location</h3>
+          <p class="flow-text">Lessons are held at the following address:</p>
+          <a href="https://maps.google.com/maps?q=4261+Lincoln+Ave.+Culver+City,+CA+90232&hl=en&sll=34.020479,-118.411732&sspn=1.183749,0.928345&hnear=4261+Lincoln+Ave,+Culver+City,+Los+Angeles,+California+90232&t=m&z=17" target="_blank">
+              <p class="flow-text">
+                  4261 Lincoln Ave.<br>
+                  Culver City, CA 90232
+              </p>
+              <img class="img-polaroid shadow" src="./img/culver-city-map.png">
+          </a>
+        </div> <!--section-->
+      </div> <!--card-->
+    </div> <!--col-->
+  </div> <!--row-->
+</div> <!--section-->
