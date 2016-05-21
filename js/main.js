@@ -1,22 +1,17 @@
 "use strict";
 
 var stripePublishableKey = 'pk_live_3d6XsGmNpMEpRKWCDTDaxaAt';
+//var stripePublishableKey = 'pk_test_gvLZ2MpYpGpdOrhIyVewmhGT';
 
 angular.module('swjjApp', ['ngSanitize'])
-    .controller('mainController', ['$scope', '$http',
-function ($scope, $http) {
-    var now = moment();
-    var then = moment([2014, 4, 30]); // March 29th, 2013
-    var ms = then.diff(now, 'milliseconds', true);
-    //$scope.daysTillSignup = Math.floor(moment.duration(ms).asDays());
-    
-    if ($scope.daysTillSignup && $scope.daysTillSignup >= 1) {
-        $scope.signupsActive = false;
-    } else {
-        $scope.signupsActive = true;
-    }
+    .controller('mainController', ['$scope', '$http', '$location', 
+function ($scope, $http, $location) {
 
-    $scope.signupsActive = false;
+    var debug = $location.search().debug;
+    var priority = $location.search().prioritykey === '5J6wJarwzC9t';
+    $scope.signupsActive = false || priority || debug;
+
+    $scope.selectedLocation = 'culverCity';
 
     $scope.lessonInfoActive = true;
     $scope.maxChildren = 4;
@@ -69,62 +64,47 @@ function ($scope, $http) {
         culverCity: [
             {
                 num: 1,
-                dates: 'May 23rd to June 8th',
-                days: 'Fri, Sat, Sun',
-                times: 'between 3:30pm and 5:30pm',
-                price: 199
+                dates: 'June 13th to June 23rd',
+                days: 'Monday to Thursday',
+                times: '30 minute lessons between 2:30pm and 4:00pm',
+                price: 185
             },
             {
                 num: 2,
-                dates: 'June 17th to July 3rd',
-                days: 'Tue, Wed, Thu',
-                times: 'between 3:30pm and 5:30pm',
-                price: 199
+                dates: 'July 5th to July 14th',
+                days: 'Tuesday to Friday first week; Monday to Thursday second week',
+                times: '30 minute lessons between 2:30pm and 4:00pm',
+                price: 185
             },
             {
                 num: 3,
-                dates: 'July 8th to July 24th',
-                days: 'Tue, Wed, Thu',
-                times: 'between 3:30pm and 5:30pm',
-                price: 199
-            },
-            {
-                num: 4,
-                dates: 'July 29th to August 14th',
-                days: 'Tue, Wed, Thu',
-                times: 'between 3:30pm and 5:30pm',
-                price: 199
+                dates: 'July 25th to August 4th',
+                days: 'Monday to Thursday',
+                times: '30 minute lessons between 2:30pm and 4:00pm',
+                price: 185
             }
-            //},
-            //{
-                //num: 5,
-                //dates: 'September 5th to September 21st',
-                //days: 'Fri, Sat, Sun',
-                //times: 'between 3:30pm and 5:30pm',
-                //price: 199
-            //},
         ],
         laCrescenta: [
+            /*
             {   
                 num: 1,
                 dates: 'June 2th to June 5th',
                 days: 'Mon, Tue, Wed, Thu',
                 times: 'between 3:30pm and 6:30pm',
-                price: 199
+                price: 124
             }
+            */
         ]
     };
 
     $scope.availableSessions = {
         laCrescenta: [
-            {name: 'Session 1 - June 2th to June 5th', price: 199}
+            //{name: 'Session 1 - June 2th to June 5th', price: 124}
         ],
         culverCity: [
-            {name: 'Session 1 - May 23rd to June 8th', price: 199},
-            {name: 'Session 2 - June 17th to July 3rd', price: 199},
-            {name: 'Session 3 - July 8th to July 24th', price: 199},
-            {name: 'Session 4 - July 29th to August 14th', price: 199},
-            {name: 'Session 5 - September 5th to September 21st', price: 199}
+            {name: 'Session 1 - June 13th to June 23rd', price: 185},
+            {name: 'Session 2 - July 5th to July 14th', price: 185},
+            {name: 'Session 3 - July 25th to August 4th', price: 185}
         ]
     };
 
@@ -149,41 +129,26 @@ function ($scope, $http) {
         return count;
     };
 
-    $scope.cashTotal = function() {
+    $scope.paymentTotal = function() {
         var sum = 0;
         _.each($scope.sessions.slice(0, $scope.childCount), function(sessions) {
             sum += _.reduce(_.pluck(sessions, 'price'), function(m, n) {return m + n;}, 0);
         });
-        return sum
+        return Math.floor(sum * 100);
     };
 
-    $scope.creditTotal = function() {
-        return ($scope.cashTotal() * $scope.creditRate) + $scope.chargeFee
-    };
-
-    $scope.paymentTotal = function() {
-        if ($scope.customerId) {
-            return Math.floor($scope.creditTotal() * 100);
-        } else {
-            return Math.floor($scope.cashTotal() * 100);
-        }
-    };
-
-    $scope.price = 189;
-    $scope.creditRate = 1.029;
-    $scope.chargeFee = 0.3;
     $scope.customerId = null;
-    $scope.cardButtonMessage = 'Pay with Card';
+    $scope.cardButtonMessage = 'Enter Payment Information';
 
     $scope.payWithCard = function() {
         $scope.paymentError = null;
         StripeCheckout.open({
             key:         stripePublishableKey,
             address:     true,
-            amount:      Math.floor($scope.creditTotal() * 100),
+            amount:      $scope.paymentTotal(),
             name:        'SwimWithJJ',
             description: $scope.sessionTotal() + ' sessions of swim lessons',
-            panelLabel:  'Checkout',
+            panelLabel:  'Save Payment Information',
             token:       function(res) {
                             $scope.$apply(function () {
                                 $scope.cardButtonMessage = 'saving payment information';
@@ -194,15 +159,15 @@ function ($scope, $http) {
                                 $http.get('form-handler.cgi', {params: params}).
                                     success(function(data, status, headers, config) {
                                         if (data.response && data.response.customer_id) {
-                                            $scope.cardButtonMessage = 'payment complete';
+                                            $scope.cardButtonMessage = 'Payment Information Saved';
                                             $scope.customerId = data.response.customer_id;
                                         } else if (data.response && data.response.error) {
-                                            $scope.cardButtonMessage = 'Pay with Card';
+                                            $scope.cardButtonMessage = 'Enter Payment Information';
                                             $scope.paymentError = data.response.error;
                                         }
                                     }).
                                     error(function(data, status, headers, config) {
-                                        $scope.cardButtonMessage = 'Pay with Card';
+                                        $scope.cardButtonMessage = 'Enter Payment Information';
                                 });
                             });
                          }
@@ -270,7 +235,7 @@ function submitForm(params, form, submitButton) {
             } else if (json.params.id == 'signup') {
                 console.log(json);
                 if (json.response) {
-                    showSuccessMessage('Thank You', '<div class="pad10"><strong>Your signup form has been submitted successfully.</strong></div> <div class="pad10">JJ will contact you with your lesson times within the next <strong class="blue">3 weeks</strong>.</div> <div class="pad10">If you have paid by credit card, you will be charged <strong class="blue">after you receive your lesson times</strong>. Otherwise your payment will be <strong class="blue">due within 5 days</strong> of receiving your lesson times notification.</div>');
+                    showSuccessMessage('Thank You', '<div class="pad10"><strong>Your signup form has been submitted successfully.</strong></div> <div class="pad10">JJ will contact you with your lesson times within the next <strong class="blue">3 weeks</strong>.</div> <div class="pad10">Your credit card will be charged <strong class="blue">after you receive your lesson times</strong>.</div>');
                     $('div#signup-complete-alert').show();
                 } else {
                     showErrorMessage();
@@ -293,7 +258,7 @@ function resetSignupForm(form) {
     var scope = angular.element(form).scope();
     scope.$apply(function() {
         scope.customerId = null;
-        scope.cardButtonMessage = 'Pay with Card';
+        scope.cardButtonMessage = 'Enter Payment Information';
         scope.changeChildCount(1);
         scope.clearSessions();
         scope.paymentTotal();

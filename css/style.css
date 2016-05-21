@@ -58,16 +58,19 @@
 }
 
 .session1 {
-    background-color: #468847;
+    background-color: #b94a48;
 }
 .session2 {
-    background-color: #b94a48;
+    background-color: #f94ff8;
 }
 .session3 {
     background-color: #3a87ad;
 }
 .session4 {
     background-color: #f89406;
+}
+.session5 {
+    background-color: #468847;
 }
 
 .navbar-fixed-top {

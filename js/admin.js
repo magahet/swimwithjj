@@ -3,8 +3,7 @@ var adminApp = angular.module('adminApp', []).
 
     $routeProvider.otherwise( {
         controller: 'adminController',
-    });
-
+    }); 
 });
 
 function adminController($scope, $http, $timeout, $filter) {
@@ -30,19 +29,11 @@ function adminController($scope, $http, $timeout, $filter) {
 
     $scope.availableSessions = {
         laCrescenta: [
-            {name: 'Session 1 - June 5th to June 20th - Morning', price: 189},
-            {name: 'Session 1 - June 5th to June 20th - Afternoon', price: 189},
-            {name: 'Session 2 - June 25th to July 11th - Morning', price: 189},
-            {name: 'Session 2 - June 25th to July 11th - Afternoon', price: 189},
-            {name: 'Session 3 - July 20th to August 4th - Afternoon', price: 126}
         ],
         culverCity: [
-            {name: 'Session 1 - May 17th to June 2nd - Afternoon', price: 189},
-            {name: 'Session 2 - June 14th to June 30th - Afternoon', price: 189},
-            {name: 'Session 3 - July 16th to August 1th - Morning', price: 189},
-            {name: 'Session 3 - July 16th to August 1th - Afternoon', price: 189},
-            {name: 'Session 4 - August 6th to August 22nd - Morning', price: 189},
-            {name: 'Session 4 - August 6th to August 22nd - Afternoon', price: 189}
+            {name: 'Session 1 - June 13th to June 23rd', price: 185},
+            {name: 'Session 2 - July 5th to July 14th', price: 185},
+            {name: 'Session 3 - July 25th to August 4th', price: 185}
         ]
     };
 
@@ -61,7 +52,6 @@ function adminController($scope, $http, $timeout, $filter) {
     });
 
     $scope.getAge = function (birthday) {
-        console.log(birthday);
         var now = moment();
         //var then = moment(birthday, 'YYYY-MM-DD');
         var then = moment(Date.parse(birthday));
@@ -149,6 +139,7 @@ function adminController($scope, $http, $timeout, $filter) {
     };
 
     $scope.addSession = function(signupId, childIndex, session) {
+        console.log(session);
         var signup = _.findWhere($scope.signups, {'_id': signupId});
         var params = { 
             action: 'add_session',
