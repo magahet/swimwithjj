@@ -127,7 +127,7 @@ class EmailService(object):
         if record.get('customer_id', ''):
             record['payment_message'] = text_strip_margin('''
                 |Your credit card will only be charged after you have received your lesson times.
-                |The total amount that will be charded is: {0}
+                |The total amount that will be charged is: {0}
             ''').format(cost_str)
         else:
             record['payment_message'] = text_strip_margin('''
