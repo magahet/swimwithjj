@@ -64,21 +64,21 @@ function ($scope, $http, $location) {
         culverCity: [
             {
                 num: 1,
-                dates: 'June 13th to June 23rd',
+                dates: 'June 13th to June 23rd - CLOSED',
                 days: 'Monday to Thursday',
                 times: '30 minute lessons between 2:30pm and 4:00pm',
                 price: 185
             },
             {
                 num: 2,
-                dates: 'July 5th to July 14th',
+                dates: 'July 5th to July 14th - CLOSED',
                 days: 'Tuesday to Friday first week; Monday to Thursday second week',
                 times: '30 minute lessons between 2:30pm and 4:00pm',
                 price: 185
             },
             {
                 num: 3,
-                dates: 'July 25th to August 4th',
+                dates: 'July 25th to August 4th - CLOSED',
                 days: 'Monday to Thursday',
                 times: '30 minute lessons between 2:30pm and 4:00pm',
                 price: 185
@@ -102,9 +102,8 @@ function ($scope, $http, $location) {
             //{name: 'Session 1 - June 2th to June 5th', price: 124}
         ],
         culverCity: [
-            {name: 'Session 1 - June 13th to June 23rd', price: 185},
-            {name: 'Session 2 - July 5th to July 14th', price: 185},
-            {name: 'Session 3 - July 25th to August 4th', price: 185}
+            //{name: 'Session 2 - July 5th to July 14th', price: 185},
+            //{name: 'Session 3 - July 25th to August 4th', price: 185}
         ]
     };
 
