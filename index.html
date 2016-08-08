@@ -435,12 +435,22 @@
     <section class="container">
         <div class="pagenav nav-up"><a href="#faq"><i class="icon-arrow-up"></i> Back to Testimonials</a></div>
 
+        <!--
         <div class="coming-soon" ng-hide="signupsActive">
             <h1 class="muted">Coming Soon...</h1>
-            <div ng-show="daysTillSignup">
-                <h1>{{daysTillSignup}} <small> days until signups begin!</small></h1>
-            </div>
             <p class="lead">To be contacted when sign-ups open, you can leave your email address and JJ will let you know as soon as the fun begins.</p>
+
+            <form class="form-inline" id="signup-notification-form">
+                <input type="email" name="email" placeholder="Enter your email here"/>
+                <input type="hidden" name="id" value="signup-notification"/>
+                <button type="submit" class="btn btn-primary" data-loading-text="saving address...">Notify Me</button>
+            </form>
+        </div>
+        -->
+
+        <div class="coming-soon" ng-hide="signupsActive">
+            <h1 class="muted">Sessions Full</h1>
+            <p class="lead">Sorry, all sessions are FULL. To be added to a waitlist please email JJ under "Contact JJ".  You can also enter your email address here to be notified if sessions are added.</p>
 
             <form class="form-inline" id="signup-notification-form">
                 <input type="email" name="email" placeholder="Enter your email here"/>
@@ -457,23 +467,6 @@
           
 
             <input type="hidden" name="location-select" value="{{selectedLocation}}">
-            <!--
-            <fieldset>
-                <legend>Location</legend>
-                <div class="control-group" ng-class="{info: !selectedLocation, success: selectedLocation}">
-                    <label class="control-label" for="location-select">Location</label>
-                    <div class="controls">
-                        <select name="location-select" placeholder="Select a location" ng-change="clearSessions()" ng-model="selectedLocation">
-                            <option value="">Please select</option>
-                            <option value="laCrescenta">La Crescenta</option>
-                            <option value="culverCity">Culver City</option>
-                        </select>
-                        <span class="help-inline" ng-hide="selectedLocation">required to list sessions</span>
-
-                    </div>
-                </div>
-            </fieldset>
-            -->
 
             <fieldset>
                 <legend>parent's information</legend>

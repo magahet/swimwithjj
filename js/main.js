@@ -8,7 +8,7 @@ angular.module('swjjApp', ['ngSanitize'])
 function ($scope, $http, $location) {
 
     var debug = $location.search().debug;
-    var priority = $location.search().prioritykey === '5J6wJarwzC9t';
+    var priority = $location.search().prioritykey === 'rt5J6wwzC9Ja';
     $scope.signupsActive = false || priority || debug;
 
     $scope.selectedLocation = 'culverCity';
@@ -64,21 +64,21 @@ function ($scope, $http, $location) {
         culverCity: [
             {
                 num: 1,
-                dates: 'June 13th to June 23rd',
+                dates: 'June 13th to June 23rd - CLOSED',
                 days: 'Monday to Thursday',
                 times: '30 minute lessons between 2:30pm and 4:00pm',
                 price: 185
             },
             {
                 num: 2,
-                dates: 'July 5th to July 14th',
+                dates: 'July 5th to July 14th - CLOSED',
                 days: 'Tuesday to Friday first week; Monday to Thursday second week',
                 times: '30 minute lessons between 2:30pm and 4:00pm',
                 price: 185
             },
             {
                 num: 3,
-                dates: 'July 25th to August 4th',
+                dates: 'July 25th to August 4th - CLOSED',
                 days: 'Monday to Thursday',
                 times: '30 minute lessons between 2:30pm and 4:00pm',
                 price: 185
