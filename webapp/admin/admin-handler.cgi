@@ -4,21 +4,18 @@ import cgi
 from pymongo import MongoClient
 from bson.json_util import dumps
 from bson.objectid import ObjectId
-import ConfigParser
+import yaml
 
 
 class FormProcessor(object):
     '''Provides methods for handling forms'''
 
-    def __init__(self, params, environment_file='../environment',
-                 settings_file='/etc/swimwithjj/settings.conf'):
+    def __init__(self, params, settings_file='/etc/swimwithjj/settings.conf'):
         self.params = params
-        self.config = ConfigParser.ConfigParser()
-        self.config.read(settings_file)
-        with open(environment_file) as file_:
-            self.environment = file_.read().strip()
+        with open(settings_file, 'r') as file_:
+            self.config = yaml.load(file_)
         client = MongoClient()
-        self.db = client[self.config.get(self.environment, 'db_name')]
+        self.db = client[self.config.get('db_name', 'swimwithjj')]
         self.signup = self.db.signup
 
     def process(self):

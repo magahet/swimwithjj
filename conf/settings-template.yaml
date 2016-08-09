@@ -1,0 +1,7 @@
+stripe_secret_key: <stripe secret key>
+stripe_publish_key: <stripe publishable key>
+db_name: <db name>
+email_sender_address:
+email_sender_password:
+mail_sender_name:
+admin_address: <email to send messages to>

@@ -21,63 +21,16 @@ Deployment
 ----------
 
 
-## settings.conf
+## settings.yaml
 
-settings.conf should have the following format:
-
-    [DEFAULT]
-    server: <server fqdn>
-    repo_url: <git repo url>
-    deployment_user: <username for deployment>
-    ops_user: <username for server logins>
-    admin_user: <username for admin interface>
-    backup_path: <path to local dir for db backups>
-    email_sender_name: <Name for email sender>
-    email_sender_address: <address for email sender>
-    email_sender_password: <password for email sender (gmail)>
-
-    # environment/branch name. Create more for feature testing
-    [master]
-    stripe_secret_key: <stripe secret key>
-    stripe_publish_key: <stripe publishable key>
-    db_name: <db name>
-    message_address: <email to send messages to>
-
-    # example feature branch settings
-    [test]
-    stripe_secret_key: <stripe secret key>
-    stripe_publish_key: <stripe publishable key>
-    db_name: <db name>
-    message_address: <email to send messages to>
-
-    # An environment string matching one of these section names
-    # should be stored in the file: environment
+There is a settings-template.yaml file in /conf. A copy should be made to /conf/settings.yaml and parameters entered as appropriate. Ansible will deploy /conf/settings.yaml to the webserver. This is needed for the webapp form handlers and the email service.
 
 
 ## Deployment Process
 
-A fabric deployment script is included with the following tasks:
+An ansible playbook is included for configuring the webserver and deploying the webapp and email service.
 
-    backup_db    Save a copy of swimwithjj db to BACKUP_PATH
-    deploy       Setup server, install requirements, and deploy site code
-    show_emails  Show list of emails from signup notification form
-    update       Get latest version of site code from repo
-
-The file, 'environment', will determine which branch of code will be deployed and which site settings to use. To deploy code from the master branch, save the string 'master' to the environment file. Then run the deployment script with:
-
-    fab deploy
-
-This will perform the following:
-
- - install required packages
- - setup user accounts
- - configure apache
- - install site services and python modules
- - clone and pull site code
-
-The following command will perform only the final step of pulling the latest commit from the repo:
-
-    fab update
+An ansible inventory file needs to be created with with the fqdn of the webserver. This should be created as /env.yaml. Once in place, you can simply call make to run the deployment command.
 
 
 ## LICENSE
