@@ -30,8 +30,17 @@ There is a settings-template.yaml file in /conf. A copy should be made to /conf/
 
 An ansible playbook is included for configuring the webserver and deploying the webapp and email service.
 
-An ansible inventory file needs to be created with with the fqdn of the webserver. This should be created as /env.yaml. Once in place, you can simply call make to run the deployment command.
+An ansible inventory file needs to be created with with the fqdn of the webserver. This should be created as /dev.yml or prod.yml. Once in place, you can simply call make to run the deployment command.
 
+### example dev.yml or prod.yml
+
+    [all]
+    host.domain.com
+
+    [all:vars]
+    ansible_ssh_user=user
+    stripe_publish_key=blahblahblah
+    settings_file=settings.yaml
 
 ## LICENSE
 
