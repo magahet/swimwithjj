@@ -41,6 +41,7 @@
         - deflate
         - headers
         - expires
+        - filter
       notify:
         - restart apache2
 
@@ -56,7 +57,13 @@
 
     # Copy apache and vhost configs
     - name: copy apache2 default conf
-      copy: src=conf/apache.conf dest=/etc/apache2/httpd.conf
+      copy: src=conf/apache.conf dest=/etc/apache2/conf-available/httpd.conf
+      notify:
+        - restart apache2
+    - name: enable apache2 default conf
+      command: a2enconf httpd
+      args:
+        creates: /etc/apache2/conf-enabled/httpd.conf
       notify:
         - restart apache2
     - name: copy webapp vhost conf
