@@ -1,4 +1,5 @@
 #!/usr/bin/python2.7
+'''Admin form handler.'''
 
 import cgi
 from pymongo import MongoClient
@@ -10,7 +11,7 @@ import yaml
 class FormProcessor(object):
     '''Provides methods for handling forms'''
 
-    def __init__(self, params, settings_file='/etc/swimwithjj/settings.conf'):
+    def __init__(self, params, settings_file='/etc/swimwithjj/settings.yaml'):
         self.params = params
         with open(settings_file, 'r') as file_:
             self.config = yaml.load(file_)

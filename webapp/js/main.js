@@ -1,7 +1,7 @@
 "use strict";
 
-//var stripePublishableKey = 'pk_live_3d6XsGmNpMEpRKWCDTDaxaAt';
-var stripePublishableKey = 'pk_test_gvLZ2MpYpGpdOrhIyVewmhGT';
+var stripePublishableKey = 'pk_live_3d6XsGmNpMEpRKWCDTDaxaAt';
+//var stripePublishableKey = 'pk_test_gvLZ2MpYpGpdOrhIyVewmhGT';
 
 angular.module('swjjApp', ['ngSanitize'])
     .controller('mainController', ['$scope', '$http', '$location', 
