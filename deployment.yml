@@ -36,6 +36,7 @@
     - name: enable apache mods
       apache2_module: state=present name={{ item }}
       with_items:
+        - cgi
         - deflate
         - headers
         - expires
@@ -46,7 +47,7 @@
     - name: copy webapp
       copy: src=webapp/ dest=/var/www/www.swimwithjj.com owner=www-data group=www-data
     - name: set cgi permissions
-      file: path={{ item }} mode='u+x'
+      file: path={{ item }} mode='a+x'
       with_items:
         - /var/www/www.swimwithjj.com/form-handler.cgi
         - /var/www/www.swimwithjj.com/admin/admin-handler.cgi
