@@ -36,7 +36,7 @@
     - name: enable apache mods
       apache2_module: state=present name={{ item }}
       with_items:
-        - cgi
+        - cgid
         - deflate
         - headers
         - expires
@@ -45,7 +45,7 @@
 
     # Copy webapp
     - name: copy webapp
-      copy: src=webapp/ dest=/var/www/www.swimwithjj.com owner=www-data group=www-data
+      synchronize: src=webapp/ dest=/var/www/www.swimwithjj.com
     - name: set cgi permissions
       file: path={{ item }} mode='a+x'
       with_items:

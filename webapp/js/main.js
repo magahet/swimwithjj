@@ -6,6 +6,23 @@ var stripePublishableKey = 'pk_test_gvLZ2MpYpGpdOrhIyVewmhGT';
 angular.module('swjjApp', ['ngSanitize'])
     .controller('mainController', ['$scope', '$http', '$location', 
 function ($scope, $http, $location) {
+    $scope.sessionDescriptions = {
+        culverCity: [],
+        laCrescenta: []
+    };
+    $scope.availableSessions = {
+        laCrescenta: [],
+        culverCity: []
+    };
+
+    $scope.init = init;
+    function init() {
+        $http.get('sessions.json').
+            success(function(data, status, headers, config) {
+                $scope.sessionDescriptions = data.sessionDescriptions;
+                $scope.availableSessions = data.availableSessions;
+        });
+    }
 
     var debug = $location.search().debug;
     var priority = $location.search().prioritykey === 'rt5J6wwzC9Ja';
@@ -60,52 +77,6 @@ function ($scope, $http, $location) {
         $scope.childCount = num;
     };
 
-    $scope.sessionDescriptions = {
-        culverCity: [
-            {
-                num: 1,
-                dates: 'June 13th to June 23rd - CLOSED',
-                days: 'Monday to Thursday',
-                times: '30 minute lessons between 2:30pm and 4:00pm',
-                price: 185
-            },
-            {
-                num: 2,
-                dates: 'July 5th to July 14th - CLOSED',
-                days: 'Tuesday to Friday first week; Monday to Thursday second week',
-                times: '30 minute lessons between 2:30pm and 4:00pm',
-                price: 185
-            },
-            {
-                num: 3,
-                dates: 'July 25th to August 4th - CLOSED',
-                days: 'Monday to Thursday',
-                times: '30 minute lessons between 2:30pm and 4:00pm',
-                price: 185
-            }
-        ],
-        laCrescenta: [
-            /*
-            {   
-                num: 1,
-                dates: 'June 2th to June 5th',
-                days: 'Mon, Tue, Wed, Thu',
-                times: 'between 3:30pm and 6:30pm',
-                price: 124
-            }
-            */
-        ]
-    };
-
-    $scope.availableSessions = {
-        laCrescenta: [
-            //{name: 'Session 1 - June 2th to June 5th', price: 124}
-        ],
-        culverCity: [
-            //{name: 'Session 2 - July 5th to July 14th', price: 185},
-            //{name: 'Session 3 - July 25th to August 4th', price: 185}
-        ]
-    };
 
     $scope.childsAvailableSessions = function(childIndex) {
         return _.difference($scope.availableSessions[$scope.selectedLocation], $scope.sessions[childIndex]);
