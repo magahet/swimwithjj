@@ -22,6 +22,7 @@
         - mongodb
         - python-pip
         - python-yaml
+        - python-passlib
       notify:
         - restart apache2
         - restart mongodb
@@ -47,13 +48,20 @@
 
     # Copy webapp
     - name: copy webapp
-      synchronize: src=webapp/ dest=/var/www/www.swimwithjj.com
+      synchronize:
+        src: webapp/
+        dest: /var/www/www.swimwithjj.com
+        delete: yes
+        rsync_opts:
+          - "--exclude=stripe.json"
     - name: set cgi permissions
       file: path={{ item }} mode='a+x'
       with_items:
         - /var/www/www.swimwithjj.com/form-handler.cgi
         - /var/www/www.swimwithjj.com/session-cal.cgi
         - /var/www/www.swimwithjj.com/admin/admin-handler.cgi
+    - name: copy stripe.json
+      template: src=webapp/stripe.json dest=//var/www/www.swimwithjj.com/stripe.json
 
     # Copy apache and vhost configs
     - name: copy apache2 default conf
@@ -78,6 +86,10 @@
         creates: /etc/apache2/sites-enabled/www.swimwithjj.com.conf
       notify:
         - restart apache2
+
+    # Add admin http password
+    - name: add admin http password
+      htpasswd: path=/etc/apache2/htpasswd name=admin password={{ admin_password }} owner=root group=www-data mode=0640
 
     # Install Email Service
     - name: copy python code

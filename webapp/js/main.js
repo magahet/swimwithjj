@@ -1,7 +1,6 @@
 "use strict";
 
-var stripePublishableKey = 'pk_live_3d6XsGmNpMEpRKWCDTDaxaAt';
-//var stripePublishableKey = 'pk_test_gvLZ2MpYpGpdOrhIyVewmhGT';
+//var stripePublishableKey = 'pk_live_3d6XsGmNpMEpRKWCDTDaxaAt';
 
 angular.module('swjjApp', ['ngSanitize'])
     .controller('mainController', ['$scope', '$http', '$location', 
@@ -15,12 +14,17 @@ function ($scope, $http, $location) {
         culverCity: []
     };
 
+    $scope.stripePublishableKey = null;
     $scope.init = init;
     function init() {
         $http.get('sessions.json').
             success(function(data, status, headers, config) {
                 $scope.sessionDescriptions = data.sessionDescriptions;
                 $scope.availableSessions = data.availableSessions;
+        });
+        $http.get('stripe.json').
+            success(function(data, status, headers, config) {
+                $scope.stripePublishableKey = data.stripePublishableKey;
         });
     }
 
@@ -113,8 +117,8 @@ function ($scope, $http, $location) {
     $scope.payWithCard = function() {
         $scope.paymentError = null;
         StripeCheckout.open({
-            key:         stripePublishableKey,
-            address:     true,
+            key:         $scope.stripePublishableKey,
+            billingAddress:     true,
             amount:      $scope.paymentTotal(),
             name:        'SwimWithJJ',
             description: $scope.sessionTotal() + ' sessions of swim lessons',
