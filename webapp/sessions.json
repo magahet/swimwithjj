@@ -1,43 +1,36 @@
 {
-    "availableSessions": {
-        "laCrescenta": [
-        ],
-        "culverCity": [
-            {"name": "Session 4 - August 22nd to September 1st", "price": 185}
-        ]
-    },
-    "sessionDescriptions": {
-        "culverCity": [
+    "sessionList": [
             {
                 "num": 1,
-                "dates": "June 13th to June 23rd - CLOSED",
+                "open": true,
+                "dates": "June 13th to June 23rd",
                 "days": "Monday to Thursday",
                 "times": "30 minute lessons between 2:30pm and 4:00pm",
                 "price": 185
             },
             {
                 "num": 2,
-                "dates": "July 5th to July 14th - CLOSED",
+                "open": true,
+                "dates": "July 5th to July 14th",
                 "days": "Tuesday to Friday first week; Monday to Thursday second week",
                 "times": "30 minute lessons between 2:30pm and 4:00pm",
                 "price": 185
             },
             {
                 "num": 3,
-                "dates": "July 25th to August 4th - CLOSED",
+                "open": false,
+                "dates": "July 25th to August 4th",
                 "days": "Monday to Thursday",
                 "times": "30 minute lessons between 2:30pm and 4:00pm",
                 "price": 185
             },
             {
                 "num": 4,
+                "open": false,
                 "dates": "August 22nd to September 1st",
                 "days": "Monday to Thursday",
                 "times": "30 minute lessons between 3:30pm and 5:00pm",
                 "price": 185
             }
-        ],
-        "laCrescenta": [
-        ]
-    }
+    ]
 }

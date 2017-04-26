@@ -23,7 +23,7 @@
     <script src="../js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
   </head>
 
-  <body ng-cloak>
+  <body ng-cloak ng-init="init()">
     <!--[if lt IE 7]>
         <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
     <![endif]-->
@@ -39,13 +39,9 @@
                 <caption># of Signups</caption>
                 <thead>
                     <tr>
-                        <th>Found</th>
+                        <th>Total</th>
                         <th>Unpaid</th>
                         <th>Paid</th>
-                        <th>Card</th>
-                        <th>Cash</th>
-                        <th>Culver City</th>
-                        <th>La Crescenta</th>
                     </tr>
                 <thead>
                 <tbody>
@@ -53,10 +49,6 @@
                         <td>{{getSignupsCount()}}</td>
                         <td>{{getSignupsCount('unpaid')}}</td>
                         <td>{{getSignupsCount('paid')}}</td>
-                        <td>{{getSignupsCount('card')}}</td>
-                        <td>{{getSignupsCount('cash')}}</td>
-                        <td>{{getSignupsCount('culverCity')}}</td>
-                        <td>{{getSignupsCount('laCrescenta')}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -68,25 +60,6 @@
                         <input type="text" ng-model="searchText"></p>
                     </div>
                 </div>
-
-                <div class="control-group">
-                    <label class="control-label" for="sort">Sort By</label>
-                    <div class="controls">
-                        <div class="btn-group">
-                            <button class="btn"
-                                ng-class="{active: predicate == 'timestamp.$date' || predicate == '-timestamp.$date'}"
-                                ng-click="predicate = '-timestamp.$date'; reverse=!reverse">Signup Date <i ng-show="predicate == 'timestamp.$date' || predicate == '-timestamp.$date'" ng-class="{'icon-chevron-down': !reverse, 'icon-chevron-up': reverse}"></i></button>
-                            <button class="btn"
-                                ng-class="{active: predicate == 'location' || predicate == '-location'}"
-                                ng-click="predicate = 'location'; reverse=!reverse">Location <i ng-show="predicate == 'location' || predicate == '-location'" ng-class="{'icon-chevron-down': !reverse, 'icon-chevron-up': reverse}"></i></button>
-                            <button class="btn"
-                                ng-class="{active: predicate == 'payment_received'}"
-                                ng-class="{active: predicate == 'payment_received' || predicate == '-payment_received'}"
-                                ng-click="predicate = 'payment_received'; reverse=!reverse">Payment <i ng-show="predicate == 'payment_received' || predicate == '-payment_received'" ng-class="{'icon-chevron-down': !reverse, 'icon-chevron-up': reverse}"></i></button>
-                        </div>
-                    </div>
-                </div>
-
             </form>
         </div>
         
@@ -99,7 +72,6 @@
                         <dl class="dl-horizontal">
                             <dt ng-show="s._id.$oid">Record ID</dt><dd>{{s._id.$oid}}</dd>
                             <dt ng-show="s.timestamp.$date">Signup Date</dt><dd>{{s.timestamp.$date | date:'medium'}}</dd>
-                            <dt ng-show="s.location">Location</dt><dd>{{s.location}}</dd>
                             <dt ng-show="s.name">Parent</dt><dd>{{s.name}}</dd>
                             <dt ng-show="s.email">Email</dt>
                             <dd><a target="_blank" href="mailto:{{s.email}}">{{s.email}}</a></dd>
@@ -201,7 +173,7 @@
                                 <select ng-model="newSession"
                                         ng-options="availableSession for
                                                     availableSession in
-                                                    getSessions(s.location, c.sessions)">
+                                                    getSessions(c.sessions)">
                                     <option value="">-- chose session --</option>
                                 </select>
                                 <button type="submit" class="btn btn-link"

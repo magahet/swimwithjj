@@ -1,8 +1,7 @@
 *.swp
 *.pyc
-settings.conf
-settings.yaml
-settings-dev.yaml
+settings*.conf
+settings*.yaml
 .vagrant/*
 prod.yml
 dev.yml

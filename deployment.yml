@@ -1,6 +1,5 @@
 ---
 - hosts: all
-  become_user: root
   become: yes
 
   handlers:
@@ -47,7 +46,12 @@
         - restart apache2
 
     # Copy webapp
+    - name: ensure webapp root exists
+      tags: webapp
+      file: path=/var/www/www.swimwithjj.com state=directory mode=0755 owner={{ansible_ssh_user}} group=www-data
     - name: copy webapp
+      tags: webapp
+      become: no
       synchronize:
         src: webapp/
         dest: /var/www/www.swimwithjj.com
@@ -55,12 +59,14 @@
         rsync_opts:
           - "--exclude=stripe.json"
     - name: set cgi permissions
+      tags: webapp
       file: path={{ item }} mode='a+x'
       with_items:
         - /var/www/www.swimwithjj.com/form-handler.cgi
         - /var/www/www.swimwithjj.com/session-cal.cgi
         - /var/www/www.swimwithjj.com/admin/admin-handler.cgi
     - name: copy stripe.json
+      tags: webapp
       template: src=webapp/stripe.json dest=//var/www/www.swimwithjj.com/stripe.json
 
     # Copy apache and vhost configs

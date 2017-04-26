@@ -71,7 +71,7 @@ class FormProcessor(object):
         email = self.params.get('email')
         name = self.params.get('name')
         stripe.api_key = self.config.get('stripe_secret_key')
-        stripe.api_version = '2016-07-06'
+        stripe.api_version = '2017-04-06'
         try:
             customer = stripe.Customer.create(card=token, email=email,
                                               description=name)

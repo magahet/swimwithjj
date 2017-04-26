@@ -118,7 +118,6 @@
         </div>
     </div>
     <section class="container">
-
         <div class="pagenav nav-up"><a href="#about"><i class="icon-arrow-up"></i> Back to About JJ</a></div>
                 <div class="page-header">
                     <h3>General Info</h3>
@@ -128,7 +127,7 @@
                 <div class="clearfix"></div>
 
                 <div class="page-header">
-                    <h3>Session Dates and Times <small>(Culver City)</small></h3>
+                    <h3>Session Dates and Times</h3>
                 </div>
 
                 <div class="coming-soon" ng-hide="lessonInfoActive">
@@ -141,11 +140,11 @@
                 <h4>Sessions</h4>
                 <table class="table table-bordered" ng-show="lessonInfoActive">
                   <thead>
-                    <tr><th></th><th>Dates</th><th>Days</th><th>Price*</th></tr>
+                    <tr><th>Session</th><th>Dates</th><th>Days</th><th>Price*</th></tr>
                   </thead>
                   <tbody>
-                      <tr ng-repeat="s in sessionDescriptions.culverCity">
-                          <td ng-class="'session' + s.num">{{s.num}}</td>
+                      <tr ng-repeat="s in sessionList">
+                        <td ng-class="s.num">{{s.num}} <span ng-if="!s.open"></br>CLOSED</span></td>
                           <td>
                               {{s.dates}}<br>
                               {{s.times}}
@@ -157,16 +156,13 @@
                 </table>
 
                 <ul class="unstyled" ng-show="lessonInfoActive">
-                  <!--
-                    <li>*Payment in full is due <strong class="blue">within 5 days</strong> of receiving your confirmation e-mail.</li>
-                  -->
                     <li>*Payment is <strong class="blue">non-refundable</strong> (unless a lesson is canceled by JJ) and <strong class="blue">non-transferable.</strong></li>
                 </ul>
 
                 <div id="location" class="page-header">
-                    <h3>Location <small>(Culver City)</small></h3>
+                    <h3>Location</h3>
                 </div>
-                <p class="lead">Culver City lessons are taught here:</p>
+                <p class="lead">Lessons are taught here:</p>
                 <a href="https://maps.google.com/maps?q=4261+Lincoln+Ave.+Culver+City,+CA+90232&hl=en&sll=34.020479,-118.411732&sspn=1.183749,0.928345&hnear=4261+Lincoln+Ave,+Culver+City,+Los+Angeles,+California+90232&t=m&z=17" target="_blank">
                     <address class="lead">
                         4261 Lincoln Ave.<br>
@@ -176,10 +172,6 @@
                     <div class="pad50"></div>
                 </a>
             </div>
-        <!-- tab content
-          </div>
-        </div>
-        -->
 
         <div class="pagenav nav-down"><a href="#faq"><i class="icon-arrow-down"></i> Read the FAQs</a></div>
     </section> 
@@ -219,7 +211,7 @@
 
             <li class="lead">
                 <h3 class="blue">Where are the lessons held?  </h3>
-                <p>See <a href="#lesson-info">Lesson Info</a> for the address and a map for each location.
+                <p>See <a href="#lesson-info">Lesson Info</a> for the address and a map.
             </li>
 
             <li class="lead">
@@ -335,8 +327,7 @@
     <section class="container">
         <div class="pagenav nav-up"><a href="#faq"><i class="icon-arrow-up"></i> Back to Testimonials</a></div>
 
-        <!--
-        <div class="coming-soon" ng-hide="signupsActive">
+        <div class="coming-soon" ng-hide="signupsActive || sessionsFull">
             <h1 class="muted">Coming Soon...</h1>
             <p class="lead">To be contacted when sign-ups open, you can leave your email address and JJ will let you know as soon as the fun begins.</p>
 
@@ -346,9 +337,8 @@
                 <button type="submit" class="btn btn-primary" data-loading-text="saving address...">Notify Me</button>
             </form>
         </div>
-        -->
 
-        <div class="coming-soon" ng-hide="signupsActive">
+        <div class="coming-soon" ng-show="sessionsFull">
             <h1 class="muted">Sessions Full</h1>
             <p class="lead">Sorry, all sessions are FULL. To be added to a waitlist please email JJ under "Contact JJ".  You can also enter your email address here to be notified if sessions are added.</p>
 
@@ -359,14 +349,11 @@
             </form>
         </div>
 
-        <form class="form-horizontal" id="signup-form" ng-show="signupsActive">
+        <form class="form-horizontal" id="signup-form" ng-show="signupsActive && !sessionsFull">
 
             <div class="alert alert-block">
                 <h4>Please do not sign-up unless you are 100% sure your child is able to participate in lessons and you are flexible enough to be placed at the lesson time given.</h4>
             </div>
-          
-
-            <input type="hidden" name="location-select" value="{{selectedLocation}}">
 
             <fieldset>
                 <legend>parent's information</legend>
@@ -427,31 +414,28 @@
                             </select>
                         </div>
                     </div>
-                    <div class="control-group" ng-class="{warning: !selectedLocation}">
+                    <div class="control-group">
                         <label class="control-label" for="session-select">Sessions</label>
                         <div class="controls">
                             <div class="selected-sessions">
                                 <div class="alert alert-success session" ng-repeat="s in sessions[childIndex]">
-                                    {{s.name}}
+                                    {{formatSession(s)}}
                                     <button type="button" class="close" ng-click="remove(childIndex, $index)">×</button>
                                 </div>
                             </div>
                             <select name="selected-session-{{childIndex}}" class="select-session input-xxlarge"
                                 ng-model="selectedSession[childIndex]"
                                 ng-change="add(childIndex)"
-                                ng-options="s.name for s in childsAvailableSessions(childIndex)">
+                                ng-options="formatSession(s) for s in childsAvailableSessions(childIndex)">
                                 <option value="">-- Add Session --</option>
                             </select>
-                            <span ng-hide="selectedLocation" class="help-block">
-                                You need to select a Location at the top of the form
-                            </span>
-                            <span ng-show="selectedLocation" class="help-block">
+                            <span class="help-block">
                                 <small>Add all the sessions you are interested in</small>
                             </span>
                         </div>
                     </div>
                 </div>
-                <input type="hidden" name="sessions-{{childIndex}}-{{$index}}" value="{{session.name}}"
+                <input type="hidden" name="sessions-{{childIndex}}-{{$index}}" value="{{formatSession(session)}}"
                     ng-repeat="session in sessions[childIndex]">
             </fieldset>
 
@@ -472,15 +456,6 @@
                 <div class="pad10">
                     <span class="lead">Number of Sessions: </span><span class="lead">{{sessionTotal()}}</span>
                 </div>
-                <!--
-                <div class="pad10">
-                    <h4>Option 1: Check or Cash</h4>
-                    Payment by check or cash is due <strong class="blue">after JJ confirms your lesson times</strong>. Payment must be made within 5 days of receiving your confirmation.
-                    <div class="pad10">
-                        <span class="lead">Total: </span><span class="lead">{{cashTotal() | currency}}</span>
-                    </div>
-                </div>
-                -->
 
                 <div class="pad10">
                     <h4>Credit Card</h4>

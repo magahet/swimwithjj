@@ -7,8 +7,20 @@ var adminApp = angular.module('adminApp', []).
 });
 
 function adminController($scope, $http, $timeout, $filter) {
-    $scope.getSessions = function(signupLocation, currentSessions) {
-        return _.difference(_.pluck($scope.availableSessions[signupLocation], 'name'), currentSessions);
+    $scope.init = init;
+    function init() {
+        $http.get('../sessions.json').
+            success(function(data, status, headers, config) {
+                $scope.sessionList = data.sessionList;
+        });
+    }
+
+    $scope.formatSession = function(session) {
+        return 'Session ' + session.num + ' - ' + session.dates;
+    }
+
+    $scope.getSessions = function(currentSessions) {
+        return _.difference(_.each($scope.sessionList, function(s){return $scope.formatSession(s)), currentSessions);
     };
 
     $scope.getStatusMessages= function(currentStatusMessage) {
@@ -27,16 +39,6 @@ function adminController($scope, $http, $timeout, $filter) {
         'payment confirmation sent'
     ];
 
-    $scope.availableSessions = {
-        laCrescenta: [
-        ],
-        culverCity: [
-            {name: 'Session 1 - June 13th to June 23rd', price: 185},
-            {name: 'Session 2 - July 5th to July 14th', price: 185},
-            {name: 'Session 3 - July 25th to August 4th', price: 185}
-        ]
-    };
-
     $scope.predicate = '-timestamp.$date';
 
     $http.get('admin-handler.cgi', {params: {action: 'get_signups'}}).
@@ -53,7 +55,6 @@ function adminController($scope, $http, $timeout, $filter) {
 
     $scope.getAge = function (birthday) {
         var now = moment();
-        //var then = moment(birthday, 'YYYY-MM-DD');
         var then = moment(Date.parse(birthday));
         console.log(then);
         if (!then || !then.isValid()) {
@@ -246,18 +247,6 @@ function adminController($scope, $http, $timeout, $filter) {
                 break;
             case 'paid':
                 var matched = _.where(matched, {payment_received: true});
-                break;
-            case 'card':
-                var matched = _.filter(matched, function(obj){ return obj.customer_id });
-                break;
-            case 'cash':
-                var matched = _.filter(matched, function(obj){ return !obj.customer_id });
-                break;
-            case 'culverCity':
-                var matched = _.where(matched, {'location': 'culverCity'});
-                break;
-            case 'laCrescenta':
-                var matched = _.where(matched, {'location': 'laCrescenta'});
                 break;
         }
         return matched ? matched.length : 0;

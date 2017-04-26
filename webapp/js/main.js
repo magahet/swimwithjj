@@ -1,26 +1,22 @@
 "use strict";
 
-//var stripePublishableKey = 'pk_live_3d6XsGmNpMEpRKWCDTDaxaAt';
-
 angular.module('swjjApp', ['ngSanitize'])
     .controller('mainController', ['$scope', '$http', '$location', 
 function ($scope, $http, $location) {
-    $scope.sessionDescriptions = {
-        culverCity: [],
-        laCrescenta: []
-    };
-    $scope.availableSessions = {
-        laCrescenta: [],
-        culverCity: []
-    };
-
+    $scope.sessionList = [];
     $scope.stripePublishableKey = null;
     $scope.init = init;
     function init() {
+        $http.get('config.json').
+            success(function(data, status, headers, config) {
+                $scope.lessonInfoActive = data.lessonInfoActive;
+                $scope.selectedLocation = 'culverCity';
+                var priority = $location.search().prioritykey === data.priorityKey;
+                $scope.signupsActive = false || priority || $location.search().debug || data.signupsActive;
+        });
         $http.get('sessions.json').
             success(function(data, status, headers, config) {
-                $scope.sessionDescriptions = data.sessionDescriptions;
-                $scope.availableSessions = data.availableSessions;
+                $scope.sessionList = data.sessionList;
         });
         $http.get('stripe.json').
             success(function(data, status, headers, config) {
@@ -28,15 +24,7 @@ function ($scope, $http, $location) {
         });
     }
 
-    var debug = $location.search().debug;
-    var priority = $location.search().prioritykey === 'rt5J6wwzC9Ja';
-    $scope.signupsActive = false || priority || debug;
-
-    $scope.selectedLocation = 'culverCity';
-
-    $scope.lessonInfoActive = true;
     $scope.maxChildren = 4;
-
     $scope.childCount = 1;
     $scope.selectedSession = Array($scope.maxChildren);
 
@@ -83,8 +71,13 @@ function ($scope, $http, $location) {
 
 
     $scope.childsAvailableSessions = function(childIndex) {
-        return _.difference($scope.availableSessions[$scope.selectedLocation], $scope.sessions[childIndex]);
+        var openSessions = _.filter($scope.sessionList, function(s){ return s.open});
+        return _.difference(openSessions, $scope.sessions[childIndex]);
     };
+
+    $scope.formatSession = function(session) {
+        return 'Session ' + session.num + ' - ' + session.dates;
+    }
 
     $scope.add = function(childIndex) {
         $scope.sessions[childIndex].push($scope.selectedSession[childIndex]);
@@ -207,7 +200,6 @@ function submitForm(params, form, submitButton) {
                 showSuccessMessage('Thank You', '<strong>Your message has been sent.</strong> JJ will respond to your inquiry as soon as possible.');
                 form.find('input:not([name="id"]),textarea').val('');
             } else if (json.params.id == 'signup') {
-                console.log(json);
                 if (json.response) {
                     showSuccessMessage('Thank You', '<div class="pad10"><strong>Your signup form has been submitted successfully.</strong></div> <div class="pad10">JJ will contact you with your lesson times within the next <strong class="blue">3 weeks</strong>.</div> <div class="pad10">Your credit card will be charged <strong class="blue">after you receive your lesson times</strong>.</div>');
                     $('div#signup-complete-alert').show();
