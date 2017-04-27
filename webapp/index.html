@@ -144,10 +144,11 @@
                   </thead>
                   <tbody>
                       <tr ng-repeat="s in sessionList">
-                        <td ng-class="s.num">{{s.num}} <span ng-if="!s.open"></br>CLOSED</span></td>
+                        <td ng-class="'session' + s.num">{{s.num}} <span ng-hide="s.open"></br>CLOSED</span></td>
                           <td>
-                              {{s.dates}}<br>
-                              {{s.times}}
+                              {{s.dates}}</br>
+                              {{s.times}}</br>
+                              {{s.note}}
                           </td>
                           <td ng-bind-html="s.days"></td>
                           <td>${{s.price}}</td>
@@ -559,7 +560,7 @@
     <hr>
 
     <footer>
-        <p><small>SwimWithJJ 2014<small></p>
+        <p><small>SwimWithJJ 2017<small></p>
     </footer>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>

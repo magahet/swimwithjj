@@ -20,7 +20,9 @@ function adminController($scope, $http, $timeout, $filter) {
     }
 
     $scope.getSessions = function(currentSessions) {
-        return _.difference(_.each($scope.sessionList, function(s){return $scope.formatSession(s)), currentSessions);
+        console.log(currentSessions);
+        console.log($scope.sessionList);
+        return _.difference(_.map($scope.sessionList, function(s){return $scope.formatSession(s)}), currentSessions);
     };
 
     $scope.getStatusMessages= function(currentStatusMessage) {
@@ -56,7 +58,6 @@ function adminController($scope, $http, $timeout, $filter) {
     $scope.getAge = function (birthday) {
         var now = moment();
         var then = moment(Date.parse(birthday));
-        console.log(then);
         if (!then || !then.isValid()) {
             return birthday;
         }
