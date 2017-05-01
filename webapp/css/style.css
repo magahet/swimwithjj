@@ -1,60 +1,36 @@
-/* Large desktop */
-@media (min-width: 1200px) {
+.nav {
+    background-color: #000;
 }
- 
-/* Portrait tablet to landscape and desktop */
-@media (min-width: 768px) and (max-width: 979px) {
-    .navbar-fixed-top {
-        position: fixed !important;
-    }
-    .navbar-inner {
-        padding: 0px !important;
-    }
-    body {
-        padding-top: 40px;
-    }
+
+.nav-item a:hover, a.nav-item:hover {
+    color: #7a7a7a;
 }
- 
-/* Landscape phone to portrait tablet */
-@media (max-width: 767px) {
-    .navbar-fixed-top {
-        position: fixed !important;
-    }
-    .navbar-inner {
-        padding: 0px !important;
-    }
-    body {
-        padding-top: 40px;
-        padding-right: 0px !important;
-        padding-left: 0px !important;
-    }
-    section, #topnav {
-        padding-right: 20px;
-        padding-left: 20px;
-    }
-    .navbar .nav > li > a {
-        padding-right: 7px;
-        padding-left: 7px;
-        font-size: 13px;
-    }
-    .hero-unit .container {
-        padding: 10px;
-    }
+
+.nav-item a, a.nav-item {
+    color: #fefefe;
 }
- 
-/* Landscape phones and down */
-@media (max-width: 480px) { 
-    .navbar-inner {
-        padding: 0px !important;
-    }
-    .navbar-fixed-top {
-        position: static !important;
-    }
-    body {
-        padding-right: 0px !important;
-        padding-left: 0px !important;
-        padding-top: 0px;
-    }
+
+.nav-item a.is-active, a.nav-item.is-active {
+    color: #7a7a7a;
+}
+
+.section-header {
+    background: url(../img/underwater_crop.jpg) no-repeat center;
+    background-size: cover;
+    background-color: #003399;
+    padding: 40px;
+    padding-bottom: 10px;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.section-header h1 {
+    color: white;
+    text-shadow: 0px 1px 1px rgba(55, 97, 122, 0.5);
+}
+
+.emph {
+    color: #C44D58;
 }
 
 .session1 {
@@ -76,104 +52,16 @@
     background-color: #DBFF33;
 }
 
-.navbar-fixed-top {
-    margin-bottom: 0px !important;
-}
-
-.hero-unit {
-    margin-top: 0 !important;
-}
-
-*[hidden] { display: none; }
-
-#img-la-crescenta, #img-culver-city {
-    margin-top: 30px;
-}
-
-.shadow {
-    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
-}
-
-.hero-unit {
-    background-color: #003399;
-    align: center;
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
-    border-radius: 0;
-    margin: 0;
-    margin-bottom: 30px;
-    width: 100%;
-    padding: 0px;
-}
-
-.darker-text {
-    color: #585858 !important;
-}
-
-.pad50 {
-    padding: 50px;
-}
-
-.pad10 {
-    padding: 10px;
-}
-
-.hero-unit h1, .hero-unit small, .hero-unit .lead {
-    color: white;
-    text-shadow: 0px 1px 1px rgba(55, 97, 122, 0.5);
-    letter-spacing: inherit;
-}
-
-.hero-img {
-    max-height: 200px;
-}
 .wrap-left {
     float: right;
-    margin-left: 30px;
-    margin-top: 30px;
+    margin: 10px 10px 10px 20px;
 }
 .wrap-right {
     float: left;
-    margin-right: 30px;
+    margin: 10px 20px 10px 10px;
 }
 .large-pad {
     margin-bottom: 40px;
-}
-strong.tall {
-    font-size: 1.25em;
-}
-.blue {
-    color: #51A351 !important;
-    color: #FF7200 !important;
-    color: #DC4E00 !important;
-    color: #205291 !important;
-    color: #C44D58 !important;
-}
-.nav-up {
-    text-align: right;
-    margin-bottom: 20px;
-}
-.nav-down {
-    text-align: right;
-    margin-top: 50px;
-}
-.section-header {
-    background-color: #003399;
-    color: white;
-    text-shadow: 0px 1px 1px rgba(55, 97, 122, 0.5);
-    padding: 40px;
-    padding-bottom: 10px;
-    margin-left: 0;
-    margin-right: 0;
-}
-
-.backgroundsize .section-header {
-    background: url(../img/underwater_crop.jpg) no-repeat center;
-    background-size: cover;
-}
-
-section {
-    margin: 30px 0px 300px 0;
 }
 .spaced, .spaced-list li {
     line-height: 30px;

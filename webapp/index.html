@@ -1,588 +1,94 @@
 <!DOCTYPE html>
-<html ng-app="swjjApp" ng-controller="mainController">
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<html>
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>SwimWithJJ</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="http://www.swimwithjj.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.1/css/bulma.min.css" integrity="sha256-n+Ch7oRdzZ9+8/inp+1mK/0Bt4T/2PSmo4L6YGoDiVM=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  
+  <nav class="nav">
+    <div class="nav-left">
+            <a href="/" class="nav-item is-active">Home</a>
+            <a href="/about" class="nav-item">About JJ</a>
+            <a href="/lesson-info" class="nav-item">Lesson Info</a>
+            <a href="/faq" class="nav-item">FAQ</a>
+            <a href="/testimonials" class="nav-item">Testimonials</a>
+            <a href="/sign-up" class="nav-item">Sign-Up</a>
+            <a href="/contact" class="nav-item">Contact JJ</a>
+    </div>
+  </nav>
+
+  <body class="content">
     <img src="./img/underwater_crop.jpg" hidden/>
     <style>
-        .backgroundsize .hero-unit {
-            background: url(./img/underwater_crop.jpg) no-repeat top;
-            background-size: 100% 350px;
-        }
+			.hero-section {
+				background: url("./img/underwater_crop.jpg") no-repeat top;
+				background-size: 100% 350px;
+				padding: 50px;
+			}
+
+			.hero-section .hero-section-text p {
+				color: #fefefe;
+			}
     </style>
-    <link href="./css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            padding-top: 40px;
-        }
-        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-            display: none;
-        }
-    </style>
-    <link href="./css/bootstrap-responsive.min.css" rel="stylesheet">
-    <link href="./css/style.css" rel="stylesheet">
-    <script src="js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-  </head>
 
-  <body ng-cloak ng-init="init()">
-    <!--[if lt IE 7]>
-        <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
-    <![endif]-->
+    <section class="hero-section">
+			<div class="hero-section-text content columns">
+				<div class="column is-half">
+					<p class="title is-1"><strong>Swim With JJ</strong></p>
+					<p class="subtitle">Water Safety, Swim Lessons, and Stroke Technique in a comfortable and relaxing setting</p>
+					<a href="/lesson-info" class="button is-medium is-primary">Learn More »</a>
+    		</div>
+    	</div>
+    </section>
 
-    <div id="topnav" class="pagenav navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container-fluid">
-            <ul class="nav">
-              <li class="active"><a href="#top">Home</a></li>
-              <li><a href="#about">About JJ</a></li>
-              <li><a href="#lesson-info">Lesson Info</a></li>
-              <li><a href="#faq">FAQ</a></li>
-              <li><a href="#testimonials">Testimonials</a></li>
-              <li><a href="#sign-up">Sign-Up</a></li>
-              <li><a href="#contact">Contact JJ</a></li>
-            </ul>
-        </div>
-      </div>
-    </div>
+    <section class="section">
+			<div class="container">
+				<div class="columns">
 
-    <div class="hero-unit" id="top">
-        <div class="container pad50">
-            <div class="row">
-                <div class="span7">
-                    <h1>Swim With JJ</h1>
-                        <p class="lead">Water Safety, Swim Lessons, and Stroke Technique in a comfortable and relaxing setting</p>
-                    <div class="pagenav"><a style="display: none;" href="#about" ng-hide="signupsActive || lessonInfoActive" class="btn btn-success btn-large">Learn More »</a></div>
-                    <div class="pagenav"><a style="display: none;" href="#lesson-info" ng-hide="signupsActive || !lessonInfoActive" class="btn btn-success btn-large">Learn More »</a></div>
-                    <div class="pagenav"><a style="display: none;" href="#sign-up" ng-show="signupsActive" class="btn btn-success btn-large">Sign-Up Now »</a></div>
-                </div>
-            </div>
-        </div>
-    </div>
+					<div class="column is-4">
+						<img src='./img/lifejacket.jpg'>
+						<h2>Safety First, Fun Next</h2>
+						<p>The primary focus for each class is <strong class="emph">water safety</strong>. The water should be a place to have fun and be playful, but staying afloat is the first priority. JJ teaches her students <strong class="emph">not to rely on swimming aids</strong> or help from others. Kids are taught to stay calm if they fall into the water, how to float on their own, and how to get back to the wall.</p>
+					</div>
 
-    <section id="home" class="container">
-        <div class="row">
-            <div class="span4">
-              <img src='./img/lifejacket.jpg'>
-              <h2>Safety First, Fun Next</h2>
-              <p>The primary focus for each class is <strong class="blue tall">water safety</strong>. The water should be a place to have fun and be playful, but staying afloat is the first priority. JJ teaches her students <strong class="blue tall">not to rely on swimming aids</strong> or help from others. Kids are taught to stay calm if they fall into the water, how to float on their own, and how to get back to the wall.</p>
-            </div>
-            <div class="span4">
-              <img src='./img/swimming.png'>
-              <h2>Small Group Learning</h2>
-              <p>Lessons are made up of <strong class="blue tall">2 to 4 students</strong> at the same level of swimming proficiency. The groups are small enough that each child receives <strong class="blue tall">personalized instruction</strong>. At the same time, the group setting allows kids to learn from watching others and to receive <strong class="blue tall">positive reinforcement</strong> from their peers.</p>
-            </div>
-            <div class="span4">
-              <img src='./img/diver.jpg'>
-              <h2>Underwater Adventure</h2>
-              <p>Anxiety around the water is a normal reaction. However, many of JJ's swimmers develop an <strong class="blue tall">excitement and confidence</strong> in their abilities that surprises and inspires them. JJ finds the <strong class="blue tall">balance between empathy and firmness</strong> that empowers her students to abandon their fears and learn to love the water.</p>
-            </div>
-        </div>
-        <div class="pagenav nav-down"><a href="#about"><i class="icon-arrow-down"></i> Learn more about JJ</a></div>
+					<div class="column is-4">
+						<img src='./img/swimming.png'>
+						<h2>Small Group Learning</h2>
+						<p>Lessons are made up of <strong class="emph">2 to 4 students</strong> at the same level of swimming proficiency. The groups are small enough that each child receives <strong class="emph">personalized instruction</strong>. At the same time, the group setting allows kids to learn from watching others and to receive <strong class="emph">positive reinforcement</strong> from their peers.</p>
+					</div>
+
+					<div class="column is-4">
+						<img src='./img/diver.jpg'>
+						<h2>Underwater Adventure</h2>
+						<p>Anxiety around the water is a normal reaction. However, many of JJ's swimmers develop an <strong class="emph">excitement and confidence</strong> in their abilities that surprises and inspires them. JJ finds the <strong class="emph">balance between empathy and firmness</strong> that empowers her students to abandon their fears and learn to love the water.</p>
+					</div>
+
+				</div>
+			</div>
     </section> 
 
-    <div id="about" class="section-header">
-        <div class="container">
-            <h1>About JJ</h1>
-        </div>
-    </div>
-    <section class="container">
-        <div class="pagenav nav-up"><a href="#top"><i class="icon-arrow-up"></i> Back to Top</a></div>
-        <div class="lead">
-            <img class="img-polaroid wrap-right shadow" src="./img/jjandkids-2013.png">
-
-            <p><strong class="tall blue">Always a fish myself</strong>, it was only natural that I chose to be on a swim team because that meant I could swim year round!  And, since I loved being in the water so much and also loved kids, it was a logical decision to start teaching swim lessons at the age of 13.</p>
-
-            <p>Since then, whether it was during high school at Crescenta Valley, as an undergraduate student at UCLA, earning a Master's of Arts in Education from Pepperdine, or teaching in my own classroom, I have always looked forward to my summers of helping both children and adults become <strong class="tall blue">not only water safe, but also proficient swimmers.</strong></p>
-             
-            <p>My goal first and foremost is to teach individuals of all ages to be completely safe and comfortable in the water.  My second goal is to <strong class="tall blue">make swimming a fun activity</strong>.  Lastly, I want all of my students to become life-long swimmers by learning different strokes, breathing on the side, diving, and even flip turns!</p>
-
-            <p>I look forward to working with you and your children this summer!</p>
-
-            <p><strong class="tall blue">-JJ</strong></p>
-        </div>
-
-        <div class="pagenav nav-down"><a href="#lesson-info"><i class="icon-arrow-down"></i> Get Lesson Details</a></div>
-    </section> 
-
-
-
-    <div id="lesson-info" class="section-header">
-        <div class="container">
-            <h1>Lesson Info</h1>
-        </div>
-    </div>
-    <section class="container">
-        <div class="pagenav nav-up"><a href="#about"><i class="icon-arrow-up"></i> Back to About JJ</a></div>
-                <div class="page-header">
-                    <h3>General Info</h3>
-                </div>
-                <img class="pull-right marg10 img-polaroid shadow city-image" src="./img/culver_city.jpg">
-                <p class="lead">Lessons are <strong class="blue">30 minutes</strong> long with <strong class="blue">4 children per lesson</strong>. Sessions run <strong class="blue">2 consecutive weeks</strong>, with lessons <strong class="blue">4 days a week</strong>. Your child will come at the same time for his or her lesson for the entire session.</p>
-                <div class="clearfix"></div>
-
-                <div class="page-header">
-                    <h3>Session Dates and Times</h3>
-                </div>
-
-                <div class="coming-soon" ng-hide="lessonInfoActive">
-                    <h1 class="muted">Session dates and times will be posted when sign-ups begin. You can be notified when sign-ups start by providing your email address.</h1>
-                    <div class="pagenav"><a href="#sign-up" class="btn btn-success btn-large">Go to Notification Form »</a></div>
-                </div>
-
-                <div class="row-fluid" ng-show="lessonInfoActive" ng-include="'session-cal.cgi'"></div>
-
-                <h4>Sessions</h4>
-                <table class="table table-bordered" ng-show="lessonInfoActive">
-                  <thead>
-                    <tr><th>Session</th><th>Dates</th><th>Days</th><th>Price*</th></tr>
-                  </thead>
-                  <tbody>
-                      <tr ng-repeat="s in sessionList">
-                        <td ng-class="'session' + s.num">{{s.num}} <span ng-hide="s.open"></br>CLOSED</span></td>
-                          <td>
-                              {{s.dates}}</br>
-                              {{s.times}}</br>
-                              {{s.note}}
-                          </td>
-                          <td ng-bind-html="s.days"></td>
-                          <td>${{s.price}}</td>
-                      </tr>
-                  </tbody>
-                </table>
-
-                <ul class="unstyled" ng-show="lessonInfoActive">
-                    <li>*Payment is <strong class="blue">non-refundable</strong> (unless a lesson is canceled by JJ) and <strong class="blue">non-transferable.</strong></li>
-                </ul>
-
-                <div id="location" class="page-header">
-                    <h3>Location</h3>
-                </div>
-                <p class="lead">Lessons are taught here:</p>
-                <a href="https://maps.google.com/maps?q=4261+Lincoln+Ave.+Culver+City,+CA+90232&hl=en&sll=34.020479,-118.411732&sspn=1.183749,0.928345&hnear=4261+Lincoln+Ave,+Culver+City,+Los+Angeles,+California+90232&t=m&z=17" target="_blank">
-                    <address class="lead">
-                        4261 Lincoln Ave.<br>
-                        Culver City, CA 90232
-                    </address>
-                    <img class="img-polaroid shadow" src="./img/culver-city-map.png">
-                    <div class="pad50"></div>
-                </a>
-            </div>
-
-        <div class="pagenav nav-down"><a href="#faq"><i class="icon-arrow-down"></i> Read the FAQs</a></div>
-    </section> 
-
-    <div id="faq" class="section-header">
-        <div class="container">
-            <h1>FAQ</h1>
-        </div>
-    </div>
-    <section class="container">
-
-        <div class="pagenav nav-up"><a href="#lesson-info"><i class="icon-arrow-up"></i> Back to Lesson Info</a></div>
-
-        <ul class="unstyled">
-
-            <li class="lead">
-                <h3 class="blue">Can my children, who are different ages, be in the same lesson?</h3>
-                <p>This will depend on the age difference and skill level of each child because they will learn at different rates.  For example, a 3 and 4 year old who have never had swim lessons before can be in the same lesson because both children would start with being comfortable in the water.  A 4 and 6 year old, however, might start out at the same level but the 6 year old can progress much more quickly than the 4 year old and this makes it more challenging to be teaching to two different levels.  I understand the inconvenience of having kids in different lessons but it also might be the best use of your time and money to split your children up.</p>  
-            </li>
-
-            <li class="lead">
-                <h3 class="blue">How do you make your schedule?</h3>
-                <p>I first look at your desired session and lesson time.  Then I match your child in a lesson that best fits their level.</p>
-            </li>
-
-            <li class="lead">
-                <h3 class="blue">I'm not sure of my summer schedule. Can I sign up and then cancel?</h3>
-                <p>Unfortunately, <strong>I am not able to give refunds</strong>. I recommend making swim lessons a priority and scheduling other activities around it.  ;)</p>
-            </li>
-
-            <img class="wrap-right img-vertical" src="./img/girl2.svg" />
-
-            <li class="lead">
-                <h3 class="blue">How warm do you keep your pool?</h3>
-                <p>The pool temperature is <strong>88 degrees Fahrenheit</strong>. It feels like a bathtub!</p>
-            </li>
-
-            <li class="lead">
-                <h3 class="blue">Where are the lessons held?  </h3>
-                <p>See <a href="#lesson-info">Lesson Info</a> for the address and a map.
-            </li>
-
-            <li class="lead">
-                <h3 class="blue">How many sessions do you recommend?</h3>
-                <p>This really depends on the goal you have for your kids. If your kids are not water safe, I recommend at least 2 sessions. If your kids are taking lessons for stroke techniques, 1 session should be sufficient, but 2 sessions can still be beneficial.</p>
-            </li>
-
-            <li class="lead">
-                <h3 class="blue">I am signing my child up for multiple sessions; should the sessions be consecutive?</h3>
-                <p>As long as your child is in the pool several days a week in between the sessions then no, it doesn't need to be consecutive.  However, I know as a parent, it helps to keep schedules consistent so unless you have a planned vacation, I would recommend signing up for consecutive sessions.</p>  
-
-            <li class="lead">
-                <h3 class="blue">Do I sign-up for a specific lesson time?</h3>
-                <p>No.  While I try to fulfill any requests for a specific lesson time, it is often hard to do as I schedule based on skill level, availability and requested lesson time.</p>
-
-            <li class="lead">
-                <h3 class="blue">Do you do make-ups for a missed class?</h3>
-                <p>I try my best to accommodate make-up classes, but there is not a specific make-up lesson or class. If you miss a class I will add you to a list and contact you when there is a spot available, even if the class is not made up until another session.</p>
-            </li>
-
-            <li class="lead">
-                <h3 class="blue">Is there a restroom available?</h3>
-                <p>Yes, there is a restroom easily accessible. However, please try to arrive with your children already in their suits.</p>
-            </li>
-
-
-            <li class="lead">
-                <h3 class="blue">Where do I park?</h3>
-                <p>Street parking is plentiful. Please be mindful of the neighbors and make sure to not block any driveways.</p>
-            </li>
-
-
-            <li class="lead">
-                <h3 class="blue">Can I stay and watch the swim lesson?</h3>
-                <p>Yes, of course! If your child is distracted by your presence, I might ask you to wait inside (where you can still watch!).</p>
-            </li>
-
-            <li class="lead">
-                <h3 class="blue">Can I leave my child during the lesson?</h3>
-                <p>You are welcome to leave your child, but only after the lesson begins and you must return before the lesson is over.</p>
-            </li>  
-
-
-            <li class="lead">
-                <h3 class="blue">Is there anything I can be doing to prepare my child for swim lessons?</h3>
-                <img class="wrap-left" src="./img/girl1.svg" />
-                <p>Yes! If your child is uncomfortable putting his or her face in the water, practice often in the bathtub or even a small inflatable pool. Have your child blow bubbles, working up to putting their nose, and eventually their eyes in. When getting their hair wet, don't be afraid to let water run down his or her face. This too will help them become familiar with the feeling of water. You can even have them practice kicking and floating on their back. If you sense that swim lessons are going to be a struggle, be prepared to offer rewards every step of the way! While it might be difficult, you will also want to try to get your children into a pool at least once a week on days without a lesson. You will be amazed at how their confidence builds after spending several hours in the pool outside of lessons.</p>
-            </li>
-
-            <li class="lead">
-                <h3 class="blue">What does "water safe" mean?</h3>
-                <p>Water safe is a term used to describe any person who can swim or play safely in a pool without assistance. A child is water safe when s/he can do the following independently: play, swim the width of a pool, and jump in and return to the wall.<p>  
-            </li>
-
-        </ol>
-
-        <div class="pagenav nav-down"><a href="#testimonials"><i class="icon-arrow-down"></i> See Testimonials</a></div>
-    </section> 
-
-
-    <div id="testimonials" class="section-header">
-        <div class="container">
-            <h1>Testimonials</h1>
-        </div>
-    </div>
-    <section class="container">
-        <div class="pagenav nav-up"><a href="#faq"><i class="icon-arrow-up"></i> Back to FAQs</a></div>
-
-        <img class="wrap-left" src="./img/boy2.svg" />
-
-        <blockquote class="space60">
-            <p class="lead">JJ is amazing.  My daughter used to be very timid around the water and now, <strong class="tall blue">thanks to JJ, she swims like a fish!!</strong></p>
-            <small>Kathleen (mom to Brittany, age 5)</small>
-        </blockquote>
-
-        <blockquote class="space60">
-            <p class="lead">My 3 sons love lessons with JJ.  She has taught them to be safe and proficient in the water as well as <strong class="tall blue">given them a great love for swimming</strong>.  We tried other group lessons, and were not thrilled.  JJ is the BEST!</p>
-            <small>Kirsten (mom to Karl, age 7, and Alec and Drew, age 5)</small>
-        </blockquote>
-
-        <blockquote class="space60">
-            <p class="lead">JJ is an amazing swim teacher.  I wish I'd found her when my son was younger.  I would have started him out with her right away.  She is just <strong class="tall blue">the right combination of kind, calm and gently firm</strong> that got my son past his fear of going underwater.  He was worried about swim lessons when we started, but by the 3rd lesson he was past his fear and couldn't wait to go each time.  He even told me <strong class="tall blue">he was excited about going under water</strong> and his confidence soared.  Watching her and the steps she takes with kids as they progress, it's obvious she is highly experienced in teaching children to swim...</p>
-            <br>
-            <p class="lead">...I love that JJ has 3 or 4 kids in each lesson.  They all get <strong class="tall blue">plenty of individual attention</strong>, but also the fun and encouragement of learning with other children.  It's perfect!</p>
-            <small>Candis (mom to Nathaniel, age 5)</small>
-        </blockquote>
-
-        <blockquote class="space60">
-            <p class="lead">JJ is amazing with her students and I feel very fortunate to have been referred to her. She's firm but kind - exactly what my girls need in a swim instructor. She <strong class="tall blue">knows when to push them to reach that next level</strong>, but never to the point of forcing a fearful child to do something they just aren't ready to do. My girls adore JJ, but more importantly, they respect her authority in the pool. We're all excited to get back to swim lessons this spring!</p>
-            <small>Daniele (mom to Angelina and Isabella, age 5)</small>
-        </blockquote>
-
-        <img class="wrap-left img-vertical" src="./img/boy1.svg" />
-        <blockquote class="space60">
-            <p class="lead">When they first started at JJ's swimming class, both Leah & Danielle were so scared of being in the water that they would not put their faces in.  JJ's patience and teaching techniques <strong class="tall blue">enabled my girls to learn</strong>, to be watersafe, and most important of all, to enjoy swimming by the end of the summer.  <strong class="tall blue">They can't wait to start swimming with JJ again!</strong></p>
-            <small>Lorna (mom to Danielle, age 5 and Leah, age 7)</small>
-        </blockquote>
-
-        <blockquote class="space60">
-            <p class="lead">First day of swim lessons, Alani was in the pool and I heard her tell JJ, "This is the worst day of my life!" Two or three lessons later, Alani had her face underwater and was beginning to feel more comfortable in the pool. Toward the end of the session, Alani <strong class="tall blue">could swim without assistance</strong> from one end of the pool to the other and <strong class="tall blue">has loved swimming ever since!</strong> Thanks JJ!</p>
-            <small>Xenia (mom to Alani, age 5)</small>
-        </blockquote>
-
-        <div class="pagenav nav-down"><a href="#sign-up"><i class="icon-arrow-down"></i> Sign-Up for Lessons</a></div>
-    </section> 
-
-
-    <div id="sign-up" class="section-header">
-        <div class="container">
-            <h1>Sign-up</h1>
-        </div>
-    </div>
-    <section class="container">
-        <div class="pagenav nav-up"><a href="#faq"><i class="icon-arrow-up"></i> Back to Testimonials</a></div>
-
-        <div class="coming-soon" ng-hide="signupsActive || sessionsFull">
-            <h1 class="muted">Coming Soon...</h1>
-            <p class="lead">To be contacted when sign-ups open, you can leave your email address and JJ will let you know as soon as the fun begins.</p>
-
-            <form class="form-inline" id="signup-notification-form">
-                <input type="email" name="email" placeholder="Enter your email here"/>
-                <input type="hidden" name="id" value="signup-notification"/>
-                <button type="submit" class="btn btn-primary" data-loading-text="saving address...">Notify Me</button>
-            </form>
-        </div>
-
-        <div class="coming-soon" ng-show="sessionsFull">
-            <h1 class="muted">Sessions Full</h1>
-            <p class="lead">Sorry, all sessions are FULL. To be added to a waitlist please email JJ under "Contact JJ".  You can also enter your email address here to be notified if sessions are added.</p>
-
-            <form class="form-inline" id="signup-notification-form">
-                <input type="email" name="email" placeholder="Enter your email here"/>
-                <input type="hidden" name="id" value="signup-notification"/>
-                <button type="submit" class="btn btn-primary" data-loading-text="saving address...">Notify Me</button>
-            </form>
-        </div>
-
-        <form class="form-horizontal" id="signup-form" ng-show="signupsActive && !sessionsFull">
-
-            <div class="alert alert-block">
-                <h4>Please do not sign-up unless you are 100% sure your child is able to participate in lessons and you are flexible enough to be placed at the lesson time given.</h4>
-            </div>
-
-            <fieldset>
-                <legend>parent's information</legend>
-                <div class="control-group">
-                    <label class="control-label" for="name">Name</label>
-                    <div class="controls">
-                        <input type="text" name="name" placeholder="First and last name"/>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="phone">Phone</label>
-                    <div class="controls">
-                        <input type="tel" name="phone" placeholder="123-456-7890"/>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="email">Email</label>
-                    <div class="controls">
-                        <input type="text" name="email" placeholder="example@domain.com"/>
-                    </div>
-                </div>
-            </fieldset>
-
-                <div class="control-group">
-                    <label class="control-label">How many children are you signing up?</label>
-                    <div class="controls">
-                        <div class="nav btn-group" data-toggle="buttons-radio" >
-                            <button type="button" id="numChildren-{{num}}" class="btn btn-large" ng-click="changeChildCount(num + 1)" ng-class="{active : $index == childCount - 1}" ng-repeat="num in maxChildrenRange()">{{num + 1}}</button>
-                        </div>
-                    </div>
-                </div>
-                <input type="hidden" name="child_count" value="{{childCount}}"/>
-
-            <fieldset class="child-info" ng-repeat="childIndex in childRange()">
-                <legend>{{childLabel(childIndex)}}</legend>
-                <div class="child-info">
-                    <div class="control-group">
-                        <label class="control-label" for="child_name">Name</label>
-                        <div class="controls">
-                            <input type="text" name="child_name-{{childIndex}}" placeholder="First name"/>
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label" for="birthday">Birthday</label>
-                        <div class="controls">
-                            <input type="date" name="birthday-{{childIndex}}"/>
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label" for="swim_level">Swimming Level</label>
-                        <div class="controls">
-                            <select name="swim_level-{{childIndex}}" class="input-xxlarge">
-                                <option></option>
-                                <option>uncomfortable putting his or her face in the water</option>
-                                <option>comfortable putting his or her face in the water</option>
-                                <option>can swim the width of a pool</option>
-                                <option>advanced swimmer, can swim length of a pool</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label" for="session-select">Sessions</label>
-                        <div class="controls">
-                            <div class="selected-sessions">
-                                <div class="alert alert-success session" ng-repeat="s in sessions[childIndex]">
-                                    {{formatSession(s)}}
-                                    <button type="button" class="close" ng-click="remove(childIndex, $index)">×</button>
-                                </div>
-                            </div>
-                            <select name="selected-session-{{childIndex}}" class="select-session input-xxlarge"
-                                ng-model="selectedSession[childIndex]"
-                                ng-change="add(childIndex)"
-                                ng-options="formatSession(s) for s in childsAvailableSessions(childIndex)">
-                                <option value="">-- Add Session --</option>
-                            </select>
-                            <span class="help-block">
-                                <small>Add all the sessions you are interested in</small>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <input type="hidden" name="sessions-{{childIndex}}-{{$index}}" value="{{formatSession(session)}}"
-                    ng-repeat="session in sessions[childIndex]">
-            </fieldset>
-
-
-            <fieldset>
-                <legend>special requests/needs</legend>
-                <div class="control-group">
-                    <label class="control-label" for="request">Request</label>
-                    <div class="controls">
-                        <textarea name="request" rows="3" class="input-xxlarge"></textarea>
-                        <span class="help-block"><small>in a lesson with a friend, etc. (no specific time requests).</small></span>
-                    </div>
-                </div>
-            </fieldset>
-
-            <fieldset>
-                <legend>Payment</legend>
-                <div class="pad10">
-                    <span class="lead">Number of Sessions: </span><span class="lead">{{sessionTotal()}}</span>
-                </div>
-
-                <div class="pad10">
-                    <h4>Credit Card</h4>
-                    <strong class="blue">Your card will only be charged after JJ confirms your lesson times.</strong>
-                    <div class="pad10">
-                        <span class="lead">Total: </span><span class="lead">{{paymentTotal()/ 100 | currency}}</span>
-                    </div>
-                    <button type="button" class="btn btn-large btn-primary"
-                      ng-click="payWithCard()"
-                      ng-disabled="cardButtonMessage != 'Enter Payment Information'"
-                      ng-show="cardButtonMessage != 'Payment Information Saved'"
-                      ng-class="{'btn-primary': !customerId}">{{cardButtonMessage}}</button>
-                </div>
-            </fieldset>
-
-            <div class="alert alert-block alert-error" ng-show="paymentError">
-                <h4>Sorry</h4>
-                <p>There seems to be a problem saving your payment information. Below is the error received by the processing company:</p>
-                <p>{{paymentError}}</p>
-            </div>
-
-            <div class="alert alert-block alert-success" ng-show="customerId">
-                <strong>Your payment information has been saved; Click "Send Sign-Up Form" below to complete the sign-up process.</strong>
-            </div>
-
-            <input type="hidden" name="id" value="signup"/>
-            <input type="hidden" name="cost" value="{{paymentTotal()}}">
-            <input type="hidden" name="customer_id" value="{{customerId}}">
-            <div class="form-actions">
-                <button type="submit" class="btn btn-large btn-primary"
-                    ng-show="customerId"
-                    data-loading-text="sending sign-up form..."
-                    ng-disabled="cardButtonMessage == 'saving payment information'">Send Sign-Up Form</button>
-            </div>
-
-            <div style="display:none;" id="signup-complete-alert" class="alert alert-block alert-success">
-                <h4>Thank You!</h4>
-                You have completed the signup process. JJ will confirm your exact lesson times <strong>within the next 3 weeks.</strong> If you have any additional questions, please let her know by using the contact form below.
-            </div>
-        </form>
-
-        <div class="pagenav nav-down"><a href="#contact"><i class="icon-arrow-down"></i> Send JJ a Message</a></div>
-    </section> 
-
-
-    <div id="contact" class="section-header">
-        <div class="container">
-            <h1>Contact JJ</h1>
-        </div>
-    </div>
-    <section class="container">
-        <div class="pagenav nav-up"><a href="#sign-up"><i class="icon-arrow-up"></i> Back to Sign-Up</a></div>
-
-        <p class="lead">Send any questions or concerns and JJ will respond as soon as possible.</p>
-                
-        <form class="form-horizontal" id="contact-form">
-            <div class="control-group">
-                <label class="control-label" for="name">Name</label>
-                <div class="controls">
-                    <input type="text" name="name" placeholder="First and last name"/>
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="email">Email</label>
-                <div class="controls">
-                    <input type="text" name="email" placeholder="example@domain.com"/>
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="number">Phone Number</label>
-                <div class="controls">
-                    <input type="tel" name="number" placeholder="123-456-7890"/>
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="message">Message</label>
-                <div class="controls">
-                    <textarea name="message" rows="5" class="input-xxlarge"></textarea>
-                </div>
-            </div>
-            <input type="hidden" name="id" value="message"/>
-            <div class="form-actions">
-                <button type="submit" class="btn btn-large btn-primary" data-loading-text="sending message...">Send Message</button>
-            </div>
-        </form>
-    </section> 
-
-    <div id="formModal" class="modal hide fade">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h3 class="muted"></h3>
-        </div>
-        <div class="modal-body">
-            <p class="lead"></p>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn" data-dismiss="modal" aria-hidden="true">close</button>
-        </div>
-    </div>
-
-    <hr>
-
-    <footer>
-        <p><small>SwimWithJJ 2017<small></p>
-    </footer>
-
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.min.js"></script> 
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular-sanitize.min.js"></script> 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.0/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.0.0/moment.min.js"></script>
-    <script src="https://checkout.stripe.com/checkout.js"></script>
-    <script src="./js/main.js"></script>
-    <script type="text/javascript">
-
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-15537987-1']);
-      _gaq.push(['_trackPageview']);
-
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-
-    </script>
   </body>
+
+
+  <hr>
+
+
+  <footer>
+      <p><small>SwimWithJJ 2017<small></p>
+  </footer>
+
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-15537987-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
 </html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SwimWithJJ</title>
+    <link rel="stylesheet" href="./css/bulma.min.css" integrity="sha256-n+Ch7oRdzZ9+8/inp+1mK/0Bt4T/2PSmo4L6YGoDiVM=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="./css/style.css" />
+		<style>
+			[v-cloak] {
+				display: none;
+			}
+		</style>
+  </head>
+  
+  <nav class="nav">
+    <div class="nav-left">
+            <a href="/" class="nav-item">Home</a>
+            <a href="/about" class="nav-item">About JJ</a>
+            <a href="/lesson-info" class="nav-item is-active">Lesson Info</a>
+            <a href="/faq" class="nav-item">FAQ</a>
+            <a href="/testimonials" class="nav-item">Testimonials</a>
+            <a href="/sign-up" class="nav-item">Sign-Up</a>
+            <a href="/contact" class="nav-item">Contact JJ</a>
+    </div>
+  </nav>
+
+  <body class="content" id="app">
+
+    <div class="section-header">
+      <h1>Lesson Info</h1>
+    </div>
+
+    <section class="section">
+			<div class="container is-clearfix">
+
+        <div class="heading">
+            <h2 class="title">General Info</h2>
+        </div>
+
+        <img class="is-pulled-right city-image" src="./img/culver_city.jpg">
+
+        <p class="">Lessons are <strong class="emph">30 minutes</strong> long with <strong class="emph">4 children per lesson</strong>. Sessions run <strong class="emph">2 consecutive weeks</strong>, with lessons <strong class="emph">4 days a week</strong>. Your child will come at the same time for his or her lesson for the entire session.</p>
+
+      </div>
+    </section>
+
+    <section class="section">
+			<div class="container">
+
+        <div class="heading">
+          <h3 class="title">Session Dates and Times</h3>
+        </div>
+
+        <div class="" v-if="!lessonInfoActive">
+            <p class="subtitle">Session dates and times will be posted when sign-ups begin. You can be notified when sign-ups start by providing your email address.</p>
+            <div class=""><a href="/sign-up" class="button is-primary">Go to Notification Form »</a></div>
+        </div>
+
+      </div>
+    </section>
+
+    <div v-if="lessonInfoActive">
+      <section class="section">
+        <div class="container" v-html="calendar"></div>
+      </section>
+    </div>
+
+    <section class="section" v-if="lessonInfoActive">
+			<div class="container">
+        <div class="heading">
+          <h3>Sessions</h3>
+        </div>
+
+        <table class="table table-bordered" v-cloak>
+          <thead>
+            <tr><th>Session</th><th>Dates</th><th>Days</th><th>Price*</th></tr>
+          </thead>
+          <tbody>
+              <tr v-for="s in sessionList">
+                <td v-bind:class="'session' + s.num">{{s.num}} <span v-if="!s.open"></br>CLOSED</span></td>
+                  <td>
+                      {{s.dates}}</br>
+                      {{s.times}}</br>
+                      {{s.note}}
+                  </td>
+                  <td>{{s.days}}</td>
+                  <td>${{s.price}}</td>
+              </tr>
+          </tbody>
+        </table>
+
+        <ul class="">
+            <li>*Payment is <strong class="emph">non-refundable</strong> (unless a lesson is canceled by JJ) and <strong class="emph">non-transferable.</strong></li>
+        </ul>
+
+      </div>
+    </section>
+
+    <section class="section">
+			<div class="container">
+
+        <div class="heading">
+            <h3>Location</h3>
+        </div>
+
+        <p class="">Lessons are taught here:</p>
+        <a href="https://maps.google.com/maps?q=4261+Lincoln+Ave.+Culver+City,+CA+90232&hl=en&sll=34.020479,-118.411732&sspn=1.183749,0.928345&hnear=4261+Lincoln+Ave,+Culver+City,+Los+Angeles,+California+90232&t=m&z=17" target="_blank">
+            <address class="">
+                4261 Lincoln Ave.<br>
+                Culver City, CA 90232
+            </address>
+            <img class="image" src="./img/culver-city-map.png">
+        </a>
+
+			</div>
+    </section> 
+
+  </body>
+
+
+  <hr>
+
+
+  <footer>
+      <p><small>SwimWithJJ 2017</small></p>
+  </footer>
+
+  <script src="./js/vue.min.js"></script>
+	<script src="./js/axios.js"></script>
+  <script src="./js/lesson-info.js"></script>
+
+  <!--<script type="text/javascript">-->
+    <!--var _gaq = _gaq || [];-->
+    <!--_gaq.push(['_setAccount', 'UA-15537987-1']);-->
+    <!--_gaq.push(['_trackPageview']);-->
+
+    <!--(function() {-->
+      <!--var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;-->
+      <!--ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';-->
+      <!--var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);-->
+    <!--})();-->
+  <!--</script>-->
+
+</html>
