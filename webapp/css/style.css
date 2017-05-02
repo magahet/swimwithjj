@@ -30,7 +30,7 @@
 }
 
 .emph {
-    color: #C44D58;
+    color: #C44D58 !important;
 }
 
 .session1 {
@@ -52,56 +52,14 @@
     background-color: #DBFF33;
 }
 
-.wrap-left {
-    float: right;
-    margin: 10px 10px 10px 20px;
-}
-.wrap-right {
-    float: left;
-    margin: 10px 20px 10px 10px;
-}
-.large-pad {
-    margin-bottom: 40px;
-}
-.spaced, .spaced-list li {
-    line-height: 30px;
-    margin-bottom: 80px;
-    font-weight: normal;
-}
-.space60 {
-    margin-bottom: 60px;
-}
-.spaced-small {
-    line-height: 30px;
-    margin-bottom: 40px;
-    font-weight: normal;
-}
-.spaced-list-small li {
-    line-height: 30px;
-    margin-bottom: 20px;
-}
-.spaced-list h3 {
-    margin-bottom: 30px;
-    color: #205291;
-}
-.small {
-    font-weight: normal;
-}
-.form-actions {
-    background-color: inherit;
-}
-.map {
-    width: 425px; 
-    height: 350px; 
-    border: 2px solid gray;
-    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
-}
-.city-image {
-    height: 200px;
-}
-.img-vertical {
-    height: 300px;
-}
 .marg10 {
     margin: 10px;
+}
+
+figure.inline {
+    padding: 20px;
+}
+
+blockquote {
+    display: block;
 }

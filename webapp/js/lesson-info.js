@@ -1,7 +1,7 @@
 Vue.prototype.$http = axios
 Vue.config.devtools = true
 
-var app = new Vue({
+new Vue({
 	el: '#app',
 
     config: {
@@ -18,7 +18,7 @@ var app = new Vue({
 		var vm = this
 		this.$http.get('config.json')
 			.then(function (response) {
-				vm.sessionInfoActive = response.data.sessionInfoActive
+				vm.lessonInfoActive = response.data.lessonInfoActive
 			})
 		this.$http.get('sessions.json')
 			.then(function (response) {
