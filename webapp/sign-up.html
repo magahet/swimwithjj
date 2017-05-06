@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SwimWithJJ</title>
+    <link rel="stylesheet" href="./css/bulma.min.css" integrity="sha256-n+Ch7oRdzZ9+8/inp+1mK/0Bt4T/2PSmo4L6YGoDiVM=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="./css/style.css" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+		<style>
+			[v-cloak] {
+				display: none;
+			}
+		</style>
+  </head>
+  
+  <nav class="nav">
+    <div class="nav-left">
+            <a href="/" class="nav-item">Home</a> <a href="/about" class="nav-item">About JJ</a>
+            <a href="/lesson-info" class="nav-item">Lesson Info</a>
+            <a href="/faq" class="nav-item">FAQ</a>
+            <a href="/testimonials" class="nav-item">Testimonials</a>
+            <a href="/sign-up" class="nav-item is-active">Sign-Up</a>
+            <a href="/contact" class="nav-item">Contact JJ</a>
+    </div>
+  </nav>
+
+  <body class="content">
+    <div id="app">
+    </div>
+
+    <div>
+
+      <div class="section-header">
+        <h1>Sign-Up</h1>
+      </div>
+
+      <section class="section" id="waitlist" v-if="(!signupsActive && !sessionsFull) || sessionsFull" v-cloak>
+        <div class="container">
+
+          <div v-if="!signupsActive && !sessionsFull">
+            <h1 class="muted">Coming Soon...</h1>
+            <p class="lead">To be contacted when sign-ups open, you can leave your email address and JJ will let you know as soon as the fun begins.</p>
+
+          </div>
+
+          <div v-if="sessionsFull">
+              <h1 class="muted">Sessions Full</h1>
+              <p class="lead">Sorry, all sessions are FULL. To be added to a waitlist please email JJ under "Contact JJ".  You can also enter your email address here to be notified if sessions are added.</p>
+          </div>
+
+          <form id="signup-notification-form">
+            <div class="field">
+              <p class="control has-icons-left">
+                <input type="email" name="email" placeholder="Enter your email here" v-model="email"/>
+                <span class="icon is-small is-left">
+                  <i class="fa fa-envelope"></i>
+                </span>
+              </p>
+            </div>
+
+            <input type="hidden" name="id" value="signup-notification"/>
+
+            <div class="field">
+              <button type="submit" class="button is-primary" @submit.prevent="submit" :disabled="loading" :loading="loading">Notify Me</button>
+            </div>
+          </form>
+
+        </div>
+      </section> 
+
+      <section class="section" id="signup" v-if="signupsActive && !sessionsFull" v-cloak>
+        <div class="container">
+
+          <form id="signup-form">
+
+							<div class="help is-success">
+                  <h4>Please do not sign-up unless you are 100% sure your child is able to participate in lessons and you are flexible enough to be placed at the lesson time given.</h4>
+              </div>
+
+							<!-- Parent Info -->
+              <fieldset class="box">
+                <legend class="subtitle">parent's information</legend>
+								<div class="field is-horizontal">
+									<div class="field-body">
+										<div class="field is-grouped">
+											<p class="control is-expanded has-icons-left">
+												<input class="input" type="text" placeholder="Full Name">
+												<span class="icon is-small is-left">
+													<i class="fa fa-user"></i>
+												</span>
+											</p>
+										</div>
+										<div class="field is-grouped">
+											<p class="control is-expanded has-icons-left">
+												<input class="input" type="email" placeholder="Email">
+												<span class="icon is-small is-left">
+													<i class="fa fa-envelope"></i>
+												</span>
+											</p>
+										</div>
+										<div class="field is-grouped">
+											<p class="control is-expanded has-icons-left">
+												<input class="input" type="phone" placeholder="Phone">
+												<span class="icon is-small is-left">
+													<i class="fa fa-phone"></i>
+												</span>
+											</p>
+										</div>
+									</div>
+								</div>
+              </fieldset>
+
+							<!-- How many children -->
+							<p class="subtitle">How many children are you signing up?</p>
+
+							<div class="field has-addons">
+								<p class="control" v-for="num in maxChildren">
+									<button type="button" id="numChildren-{{num}}" class="button is-large" @click="changeChildCount(num)" :class="{'is-active': num == childCount}">{{num}}</button>
+								</p>
+							</div>
+							<input type="hidden" name="child_count" value="{{childCount}}"/>
+
+							<!-- Child Info -->
+              <fieldset class="box" v-for="childNum in childCount">
+								<legend class="subtitle">{{childNum | childLabel}}</legend>
+
+								<div class="field is-horizontal">
+									<div class="field-body">
+										<div class="field is-grouped">
+											<p class="control is-expanded has-icons-left">
+												<input class="input" type="text" name="child_name-{{childNum}}" placeholder="First Name">
+												<span class="icon is-small is-left">
+													<i class="fa fa-user"></i>
+												</span>
+											</p>
+										</div>
+										<div class="field is-grouped">
+											<p class="control is-expanded has-icons-left">
+												<input class="input" type="date" name="birthday-{{childNum}}" placeholder="Birthday">
+												<span class="icon is-small is-left">
+													<i class="fa fa-calendar"></i>
+												</span>
+											</p>
+										</div>
+										<div class="field is-grouped">
+											<div class="control">
+												<span class="select">
+													<select name="swim_level-{{childNum}}">
+                            <option selected disabled>-- Select swimming level --</option>
+                            <option>uncomfortable putting his or her face in the water</option>
+                            <option>comfortable putting his or her face in the water</option>
+                            <option>can swim the width of a pool</option>
+                            <option>advanced swimmer, can swim length of a pool</option>
+													</select>
+												</span>
+											</div>
+										</div>
+									</div>
+								</div>
+
+                <p>
+                  Sessions:
+                  <span class="tag is-success" v-for="(session, sessionIndex) in sessions[childNum - 1]">
+                    {{session | formatSession}}
+                    <button type="button" class="delete" @click="remove(childNum, sessionIndex)">×</button>
+                  </span>
+                </p>
+
+                <div class="field">
+                  <p class="control">
+                    <span class="select" >
+                      <select v-model="selectedSession[childNum - 1]" name="selected-session-{{childNum}}" @change="add(childNum)" placeholder="Add Session">
+                        <option v-for="s in childsAvailableSessions(childNum)" :value="s.num">
+                          {{s | formatSession}}
+                        </option>
+                        <option disabled v-show="!hasAvailableSessions(childNum)">No Sessions Available</option>
+                      </select>
+                    </span>
+                  </p>
+                  <p class="help">Add all the sessions you are interested in</p>
+                </div>
+
+								<input type="hidden" name="sessions-{{childNum}}-{{index}}" value="{{session | formatSession}}"
+										v-for="session in sessions[childNum - 1]">
+              </fieldset>
+
+
+              <fieldset class="box">
+                  <legend class="subtitle">special requests/needs</legend>
+                  <div class="field">
+                      <div class="control">
+                          <textarea name="request" rows="3" class="textarea"></textarea>
+                          <p class="help">In a lesson with a friend, etc. (no specific time requests).</p>
+                      </div>
+                  </div>
+              </fieldset>
+
+
+              <fieldset class="box">
+								<legend class="subtitle">Payment</legend>
+								<p class="is-medium">Number of Sessions: <strong>{{sessionTotal}}</strong></p>
+
+
+								<p class="is-medium">Payment Total: <strong>{{paymentTotal/ 100 | currency}}</strong></p>
+
+								<div class="form-row">
+									<label for="card-element">
+										Credit or debit card
+									</label>
+
+                  <div id="card-element">
+                  </div>
+
+									<!-- Used to display form errors -->
+									<div id="card-errors"></div>
+								</div>
+
+
+								<button type="button" class="button is-primary"
+									@click="payWithCard()"
+									:disabled="cardButtonMessage != 'Enter Payment Information'"
+									v-show="cardButtonMessage != 'Payment Information Saved'"
+									:class="{'btn-primary': !customerId}">{{cardButtonMessage}}</button>
+
+								<p class="emph">* Your card will only be charged after JJ confirms your lesson times.</p>
+              </fieldset>
+
+              <div class="alert alert-block alert-error" v-show="paymentError">
+                  <h4>Sorry</h4>
+                  <p>There seems to be a problem saving your payment information. Below is the error received by the processing company:</p>
+                  <p>{{paymentError}}</p>
+              </div>
+
+              <div class="alert alert-block alert-success" v-show="customerId">
+                  <strong>Your payment information has been saved; Click "Send Sign-Up Form" below to complete the sign-up process.</strong>
+              </div>
+
+              <input type="hidden" name="id" value="signup"/>
+              <input type="hidden" name="cost" value="{{paymentTotal}}">
+              <input type="hidden" name="customer_id" value="{{customerId}}">
+              <div class="form-actions">
+                  <button type="submit" class="btn btn-large btn-primary"
+                      v-show="customerId"
+                      data-loading-text="sending sign-up form..."
+                      ng-disabled="cardButtonMessage == 'saving payment information'">Send Sign-Up Form</button>
+              </div>
+
+              <div style="display:none;" id="signup-complete-alert" class="alert alert-block alert-success">
+                  <h4>Thank You!</h4>
+                  You have completed the signup process. JJ will confirm your exact lesson times <strong>within the next 3 weeks.</strong> If you have any additional questions, please let her know by using the contact form below.
+              </div>
+          </form>
+
+        </div>
+      </section>
+
+    </div>
+  </body>
+
+
+  <hr>
+
+
+  <footer>
+      <p><small>SwimWithJJ 2017</small></p>
+  </footer>
+
+  <script src="./js/vue.min.js"></script>
+	<script src="./js/axios.js"></script>
+	<script src="./js/underscore-min.js"></script>
+	<script src="https://js.stripe.com/v3/"></script>
+
+  <script src="./js/sign-up.js"></script>
+
+  <!--<script type="text/javascript">-->
+    <!--var _gaq = _gaq || [];-->
+    <!--_gaq.push(['_setAccount', 'UA-15537987-1']);-->
+    <!--_gaq.push(['_trackPageview']);-->
+
+    <!--(function() {-->
+      <!--var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;-->
+      <!--ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';-->
+      <!--var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);-->
+    <!--})();-->
+  <!--</script>-->
+
+</html>
