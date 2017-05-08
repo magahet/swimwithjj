@@ -5,6 +5,7 @@ import cgi
 from pymongo import MongoClient
 from bson.json_util import dumps
 from bson.objectid import ObjectId
+from collections import defaultdict
 import yaml
 
 
@@ -22,6 +23,7 @@ class FormProcessor(object):
     def process(self):
         action = self.params.get('action', '')
         handlers = {
+            'get_summary': self.get_summary,
             'get_signups': self.get_signups,
             'set_received': self.set_received,
             'save_notes': self.save_notes,
@@ -35,6 +37,21 @@ class FormProcessor(object):
         if action not in handlers:
             return None
         return handlers[action]()
+
+    def get_summary(self):
+        signups = self.get_signups()
+        sessions = defaultdict(list)
+        for signup in signups:
+            for child in signup.get('children', []):
+                for session in child.get('sessions', []):
+                    sessions[session].append(child.get('child_name'))
+        return [
+            {
+                'session': k,
+                'count': len(v),
+                'kids': v,
+            } for k, v in sessions.iteritems()
+        ]
 
     def get_signups(self):
         return [r for r in self.signup.find({'deleted': {'$exists': False}})]
