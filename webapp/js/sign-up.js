@@ -1,65 +1,5 @@
 Vue.config.devtools = true
 
-var config = {
-    signupsActive: null,
-    lessonInfoActive: null,
-}
-
-var sessions = {
-    sessionList: [],
-    sessionsFull: null,
-}
-
-var stripe = {
-    stripePublishableKey: null
-}
-
-axios.get('config.json')
-    .then(function (response) {
-        config.lessonInfoActive = response.data.lessonInfoActive
-        var priority = getParameterByName('prioritykey') == response.data.priorityKey
-        var debug = getParameterByName('debug')
-        config.signupsActive = priority || debug || response.data.signupsActive
-
-        waitlist.updateConfig(config)
-        signup.updateConfig(config)
-    })
-
-axios.get('sessions.json')
-    .then(function (response) {
-        sessions.sessionList = response.data.sessionList
-        sessions.sessionsFull = !_.some(sessions.sessionList, function(s) { return s.open })
-
-        waitlist.updateSessions(sessions)
-        signup.updateSessions(sessions)
-    })
-
-
-axios.get('stripe.json')
-    .then(function (response) {
-        stripe.stripePublishableKey = response.data.stripePublishableKey
-
-        setupStripe(stripe.stripePublishableKey)
-        signup.updateStripe(stripe)
-    })
-
-function setupStripe(publishableKey) {
-    var stripe = Stripe(publishableKey)
-    var elements = stripe.elements()
-    var card = elements.create('card')
-    card.mount('#card-element')
-
-	card.addEventListener('change', function(event) {
-	  var displayError = document.getElementById('card-errors');
-	  if (event.error) {
-		displayError.textContent = event.error.message;
-	  } else {
-		displayError.textContent = '';
-	  }
-	});
-
-}
-
 var waitlist = new Vue({
 	el: '#waitlist',
 
@@ -82,15 +22,6 @@ var waitlist = new Vue({
     }
 })
 
-function getParameterByName(name) {
-    name = name.replace(/[\[\]]/g, "\\$&")
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(window.location.href)
-    if (!results) return ''
-    if (!results[2]) return ''
-    return decodeURIComponent(results[2].replace(/\+/g, " "))
-}
-
 var signup = new Vue({
 	el: '#signup',
 
@@ -105,7 +36,10 @@ var signup = new Vue({
 		sessionList: [],
 		customerId: null,
 		cardButtonMessage: 'Enter Payment Information',
-		paymentError: null
+		paymentError: null,
+        stripePublishableKey: null,
+        card: null,
+		processingForm: null,
 	},
 
     created: function() {
@@ -159,13 +93,47 @@ var signup = new Vue({
         updateConfig: function(config) {
             this.signupsActive = config.signupsActive
             this.lessonInfoActive = config.lessonInfoActive
+            this.stripePublishableKey = config.stripePublishableKey
+            // #card-element is created in the DOM when signupsActive switches to true
+            // This section only activates Stripe Elements if and after the element is rendered
+            if (this.signupsActive) {
+                var vm = this
+                this.$nextTick(function() {
+                    if (!document.getElementById("card-element")) {
+                        console.log('#card-element not rendered')
+                        return
+                    }
+                    var stripe = Stripe(vm.stripePublishableKey)
+                    var elements = stripe.elements()
+                    var options = {
+                        sytle: {
+                            base: {
+								color: '#363636',
+								fontSize: '13.3333px',
+								lineHeight: 1.5,
+								fontFamily: 'BlinkMacSystemFont',
+                            }
+                        }
+                    }
+                    vm.card = elements.create('card')
+                    
+                    
+                    vm.card.mount('#card-element')
+
+                    vm.card.addEventListener('change', function(event) {
+                      var displayError = document.getElementById('card-errors');
+                      if (event.error) {
+                        displayError.textContent = event.error.message;
+                      } else {
+                        displayError.textContent = '';
+                      }
+                    })
+                })
+            }
         },
         updateSessions: function(sessions) {
             this.sessionList = sessions.sessionList
             this.sessionsFull = sessions.sessionsFull
-        },
-        updateStripe: function(stripe) {
-            this.stripePublishableKey = stripe.stripePublishableKey
         },
 		range: function(num) {
 			return _.range(num)
@@ -238,3 +206,37 @@ var signup = new Vue({
 		}
 	}
 })
+
+function getParameterByName(name) {
+    name = name.replace(/[\[\]]/g, "\\$&")
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(window.location.href)
+    if (!results) return ''
+    if (!results[2]) return ''
+    return decodeURIComponent(results[2].replace(/\+/g, " "))
+}
+
+axios.get('config.json')
+    .then(function (response) {
+        var priority = getParameterByName('prioritykey') == response.data.priorityKey
+        var debug = getParameterByName('debug')
+        var config = {
+            stripePublishableKey: response.data.stripePublishableKey,
+            lessonInfoActive: response.data.lessonInfoActive,
+            signupsActive: priority || debug || response.data.signupsActive
+        }
+
+        waitlist.updateConfig(config)
+        signup.updateConfig(config)
+    })
+
+axios.get('sessions.json')
+    .then(function (response) {
+        var sessions = {
+            sessionList: response.data.sessionList,
+            sessionsFull: !_.some(response.data.sessionList, function(s) { return s.open })
+        }
+
+        waitlist.updateSessions(sessions)
+        signup.updateSessions(sessions)
+    })

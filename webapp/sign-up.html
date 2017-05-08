@@ -10,6 +10,10 @@
 			[v-cloak] {
 				display: none;
 			}
+
+      #card-errors {
+        color: red;
+      }
 		</style>
   </head>
   
@@ -74,7 +78,7 @@
           <form id="signup-form">
 
 							<div class="help is-success">
-                  <h4>Please do not sign-up unless you are 100% sure your child is able to participate in lessons and you are flexible enough to be placed at the lesson time given.</h4>
+                  <h4 class="subtitle emph">Please do not sign-up unless you are 100% sure your child is able to participate in lessons and you are flexible enough to be placed at the lesson time given.</h4>
               </div>
 
 							<!-- Parent Info -->
@@ -204,26 +208,22 @@
 								<p class="is-medium">Payment Total: <strong>{{paymentTotal/ 100 | currency}}</strong></p>
 
 								<div class="form-row">
-									<label for="card-element">
-										Credit or debit card
-									</label>
 
-                  <div id="card-element">
-                  </div>
-
+                  <div id="card-element" class="box"></div>
 									<!-- Used to display form errors -->
-									<div id="card-errors"></div>
+									<div class="content is-danger" id="card-errors"></div>
+
+                  <p class="help">
+										Credit or debit card
+									</p>
+
 								</div>
 
 
-								<button type="button" class="button is-primary"
-									@click="payWithCard()"
-									:disabled="cardButtonMessage != 'Enter Payment Information'"
-									v-show="cardButtonMessage != 'Payment Information Saved'"
-									:class="{'btn-primary': !customerId}">{{cardButtonMessage}}</button>
 
 								<p class="emph">* Your card will only be charged after JJ confirms your lesson times.</p>
               </fieldset>
+
 
               <div class="alert alert-block alert-error" v-show="paymentError">
                   <h4>Sorry</h4>
@@ -238,12 +238,9 @@
               <input type="hidden" name="id" value="signup"/>
               <input type="hidden" name="cost" value="{{paymentTotal}}">
               <input type="hidden" name="customer_id" value="{{customerId}}">
-              <div class="form-actions">
-                  <button type="submit" class="btn btn-large btn-primary"
-                      v-show="customerId"
-                      data-loading-text="sending sign-up form..."
-                      ng-disabled="cardButtonMessage == 'saving payment information'">Send Sign-Up Form</button>
-              </div>
+              <button type="button" class="button is-primary"
+                @click="submitSignup()"
+                :disabled="processingForm">Send Sign-Up Form</button>
 
               <div style="display:none;" id="signup-complete-alert" class="alert alert-block alert-success">
                   <h4>Thank You!</h4>

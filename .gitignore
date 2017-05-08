@@ -3,6 +3,7 @@
 settings*.conf
 settings*.yaml
 .vagrant/*
+certs/*
 vagrant-ssh-config
 prod.yml
 dev.yml

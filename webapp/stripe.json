@@ -1,3 +1,0 @@
-{
-    "stripePublishableKey": "{{ stripe_publish_key }}"
-}
