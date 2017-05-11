@@ -1,10 +1,7 @@
 *.swp
 *.pyc
 conf/settings*
-settings*.yaml
 .vagrant/*
 certs/*
 vagrant-ssh-config
-prod.yml
-dev.yml
-stage.yml
+*.yml
