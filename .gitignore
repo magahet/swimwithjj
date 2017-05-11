@@ -1,6 +1,6 @@
 *.swp
 *.pyc
-settings*.conf
+conf/settings*
 settings*.yaml
 .vagrant/*
 certs/*

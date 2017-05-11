@@ -4,11 +4,22 @@
 
   handlers:
     - name: restart apache2
-      service: name=apache2 state=restarted
+      systemd:
+        name: apache2
+        state: restarted
     - name: restart mongodb
-      service: name=mongodb state=restarted
-    - name: restart swimwithjj email service
-      service: name=swimwithjj-email-service state=restarted
+      systemd:
+        name: mongodb
+        state: restarted
+    - name: install swimwithjj emailer service
+      systemd:
+        name: swimwithjj-emailer
+        state: started
+        daemon_reload: yes
+    - name: restart swimwithjj emailer service
+      systemd:
+        name: swimwithjj-emailer
+        state: restarted
 
   tasks:
     # Install apt dependencies
@@ -42,8 +53,30 @@
         - headers
         - expires
         - filter
+        - ssl
       notify:
         - restart apache2
+
+    # Setup SSL
+    - name: make sure apache is started
+      systemd:
+        name: apache2
+        state: started
+    - name: copy ssl setup script
+      copy:
+        src: bin/setup-ssl.sh
+        dest: /tmp
+        mode: 0664
+    - name: run ssl setup script
+      command: /tmp/setup-ssl.sh
+      args:
+        creates: /etc/letsencrypt/live/example.com/cert.pem
+      notify:
+        - restart apache2
+
+    # Setup settings dir
+    - name: setup settings dir
+      file: path=/etc/swimwithjj state=directory mode=0755 owner=root group=root
 
     # Copy webapp
     - name: ensure webapp root exists
@@ -56,18 +89,17 @@
         src: webapp/
         dest: /var/www/www.swimwithjj.com
         delete: yes
-        rsync_opts:
-          - "--exclude=stripe.json"
     - name: set cgi permissions
       tags: webapp
       file: path={{ item }} mode='a+x'
       with_items:
         - /var/www/www.swimwithjj.com/form-handler.cgi
+        - /var/www/www.swimwithjj.com/config.cgi
         - /var/www/www.swimwithjj.com/session-cal.cgi
         - /var/www/www.swimwithjj.com/admin/admin-handler.cgi
-    - name: copy stripe.json
+    - name: copy webapp settings
       tags: webapp
-      template: src=webapp/stripe.json dest=//var/www/www.swimwithjj.com/stripe.json
+      copy: src={{ webapp_settings_path }} dest=/etc/swimwithjj/webapp.yaml owner=root group=root
 
     # Copy apache and vhost configs
     - name: copy apache2 default conf
@@ -97,29 +129,30 @@
     - name: add admin http password
       htpasswd: path=/etc/apache2/htpasswd name=admin password={{ admin_password }} owner=root group=www-data mode=0640
 
-    # Install Email Service
+    # Install Emailer Service
     - name: copy python code
+      tags: emailer
       copy: src=lib/emailer.py dest=/usr/local/lib/python2.7/dist-packages owner=root group=root
       notify:
-        - restart swimwithjj email service
+        - restart swimwithjj emailer service
 
-    - name: setup settings dir
-      file: path=/etc/swimwithjj state=directory mode=0755 owner=root group=root
-
-    - name: copy settings.yaml
-      copy: src=conf/{{ settings_file }} dest=/etc/swimwithjj/settings.yaml  owner=root group=root
+    - name: copy server settings
+      tags: emailer
+      copy: src={{ server_settings_path }} dest=/etc/swimwithjj/server.yaml owner=root group=root
       notify:
-        - restart swimwithjj email service
+        - restart swimwithjj emailer service
 
-    - name: copy email service runner
+    - name: copy emailer service runner
+      tags: emailer
       notify:
-        - restart swimwithjj email service
+        - restart swimwithjj emailer service
       copy: src=bin/swimwithjj-email-service.py dest=/usr/local/bin owner=root group=root mode=0755
 
-    - name: copy upstart service definition
-      copy: src=conf/upstart.conf dest=/etc/init/swimwithjj-email-service.conf owner=root group=root
+    - name: copy systemd service definition
+      tags: emailer
+      copy: src=conf/swimwithjj-emailer.service dest=/etc/systemd/system owner=root group=root mode=0664
       notify:
-        - restart swimwithjj email service
+        - install swimwithjj emailer service
 
 
 # vim:ft=ansible:

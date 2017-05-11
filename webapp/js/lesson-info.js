@@ -16,13 +16,14 @@ new Vue({
 
 	beforeCreate: function() {
 		var vm = this
-		this.$http.get('config.json')
+		this.$http.get('config.cgi')
 			.then(function (response) {
-				vm.lessonInfoActive = response.data.lessonInfoActive
-			})
-		this.$http.get('sessions.json')
-			.then(function (response) {
-				vm.sessionList = response.data.sessionList
+                var status = response.data && response.data.status || 'error'
+                if (status == 'success') {
+                    var config = response.data.data
+                    vm.lessonInfoActive = config.lessonInfoActive
+                    vm.sessionList = config.sessionList
+                }
 			})
 		this.$http.get('session-cal.cgi')
 			.then(function (response) {

@@ -38,36 +38,40 @@
         <h1>Sign-Up</h1>
       </div>
 
-      <section class="section" id="waitlist" v-if="(!signupsActive && !sessionsFull) || sessionsFull" v-cloak>
+      <section class="section" id="waitlist" v-if="!signupsActive || sessionsFull" v-cloak>
         <div class="container">
 
-          <div v-if="!signupsActive && !sessionsFull">
-            <h1 class="muted">Coming Soon...</h1>
-            <p class="lead">To be contacted when sign-ups open, you can leave your email address and JJ will let you know as soon as the fun begins.</p>
-
+          <div v-if="!signupsActive">
+            <h1 class="title">Coming Soon...</h1>
+            <p class="is-medium" v-show="!submitted">
+              To be contacted when sign-ups open, you can leave your email address and JJ will let you know as soon as the fun begins.
+            </p>
+            <p class="is-medium" v-show="submitted">
+              Thank you. Your email address has been saved, and you will be notified before sign-ups are opened.
+            </p>
           </div>
 
           <div v-if="sessionsFull">
-              <h1 class="muted">Sessions Full</h1>
-              <p class="lead">Sorry, all sessions are FULL. To be added to a waitlist please email JJ under "Contact JJ".  You can also enter your email address here to be notified if sessions are added.</p>
+              <h1 class="title">Sessions Full</h1>
+              <p class="is-medium" v-show="!submitted">
+                Sorry, all sessions are FULL. To be added to a waitlist please email JJ under "Contact JJ".  You can also enter your email address here to be notified if sessions are added.
+              </p>
+              <p class="is-medium" v-show="submitted">
+                Thank you. Your email address has been saved, and you will be notified if new sessions are added.
+              </p>
           </div>
 
-          <form id="signup-notification-form">
-            <div class="field">
-              <p class="control has-icons-left">
-                <input type="email" name="email" placeholder="Enter your email here" v-model="email"/>
-                <span class="icon is-small is-left">
-                  <i class="fa fa-envelope"></i>
-                </span>
-              </p>
-            </div>
-
-            <input type="hidden" name="id" value="signup-notification"/>
-
-            <div class="field">
-              <button type="submit" class="button is-primary" @submit.prevent="submit" :disabled="loading" :loading="loading">Notify Me</button>
-            </div>
-          </form>
+					<div class="field has-addons" v-show="!submitted">
+						<p class="control has-icons-left">
+              <input class="input" type="email" name="email" placeholder="Enter your email here" v-model="email"/>
+							<span class="icon is-small is-left">
+								<i class="fa fa-envelope"></i>
+							</span>
+						</p>
+						<p class="control">
+              <a class="button is-primary" @click.prevent="submitWaitlist">Notify Me</a>
+						</p>
+					</div>
 
         </div>
       </section> 
@@ -88,7 +92,7 @@
 									<div class="field-body">
 										<div class="field is-grouped">
 											<p class="control is-expanded has-icons-left">
-												<input class="input" type="text" placeholder="Full Name">
+												<input class="input" type="text" v-model="parent.name" placeholder="Full Name">
 												<span class="icon is-small is-left">
 													<i class="fa fa-user"></i>
 												</span>
@@ -96,7 +100,7 @@
 										</div>
 										<div class="field is-grouped">
 											<p class="control is-expanded has-icons-left">
-												<input class="input" type="email" placeholder="Email">
+												<input class="input" type="email" v-model="parent.email" placeholder="Email">
 												<span class="icon is-small is-left">
 													<i class="fa fa-envelope"></i>
 												</span>
@@ -104,7 +108,7 @@
 										</div>
 										<div class="field is-grouped">
 											<p class="control is-expanded has-icons-left">
-												<input class="input" type="phone" placeholder="Phone">
+												<input class="input" type="phone" v-model="parent.phone" placeholder="Phone">
 												<span class="icon is-small is-left">
 													<i class="fa fa-phone"></i>
 												</span>
@@ -122,17 +126,16 @@
 									<button type="button" id="numChildren-{{num}}" class="button is-large" @click="changeChildCount(num)" :class="{'is-active': num == childCount}">{{num}}</button>
 								</p>
 							</div>
-							<input type="hidden" name="child_count" value="{{childCount}}"/>
 
 							<!-- Child Info -->
-              <fieldset class="box" v-for="childNum in childCount">
-								<legend class="subtitle">{{childNum | childLabel}}</legend>
+              <fieldset class="box" v-for="(child, childIndex) in children" v-show="childIndex < childCount">
+								<legend class="subtitle">{{childIndex + 1 | childLabel}}</legend>
 
 								<div class="field is-horizontal">
 									<div class="field-body">
 										<div class="field is-grouped">
 											<p class="control is-expanded has-icons-left">
-												<input class="input" type="text" name="child_name-{{childNum}}" placeholder="First Name">
+												<input class="input" type="text" v-model="child.name" placeholder="First Name">
 												<span class="icon is-small is-left">
 													<i class="fa fa-user"></i>
 												</span>
@@ -140,7 +143,7 @@
 										</div>
 										<div class="field is-grouped">
 											<p class="control is-expanded has-icons-left">
-												<input class="input" type="date" name="birthday-{{childNum}}" placeholder="Birthday">
+												<input class="input" type="date" v-model="child.birthday" placeholder="Birthday">
 												<span class="icon is-small is-left">
 													<i class="fa fa-calendar"></i>
 												</span>
@@ -149,7 +152,7 @@
 										<div class="field is-grouped">
 											<div class="control">
 												<span class="select">
-													<select name="swim_level-{{childNum}}">
+													<select v-model="child.level">
                             <option selected disabled>-- Select swimming level --</option>
                             <option>uncomfortable putting his or her face in the water</option>
                             <option>comfortable putting his or her face in the water</option>
@@ -164,28 +167,26 @@
 
                 <p>
                   Sessions:
-                  <span class="tag is-success" v-for="(session, sessionIndex) in sessions[childNum - 1]">
-                    {{session | formatSession}}
-                    <button type="button" class="delete" @click="remove(childNum, sessionIndex)">×</button>
+                  <span class="tag is-success" v-for="(sessionNum, index) in child.sessions">
+                    {{getSession(sessionNum) | formatSession}}
+                    <button type="button" class="delete" @click="remove(childIndex, index)">×</button>
                   </span>
                 </p>
 
                 <div class="field">
                   <p class="control">
                     <span class="select" >
-                      <select v-model="selectedSession[childNum - 1]" name="selected-session-{{childNum}}" @change="add(childNum)" placeholder="Add Session">
-                        <option v-for="s in childsAvailableSessions(childNum)" :value="s.num">
-                          {{s | formatSession}}
+                      <select v-model="selectedSession[childIndex]" @change="add(childIndex)" placeholder="Add Session">
+                        <option v-for="s in childsAvailableSessions(childIndex)" :value="s">
+                          {{getSession(s) | formatSession}}
                         </option>
-                        <option disabled v-show="!hasAvailableSessions(childNum)">No Sessions Available</option>
+                        <option disabled v-show="!hasAvailableSessions(childIndex)">No Sessions Available</option>
                       </select>
                     </span>
                   </p>
                   <p class="help">Add all the sessions you are interested in</p>
                 </div>
 
-								<input type="hidden" name="sessions-{{childNum}}-{{index}}" value="{{session | formatSession}}"
-										v-for="session in sessions[childNum - 1]">
               </fieldset>
 
 
@@ -193,7 +194,7 @@
                   <legend class="subtitle">special requests/needs</legend>
                   <div class="field">
                       <div class="control">
-                          <textarea name="request" rows="3" class="textarea"></textarea>
+                          <textarea v-model="parent.request" rows="3" class="textarea"></textarea>
                           <p class="help">In a lesson with a friend, etc. (no specific time requests).</p>
                       </div>
                   </div>
@@ -203,49 +204,39 @@
               <fieldset class="box">
 								<legend class="subtitle">Payment</legend>
 								<p class="is-medium">Number of Sessions: <strong>{{sessionTotal}}</strong></p>
-
-
 								<p class="is-medium">Payment Total: <strong>{{paymentTotal/ 100 | currency}}</strong></p>
 
-								<div class="form-row">
-
+                <div>
                   <div id="card-element" class="box"></div>
 									<!-- Used to display form errors -->
-									<div class="content is-danger" id="card-errors"></div>
-
-                  <p class="help">
-										Credit or debit card
-									</p>
-
+									<div class="help content is-danger" id="card-errors"></div>
 								</div>
-
-
 
 								<p class="emph">* Your card will only be charged after JJ confirms your lesson times.</p>
               </fieldset>
 
+              <p>
+                <button type="button" class="button is-primary"
+                  @click="submitSignup"
+                  :class="{'is-loading': submitProcessing}">Send Sign-Up Form</button>
+              </p>
 
-              <div class="alert alert-block alert-error" v-show="paymentError">
+              <div class="notification is-danger" v-show="submitFailed">
                   <h4>Sorry</h4>
-                  <p>There seems to be a problem saving your payment information. Below is the error received by the processing company:</p>
-                  <p>{{paymentError}}</p>
+                  <p>There seems to be a problem submitting your sign-up form. Below is the error received:</p>
+
+                  <p>
+                    {{error}}
+                  </p>
               </div>
 
-              <div class="alert alert-block alert-success" v-show="customerId">
-                  <strong>Your payment information has been saved; Click "Send Sign-Up Form" below to complete the sign-up process.</strong>
+              <div class="notification is-success" v-show="submitSucceeded">
+                  <h4 class="subtitle">Thank You!</h4>
+                  <p>
+                    You have completed the signup process. JJ will confirm your exact lesson times <strong>within the next 3 weeks.</strong> If you have any additional questions, please let her know by using the contact form below.
+                  </p>
               </div>
 
-              <input type="hidden" name="id" value="signup"/>
-              <input type="hidden" name="cost" value="{{paymentTotal}}">
-              <input type="hidden" name="customer_id" value="{{customerId}}">
-              <button type="button" class="button is-primary"
-                @click="submitSignup()"
-                :disabled="processingForm">Send Sign-Up Form</button>
-
-              <div style="display:none;" id="signup-complete-alert" class="alert alert-block alert-success">
-                  <h4>Thank You!</h4>
-                  You have completed the signup process. JJ will confirm your exact lesson times <strong>within the next 3 weeks.</strong> If you have any additional questions, please let her know by using the contact form below.
-              </div>
           </form>
 
         </div>

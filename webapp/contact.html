@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SwimWithJJ</title>
+    <link rel="stylesheet" href="./css/bulma.min.css" integrity="sha256-n+Ch7oRdzZ9+8/inp+1mK/0Bt4T/2PSmo4L6YGoDiVM=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="./css/style.css" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+		<style>
+			[v-cloak] {
+				display: none;
+			}
+		</style>
+  </head>
+  
+  <nav class="nav">
+    <div class="nav-left">
+            <a href="/" class="nav-item">Home</a> <a href="/about" class="nav-item">About JJ</a>
+            <a href="/lesson-info" class="nav-item">Lesson Info</a>
+            <a href="/faq" class="nav-item">FAQ</a>
+            <a href="/testimonials" class="nav-item">Testimonials</a>
+            <a href="/sign-up" class="nav-item">Sign-Up</a>
+            <a href="/contact" class="nav-item is-active">Contact JJ</a>
+    </div>
+  </nav>
+
+  <body class="content">
+    <div class="section-header">
+      <h1>Contact JJ</h1>
+    </div>
+
+    <section class="section" id="contact">
+      <div class="container">
+
+        <div v-show="!submitted">
+          <p class="subtitle">Send any questions or concerns and JJ will respond as soon as possible.</p>
+
+          <div class="field is-horizontal">
+            <div class="field-body">
+              <div class="field is-grouped">
+                <p class="control is-expanded has-icons-left">
+                  <input class="input" type="text" v-model="parent.name" placeholder="Full Name">
+                  <span class="icon is-small is-left">
+                    <i class="fa fa-user"></i>
+                  </span>
+                </p>
+              </div>
+              <div class="field is-grouped">
+                <p class="control is-expanded has-icons-left">
+                  <input class="input" type="email" v-model="parent.email" placeholder="Email">
+                  <span class="icon is-small is-left">
+                    <i class="fa fa-envelope"></i>
+                  </span>
+                </p>
+              </div>
+              <div class="field is-grouped">
+                <p class="control is-expanded has-icons-left">
+                  <input class="input" type="phone" v-model="parent.phone" placeholder="Phone">
+                  <span class="icon is-small is-left">
+                    <i class="fa fa-phone"></i>
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <p class="control">
+              <textarea rows="5" class="textarea" placeholder="Message"></textarea>
+            </p>
+          </div>
+
+          <div class="field">
+            <p class="control">
+              <button class="button is-primary" @click="submitContactForm">Send Message</button>
+            </p>
+          </div>
+
+        </div>
+
+        <p class="subtitle" v-show="submitted">
+          Thank you! Your message has been sent.
+        </p>
+
+
+      </div>
+    </section> 
+
+  </body>
+
+
+  <hr>
+
+
+  <footer>
+      <p><small>SwimWithJJ 2017</small></p>
+  </footer>
+
+  <script src="./js/vue.min.js"></script>
+	<script src="./js/axios.js"></script>
+	<script src="./js/underscore-min.js"></script>
+
+  <script src="./js/contact.js"></script>
+
+  <!--<script type="text/javascript">-->
+    <!--var _gaq = _gaq || [];-->
+    <!--_gaq.push(['_setAccount', 'UA-15537987-1']);-->
+    <!--_gaq.push(['_trackPageview']);-->
+
+    <!--(function() {-->
+      <!--var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;-->
+      <!--ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';-->
+      <!--var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);-->
+    <!--})();-->
+  <!--</script>-->
+
+</html>

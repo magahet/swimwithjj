@@ -5,20 +5,28 @@ var waitlist = new Vue({
 
 	data: {
         email: '',
-        loading: false,
 		signupsActive: null,
 		lessonInfoActive: null,
-		sessionsFull: null
+		sessionsFull: null,
+        submitted: false,
     },
 
     methods: {
         updateConfig: function(config) {
             this.signupsActive = config.signupsActive
             this.lessonInfoActive = config.lessonInfoActive
+            this.sessionsFull = config.sessionsFull
         },
-        updateSessions: function(sessions) {
-            this.sessionsFull = sessions.sessionsFull
-        }
+		submitWaitlist: function() {
+            this.submitted = true
+            return
+            console.log('submitting form')
+            var waitlistForm = {
+                id: 'notification',
+                email: vm.email
+            }
+            axios.post('form-handler.cgi', waitlistForm)
+		}
     }
 })
 
@@ -29,35 +37,57 @@ var signup = new Vue({
 		lessonInfoActive: null,
 		signupsActive: null,
 		sessionsFull: null,
-		sessions: [],
+		children: _.map(_.range(4), function() {
+            return {
+                name: null,
+                birthday: null,
+                level: null,
+                sessions: []
+            }
+        }),
+        parent: {
+            name: null,
+            email: null,
+            phone: null,
+            request: null,
+        },
 		maxChildren: 4,
 		childCount: 1,
 		selectedSession: new Array(4).fill(null),
 		sessionList: [],
 		customerId: null,
-		cardButtonMessage: 'Enter Payment Information',
-		paymentError: null,
+		error: null,
         stripePublishableKey: null,
+        stripe: null,
         card: null,
-		processingForm: null,
+		status: null,
 	},
 
-    created: function() {
-		this.clearSessions()
-    },
-
 	computed: {
+        submitProcessing: function() {
+            return this.status == 'processing'
+        },
+        submitFailed: function() {
+            return this.status == 'fail' || this.status == 'error'
+        },
+        submitSucceeded: function() {
+            return this.status == 'success'
+        },
 		sessionTotal: function() {
 			var count = 0
-			_.each(this.sessions.slice(0, this.childCount), function(value, key){
-				count += value.length
+			_.each(this.children.slice(0, this.childCount), function(child){
+				count += child.sessions.length
 			})
 			return count
 		},
 		paymentTotal: function() {
+            var vm = this
 			var sum = 0
-			_.each(this.sessions.slice(0, this.childCount), function(sessions) {
-				sum += _.reduce(_.pluck(sessions, 'price'), function(m, n) {return m + n}, 0)
+			_.each(this.children.slice(0, this.childCount), function(child) {
+			    _.each(child.sessions, function(sessionNum) {
+                    var session = vm.getSession(sessionNum)
+                    sum += session.price
+                })
 			})
 			return Math.floor(sum * 100)
 		}
@@ -97,113 +127,111 @@ var signup = new Vue({
             // #card-element is created in the DOM when signupsActive switches to true
             // This section only activates Stripe Elements if and after the element is rendered
             if (this.signupsActive) {
-                var vm = this
-                this.$nextTick(function() {
-                    if (!document.getElementById("card-element")) {
-                        console.log('#card-element not rendered')
-                        return
-                    }
-                    var stripe = Stripe(vm.stripePublishableKey)
-                    var elements = stripe.elements()
-                    var options = {
-                        sytle: {
-                            base: {
-								color: '#363636',
-								fontSize: '13.3333px',
-								lineHeight: 1.5,
-								fontFamily: 'BlinkMacSystemFont',
-                            }
-                        }
-                    }
-                    vm.card = elements.create('card')
-                    
-                    
-                    vm.card.mount('#card-element')
-
-                    vm.card.addEventListener('change', function(event) {
-                      var displayError = document.getElementById('card-errors');
-                      if (event.error) {
-                        displayError.textContent = event.error.message;
-                      } else {
-                        displayError.textContent = '';
-                      }
-                    })
-                })
+                this.$nextTick(this.setupStripe)
             }
         },
         updateSessions: function(sessions) {
             this.sessionList = sessions.sessionList
             this.sessionsFull = sessions.sessionsFull
         },
+        setupStripe: function() {
+            if (!document.getElementById("card-element")) {
+                return
+            }
+            this.stripe = Stripe(this.stripePublishableKey)
+            var elements = this.stripe.elements()
+            this.card = elements.create('card')
+            this.card.mount('#card-element')
+            this.card.addEventListener('change', function(event) {
+              var displayError = document.getElementById('card-errors');
+              if (event.error) {
+                displayError.textContent = event.error.message;
+              } else {
+                displayError.textContent = '';
+              }
+            })
+        },
+        getSession: function(sessionNum) {
+            return _.find(this.sessionList, function(s) { return s.num == sessionNum })
+        },
 		range: function(num) {
 			return _.range(num)
-		},
-		clearSessions: function() {
-			var sessions = []
-			_.each(this.range(this.maxChildren), function(i) {
-				sessions.push([])
-			})
-			this.sessions = sessions
 		},
         changeChildCount: function(num) {
             this.childCount = num
         },
-        childsAvailableSessions: function(childNum) {
-            var index = childNum - 1
-			var openSessions = _.filter(this.sessionList, function(s){ return s.open})
-			return _.difference(openSessions, this.sessions[index])
+        childsAvailableSessions: function(childIndex) {
+			var openSessions = _.pluck(_.filter(this.sessionList, function(s){ return s.open}), 'num')
+			return _.difference(openSessions, this.children[childIndex].sessions)
 		},
         hasAvailableSessions: function(childNum) {
             var openSessions = this.childsAvailableSessions(childNum)
             return openSessions.length > 0
 		},
-		add: function(childNum) {
-            var index = childNum - 1
-            var sessionNum = this.selectedSession[index]
+		add: function(childIndex) {
+            var sessionNum = this.selectedSession[childIndex]
             if (sessionNum != null) {
-                console.log(this.selectedSession[index])
-                var session = _.find(this.sessionList, function(s) {return s.num == sessionNum})
-			    this.sessions[index].push(session)
+			    this.children[childIndex].sessions.push(sessionNum)
             }
-			this.selectedSession[index] = null
+			this.selectedSession[childIndex] = null
 		},
-		remove: function(childNum, index) {
-            var childIndex = childNum - 1
-			this.sessions[childIndex].splice(index, 1)
+		remove: function(childIndex, index) {
+			this.children[childIndex].sessions.splice(index, 1)
 		},
-		payWithCard: function() {
+		submitSignup: function() {
+            console.log('submitting signup form')
 			var vm = this
-			StripeCheckout.open({
-				key:         this.stripePublishableKey,
-				billingAddress:     true,
-				amount:      this.paymentTotal(),
-				name:        'SwimWithJJ',
-				description: this.sessionTotal() + ' sessions of swim lessons',
-				panelLabel:  'Save Payment Information',
-				token:       function(res) {
-								this.$apply(function () {
-									this.cardButtonMessage = 'saving payment information'
-									var params = { 
-										id: 'save-card',
-										'stripe-token': res.id
-									}
-									$http.get('form-handler.cgi', {params: params}).
-										success(function(data, status, headers, config) {
-											if (data.response && data.response.customer_id) {
-												this.cardButtonMessage = 'Payment Information Saved'
-												this.customerId = data.response.customer_id
-											} else if (data.response && data.response.error) {
-												this.cardButtonMessage = 'Enter Payment Information'
-												this.paymentError = data.response.error
-											}
-										}).
-										error(function(data, status, headers, config) {
-											this.cardButtonMessage = 'Enter Payment Information'
-									})
-								})
-							 }
+            vm.status = 'processing'
+			vm.stripe.createToken(vm.card).then(function(result) {
+                if (result.error) {
+					vm.error= result.error.message
+                    vm.status = 'error'
+                } else {
+                    var signupForm = {
+                        id: 'signup',
+                        name: vm.parent.name,
+                        phone: vm.parent.name,
+                        request: vm.parent.request,
+                        token: result.token.id,
+                        cost: vm.paymentTotal,
+                        children: vm.children.slice(0, vm.childCount),
+                    }
+                    axios.post('form-handler.cgi', signupForm)
+                        .then(function(response) {
+                            vm.status = response && response.data && response.data.status || 'error'
+                            if (!vm.status) {
+                                vm.error = 'Request to server failed'
+                            } else if (vm.status == 'error') {
+                                vm.error = response.data.message || 'Received unknown error from server'
+                            } else if (vm.status == 'success') {
+                                vm.clearSignupForm()
+                            }
+                        })
+                        .catch(function(error) {
+                            vm.error = error
+                            vm.status = 'fail'
+                    })
+                }
 			})
-		}
+		},
+        clearSignupForm: function() {
+		    this.children = _.map(_.range(4), function() {
+                return {
+                    name: null,
+                    birthday: null,
+                    level: null,
+                    sessions: [],
+                }
+            })
+            this.parent = {
+                name: null,
+                email: null,
+                phone: null,
+                request: null,
+            }
+            this.childCount = 1
+            this.card.clear()
+        }
 	}
 })
 
@@ -216,27 +244,25 @@ function getParameterByName(name) {
     return decodeURIComponent(results[2].replace(/\+/g, " "))
 }
 
-axios.get('config.json')
+axios.get('config.cgi')
     .then(function (response) {
-        var priority = getParameterByName('prioritykey') == response.data.priorityKey
-        var debug = getParameterByName('debug')
-        var config = {
-            stripePublishableKey: response.data.stripePublishableKey,
-            lessonInfoActive: response.data.lessonInfoActive,
-            signupsActive: priority || debug || response.data.signupsActive
+        var status = response && response.data && response.data.status || 'error'
+        if (status == 'success') {
+            var settings = response.data.data
+
+            var priority = getParameterByName('prioritykey') == response.data.priorityKey
+            var debug = getParameterByName('debug') == 'true'
+
+            var config = {
+                stripePublishableKey: settings.stripePublishableKey,
+                lessonInfoActive: settings.lessonInfoActive,
+                signupsActive: priority || debug || settings.signupsActive,
+                sessionList: settings.sessionList,
+                sessionsFull: !_.some(settings.sessionList, function(s) { return s.open }),
+            }
+
+            waitlist.updateConfig(config)
+            signup.updateConfig(config)
         }
 
-        waitlist.updateConfig(config)
-        signup.updateConfig(config)
-    })
-
-axios.get('sessions.json')
-    .then(function (response) {
-        var sessions = {
-            sessionList: response.data.sessionList,
-            sessionsFull: !_.some(response.data.sessionList, function(s) { return s.open })
-        }
-
-        waitlist.updateSessions(sessions)
-        signup.updateSessions(sessions)
     })
