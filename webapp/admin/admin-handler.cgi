@@ -1,145 +1,163 @@
 #!/usr/bin/python2.7
 '''Admin form handler.'''
 
-import cgi
+import yaml
+import json
+import sys
 from pymongo import MongoClient
 from bson.json_util import dumps
 from bson.objectid import ObjectId
 from collections import defaultdict
-import yaml
 
 
 class FormProcessor(object):
     '''Provides methods for handling forms'''
 
-    def __init__(self, params, settings_file='/etc/swimwithjj/settings.yaml'):
-        self.params = params
+    def __init__(self, settings_file='/etc/swimwithjj/settings.yaml'):
+        try:
+            self.request = json.load(sys.stdin)
+        except ValueError:
+            self.request = {}
+        self.request_type = self.request.get('id')
         with open(settings_file, 'r') as file_:
             self.config = yaml.load(file_)
         client = MongoClient()
         self.db = client[self.config.get('db_name', 'swimwithjj')]
-        self.signup = self.db.signup
+        self.valid_fields = set([
+            'process_status',
+            'payment_received',
+            'notes',
+            'cost',
+        ])
 
     def process(self):
-        action = self.params.get('action', '')
         handlers = {
             'get_summary': self.get_summary,
             'get_signups': self.get_signups,
-            'set_received': self.set_received,
-            'save_notes': self.save_notes,
             'add_session': self.add_session,
             'remove_session': self.remove_session,
-            'set_cost': self.set_cost,
-            'set_status': self.set_status,
             'save_session': self.save_session,
+            'set': self.set_,
             'delete': self.delete,
         }
-        if action not in handlers:
-            return None
-        return handlers[action]()
+        if self.request_type not in handlers:
+            return {
+                'status': 'error',
+                'message': 'Request type is invalid'
+            }
+        return handlers[self.request_type]()
 
     def get_summary(self):
-        signups = self.get_signups()
+        signups = self.get_signups().get('data', [])
         sessions = defaultdict(list)
         for signup in signups:
             for child in signup.get('children', []):
                 for session in child.get('sessions', []):
-                    sessions[session].append(child.get('child_name'))
-        return [
-            {
-                'session': k,
-                'count': len(v),
-                'kids': v,
-            } for k, v in sessions.iteritems()
-        ]
+                    sessions[session].append(child.get('name'))
+        return {
+            'status': 'success',
+            'data': [
+                {
+                    'session': k,
+                    'count': len(v),
+                    'kids': v,
+                } for k, v in sessions.iteritems()
+            ]
+        }
 
     def get_signups(self):
-        return [r for r in self.signup.find({'deleted': {'$exists': False}})]
+        return {
+            'status': 'success',
+            'data': [r for r in self.db.signup.find({'deleted': {'$exists': False}})]
+        }
 
-    def set_status(self):
-        oid = self.params.get('oid', '')
-        status = self.params.get('process_status', '')
-        if not oid or not status:
-            return None
-        return self.signup.update({'_id': ObjectId(oid)},
-                                  {'$set': {'process_status': status}})
+    @staticmethod
+    def error(message='Unknown error occurred'):
+        return {
+            'status': 'error',
+            'message': message
+        }
 
-    def set_cost(self):
-        oid = self.params.get('oid', '')
+    def update(self, query):
+        success = self.db.signup.update(query)
+        if success:
+            return {
+                'status': 'success',
+                'data': []
+            }
+        else:
+            return {
+                'status': 'error',
+                'message': 'There was a document update error with the db.'
+            }
+
+    @staticmethod
+    def parse(value):
+        '''Try to cast into bool, int, float.'''
+        def filter_(value):
+            return value
+
         try:
-            cost = int(self.params.get('cost'))
+            return yaml.load(filter_(value))
         except ValueError:
             return None
+
+    def set_(self):
+        oid = self.request.get('oid')
         if not oid:
-            return None
-        return self.signup.update({'_id': ObjectId(oid)},
-                                  {'$set': {'cost': cost}})
-
-    def set_received(self):
-        oid = self.params.get('oid', '')
-        state = self.params.get('payment_received')
-        if not oid or state is None:
-            return None
-        state = True if state == 'true' else False
-        return self.signup.update({'_id': ObjectId(oid)},
-                                  {'$set': {'payment_received': state}})
-
-    def save_notes(self):
-        oid = self.params.get('oid', '')
-        notes = self.params.get('notes', '')
-        if not oid or not notes:
-            return None
-        return self.signup.update({'_id': ObjectId(oid)},
-                                  {'$set': {'notes': notes}})
+            return self.error('Invalid oid')
+        key = self.request.get('key')
+        if key not in self.valid_fields:
+            return self.error('Invalid field')
+        value = self.parse(self.request.get(key))
+        if value is None:
+            return self.error('Invalid value')
+        return self.update(
+            {'_id': ObjectId(oid)},
+            {'$set': {key: value}})
 
     def add_session(self):
-        oid = self.params.get('oid', '')
-        child_index = self.params.get('childIndex', '')
-        session = self.params.get('session', '')
+        oid = self.request.get('oid', '')
+        child_index = self.request.get('childIndex', '')
+        session = self.request.get('session', '')
         if not oid or not child_index or not session:
             return None
-        return self.signup.update({'_id': ObjectId(oid)},
-                                  {'$push': {'children.{0}.sessions'.format(child_index): session}})
+        return self.update(
+            {'_id': ObjectId(oid)},
+            {'$push': {'children.{0}.sessions'.format(child_index): session}})
 
     def remove_session(self):
-        oid = self.params.get('oid', '')
-        child_index = self.params.get('childIndex', '')
-        session = self.params.get('session', '')
+        oid = self.request.get('oid', '')
+        child_index = self.request.get('childIndex', '')
+        session = self.request.get('session', '')
         if not oid or not child_index or not session:
             return None
-        return self.signup.update({'_id': ObjectId(oid)},
-                                  {'$pull': {'children.{0}.sessions'.format(child_index): session}})
+        return self.update(
+            {'_id': ObjectId(oid)},
+            {'$pull': {'children.{0}.sessions'.format(child_index): session}})
 
     def save_session(self):
-        oid = self.params.get('oid', '')
-        child_index = self.params.get('childIndex', '')
-        session_index = self.params.get('sessionIndex', '')
-        session = self.params.get('session', '')
+        oid = self.request.get('oid', '')
+        child_index = self.request.get('childIndex', '')
+        session_index = self.request.get('sessionIndex', '')
+        session = self.request.get('session', '')
         if not oid or not child_index or not session:
             return None
-        return self.signup.update({'_id': ObjectId(oid)},
-                                  {'$set': {'children.{0}.sessions.{1}'.format(child_index, session_index): session}})
+        return self.update(
+            {'_id': ObjectId(oid)},
+            {'$set': {'children.{0}.sessions.{1}'.format(child_index, session_index): session}})
 
     def delete(self):
-        oid = self.params.get('oid', '')
+        oid = self.request.get('oid', '')
         if not oid:
             return None
-        return self.signup.update({'_id': ObjectId(oid)},
-                                  {'$set': {'deleted': True}})
-
-
-def get_cgi_dict():
-    """Get a plain dictionary, rather than the '.value' system used by the cgi module."""
-    fieldStorage = cgi.FieldStorage()
-    params = {}
-    for key in fieldStorage.keys():
-        params[key] = fieldStorage.getfirst(key)
-    return params
+        return self.update(
+            {'_id': ObjectId(oid)},
+            {'$set': {'deleted': True}})
 
 
 if __name__ == "__main__":
     print 'Content-type: application/json\n'
-    params = get_cgi_dict()
-    processor = FormProcessor(params)
+    processor = FormProcessor()
     response = processor.process()
-    print dumps({'params': params, 'response': response}, indent=2)
+    print dumps(response, indent=2)
