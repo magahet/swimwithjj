@@ -39,7 +39,7 @@
             <div class="field-body">
               <div class="field is-grouped">
                 <p class="control is-expanded has-icons-left">
-                  <input class="input" type="text" v-model="parent.name" placeholder="Full Name">
+                  <input class="input" type="text" v-model="name" placeholder="Full Name">
                   <span class="icon is-small is-left">
                     <i class="fa fa-user"></i>
                   </span>
@@ -47,7 +47,7 @@
               </div>
               <div class="field is-grouped">
                 <p class="control is-expanded has-icons-left">
-                  <input class="input" type="email" v-model="parent.email" placeholder="Email">
+                  <input class="input" type="email" v-model="email" placeholder="Email">
                   <span class="icon is-small is-left">
                     <i class="fa fa-envelope"></i>
                   </span>
@@ -55,7 +55,7 @@
               </div>
               <div class="field is-grouped">
                 <p class="control is-expanded has-icons-left">
-                  <input class="input" type="phone" v-model="parent.phone" placeholder="Phone">
+                  <input class="input" type="phone" v-model="phone" placeholder="Phone">
                   <span class="icon is-small is-left">
                     <i class="fa fa-phone"></i>
                   </span>
@@ -65,7 +65,7 @@
           </div>
           <div class="field">
             <p class="control">
-              <textarea rows="5" class="textarea" placeholder="Message"></textarea>
+              <textarea rows="5" class="textarea" v-model="message" placeholder="Message"></textarea>
             </p>
           </div>
 

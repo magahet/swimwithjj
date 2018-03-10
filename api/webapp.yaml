@@ -1,0 +1,19 @@
+stripePublishableKey: balsdfoaesd
+lessonInfoActive: true
+signupsActive: true
+priorityKey: oienawiefaweom
+sessionList:
+  - num: 1
+    open: true
+    dates: May 29th to June 8th
+    days: Monday to Thursday
+    note: '**Advanced students only - children who already learned side breathing for freestyle and were swimming the length of the pool last summer'
+    times: 30 minute lessons between 3:45pm and 5:15pm
+    price: 190
+
+  - num: 2
+    open: true
+    dates: June 12th to June 22nd
+    days: Monday to Thursday
+    times: 30 minute lessons between 9:30am and 12:00pm
+    price: 190

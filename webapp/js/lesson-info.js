@@ -16,7 +16,7 @@ new Vue({
 
 	beforeCreate: function() {
 		var vm = this
-		this.$http.get('config.cgi')
+		this.$http.get('api/config')
 			.then(function (response) {
                 var status = response.data && response.data.status || 'error'
                 if (status == 'success') {
@@ -25,7 +25,7 @@ new Vue({
                     vm.sessionList = config.sessionList
                 }
 			})
-		this.$http.get('session-cal.cgi')
+		this.$http.get('no-cache/session-cal.html')
 			.then(function (response) {
 				vm.calendar = response.data
 			})

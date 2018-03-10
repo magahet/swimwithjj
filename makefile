@@ -1,3 +1,7 @@
+.PHONY: caddy dev web-stage prod
+
+caddy:
+	caddy -conf Caddyfile
 dev:
 	vagrant status || vagrant up
 	test -f vagrant-ssh-config || vagrant ssh-config > vagrant-ssh-config
