@@ -5,3 +5,4 @@ conf/settings*
 certs/*
 vagrant-ssh-config
 *.yml
+.idea/

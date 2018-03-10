@@ -1,0 +1,19 @@
+*.swimwithjj.com:80
+root webapp
+gzip
+log /tmp/access.log
+log stdout
+
+proxy /api localhost:1234
+
+rewrite /sign-up /sign-up.html
+rewrite /about /about.html
+rewrite /contact /contact.html
+rewrite /faq /faq.html
+rewrite /lesson-info /lesson-info.html
+rewrite /testimonials /testimonials.html
+
+header / Cache-Control "max-age=86400"
+header /img Cache-Control "max-age=604800"
+header /api Cache-Control "no-store"
+header /no-cache Cache-Control "no-store"

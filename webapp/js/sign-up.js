@@ -19,13 +19,11 @@ var waitlist = new Vue({
         },
 		submitWaitlist: function() {
             this.submitted = true
-            return
-            console.log('submitting form')
+            console.log('submitting waitlist form')
             var waitlistForm = {
-                id: 'notification',
                 email: vm.email
             }
-            axios.post('form-handler.cgi', waitlistForm)
+            axios.post('/api/waitlist', waitlistForm)
 		}
     }
 })
@@ -196,7 +194,7 @@ var signup = new Vue({
                         cost: vm.paymentTotal,
                         children: vm.children.slice(0, vm.childCount),
                     }
-                    axios.post('form-handler.cgi', signupForm)
+                    axios.post('/api/signup', signupForm)
                         .then(function(response) {
                             vm.status = response && response.data && response.data.status || 'error'
                             if (!vm.status) {
@@ -244,7 +242,7 @@ function getParameterByName(name) {
     return decodeURIComponent(results[2].replace(/\+/g, " "))
 }
 
-axios.get('config.cgi')
+axios.get('/api/config')
     .then(function (response) {
         var status = response && response.data && response.data.status || 'error'
         if (status == 'success') {

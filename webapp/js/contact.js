@@ -16,13 +16,12 @@ var contact = new Vue({
             this.submitted = true
             console.log('submitting contact form')
             var contactForm = {
-                id: 'contact',
                 name: this.name,
                 email: this.email,
                 phone: this.phone,
                 message: this.message,
             }
-            axios.post('form-handler.cgi', contactForm)
+            axios.post('api/contact', contactForm)
 		}
     }
 })
