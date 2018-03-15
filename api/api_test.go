@@ -1,17 +1,17 @@
 package main
 
 import (
-	"net/http/httptest"
 	"io"
-	"testing"
-	"strings"
 	"net/http"
+	"net/http/httptest"
+	"strings"
+	"testing"
 )
 
 var (
 	server *httptest.Server
 	reader io.Reader
-	url string
+	url    string
 )
 
 func TestGetWebAppConfig(t *testing.T) {

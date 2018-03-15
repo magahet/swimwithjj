@@ -1,11 +1,12 @@
 package main
 
 import (
-	"github.com/gamegos/jsend"
-	"github.com/ghodss/yaml"
 	"io/ioutil"
 	"log"
 	"net/http"
+
+	"github.com/gamegos/jsend"
+	"github.com/ghodss/yaml"
 )
 
 // yaml library uses json tags
@@ -38,9 +39,7 @@ func readConfig(path string) ([]byte, error) {
 	return []byte(yamlFile), nil
 }
 
-func getWebAppConfig(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	log.Println("Getting webapp config")
+func configGet(w http.ResponseWriter, r *http.Request) {
 	body, err := readConfig("webapp.yaml")
 	if err != nil {
 		jsend.Wrap(w).
