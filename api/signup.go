@@ -8,48 +8,32 @@ import (
 	"github.com/gamegos/jsend"
 )
 
-const signupCollecton = "signups"
-
-func signupGetAll(w http.ResponseWriter, r *http.Request) {
-	var signupForms []Signup
-	err := connection.Collection(signupCollecton).Save(myPerson)
-	if err != nil {
-		jsend.Wrap(w).
-			Status(500).
-			Message(err.Error()).
-			Send()
-		return
-	}
-
-	jsend.Wrap(w).
-		Status(200).
-		Data(signupForms).
-		Send()
+type Session struct {
+	Document `bson:",inline"`
+	Name     string `json:"name"`
+	Birthday string `json:"birthday"`
+	Level    string `json:"level"`
+	Sessions []int  `json:"sessions"`
 }
 
-func signupSave(w http.ResponseWriter, r *http.Request) {
-	// Decode json body
-	var signupForm Signup
-	err := json.NewDecoder(r.Body).Decode(&signupForm)
-	if err != nil {
-		jsend.Wrap(w).
-			Status(500).
-			Message(err.Error()).
-			Send()
-		return
-	}
+type Sessions []*Session
 
-	// Save to mongo
-	err := connection.Collection(signupCollecton).Save(myPerson)
-	if err != nil {
-		jsend.Wrap(w).
-			Status(500).
-			Message(err.Error()).
-			Send()
-		return
-	}
+type SignUpForm struct {
+	Document `bson:",inline"`
+	Name     string    `json:"name" bson:"name"`
+	Phone    string    `json:"phone" bson:"phone"`
+	Request  string    `json:"request" bson:"request"`
+	Token    string    `json:"token" bson:"token"`
+	Cost     int       `json:"cost" bson:"cost"`
+	Sessions []Session `json:"sessions" bson:"sessions"`
+}
 
-	jsend.Wrap(w).
-		Status(200).
-		Send()
+type SignUpForms []*SignUpForm
+
+func getAllSignups() SignUpForms {
+	sign.All(
+}
+
+func (sf *SignupForm) Save() error {
+	return nil
 }

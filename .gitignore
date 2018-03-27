@@ -6,3 +6,4 @@ certs/*
 vagrant-ssh-config
 *.yml
 .idea/
+server.yaml

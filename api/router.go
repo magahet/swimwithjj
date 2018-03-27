@@ -16,11 +16,11 @@ type Route struct {
 type Routes []Route
 
 var routes = Routes{
-	Route{"ConfigGet", "GET", "/api/config", configGet},
-	Route{"SignupSave", "POST", "/api/signup", signupSave},
-	Route{"ContactSend", "POST", "/api/contact", contactSend},
-	Route{"WaitlistAdd", "POST", "/api/waitlist", waitlistAdd},
-	Route{"SignupGetAll", "GET", "/admin/api/signup", signupGetAll},
+	Route{"GetWebAppConfig", "GET", "/api/config", getConfig},
+	Route{"SaveSignup", "POST", "/api/signup", saveSignup},
+	Route{"SendMessage", "POST", "/api/message", sendMessage},
+	Route{"AddToWaitList", "POST", "/api/waitlist", addToWaitList},
+	Route{"GetSignups", "GET", "/admin/api/signup", getSignups},
 }
 
 func Logger(inner http.Handler, name string) http.Handler {

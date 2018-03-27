@@ -1,12 +1,8 @@
 package main
 
 import (
-	"io/ioutil"
-	"log"
-	"net/http"
-
-	"github.com/gamegos/jsend"
 	"github.com/ghodss/yaml"
+	"io/ioutil"
 )
 
 // yaml library uses json tags
@@ -20,47 +16,25 @@ type ServerConfig struct {
 }
 
 func (config *ServerConfig) load(path string) error {
-	body, err := readConfig(path)
+	yamlFile, err := ioutil.ReadFile(path)
 	if err != nil {
 		return err
 	}
 
-	err = yaml.Unmarshal(body, &config)
+	err = yaml.Unmarshal(yamlFile, config)
 	return err
 }
 
-func readConfig(path string) ([]byte, error) {
+func readConfig(path string) (interface{}, error) {
 	yamlFile, err := ioutil.ReadFile(path)
 	if err != nil {
-		log.Printf("yamlFile.Get err   #%v ", err)
-		return nil, err
+		return "", err
 	}
-
-	return []byte(yamlFile), nil
-}
-
-func configGet(w http.ResponseWriter, r *http.Request) {
-	body, err := readConfig("webapp.yaml")
-	if err != nil {
-		jsend.Wrap(w).
-			Status(500).
-			Message(err.Error()).
-			Send()
-		return
-	}
-
 	var json interface{}
-	err = yaml.Unmarshal(body, &json)
+	err = yaml.Unmarshal(yamlFile, &json)
 	if err != nil {
-		jsend.Wrap(w).
-			Status(500).
-			Message(err.Error()).
-			Send()
-		return
+		return "", err
 	}
 
-	jsend.Wrap(w).
-		Status(200).
-		Data(json).
-		Send()
+	return json, nil
 }

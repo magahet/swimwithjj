@@ -6,11 +6,7 @@ import (
 	"github.com/go-bongo/bongo"
 )
 
-var (
-	db          *bongo.Connection
-	colSignups  = "signups"
-	colWaitList = "waitlist"
-)
+var db *bongo.Connection
 
 func dbInit(server, db string) error {
 	config := &bongo.Config{
