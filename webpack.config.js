@@ -1,6 +1,7 @@
 var path = require('path')
 var webpack = require('webpack')
 const ExtractTextPlugin = require("extract-text-webpack-plugin")
+const CopyWebpackPlugin = require("copy-webpack-plugin")
 
 module.exports = {
   entry: './src/main.js',
@@ -74,6 +75,23 @@ if (process.env.NODE_ENV === 'production') {
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true
-    })
+    }),
+	// copy custom static assets
+	new CopyWebpackPlugin([
+	  {
+		from: path.resolve(__dirname, './static'),
+		to: './static',
+		ignore: ['.*']
+	  },
+	  {
+		from: path.resolve(__dirname, './root'),
+		to: './',
+		ignore: ['.*']
+	  },
+	  {
+		from: path.resolve(__dirname, './index.html'),
+		to: './',
+	  }
+	])
   ])
 }
