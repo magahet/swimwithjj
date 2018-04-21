@@ -1,9 +1,0 @@
-[Unit]
-Description=SwimWithJJ Emailer Service
-
-[Service]
-Type=simple
-ExecStart=/usr/local/bin/swimwithjj-email-service.py
-
-[Install]
-WantedBy=multi-user.target

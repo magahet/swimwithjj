@@ -1,12 +1,15 @@
+.DS_Store
+node_modules/
+dist/
+npm-debug.log
+yarn-error.log
+
+# Editor directories and files
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Other
 *.swp
-*.pyc
-conf/settings*
-.vagrant/*
-certs/*
-vagrant-ssh-config
-*.yml
-.idea/
-<<<<<<< HEAD
-server.yaml
-=======
->>>>>>> e786adec955f63b0086375cba698d40efb56f362

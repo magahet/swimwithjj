@@ -1,46 +1,22 @@
-swimwithjj
-==============
+# www.swimwithjj.com
 
-See it live: http://www.swimwithjj.com/
+> Water Safety, Swim Lessons, and Stroke Technique in a comfortable and relaxing setting
 
-A website to provide information and services for jj's swim school.
+See it live: https://www.swimwithjj.com
 
-Frontend code uses a mix of AngularJS and JQuery, though JQuery will eventually be phased out.
-Backend services are written in python and utilize mongodb for a datastore.
+## Build Setup
 
+``` bash
+# install dependencies
+npm install
 
-TODO
-----
+# serve with hot reload at localhost:8080
+npm run dev
 
-* add info box for parent and me / adult lessons
-* add delete record button to admin
-* add send lesson confirmation button to admin
+# build for production with minification
+npm run build
+```
 
-
-Deployment
-----------
-
-
-## settings.yaml
-
-There is a settings-template.yaml file in /conf. A copy should be made to /conf/settings.yaml and parameters entered as appropriate. Ansible will deploy /conf/settings.yaml to the webserver. This is needed for the webapp form handlers and the email service.
-
-
-## Deployment Process
-
-An ansible playbook is included for configuring the webserver and deploying the webapp and email service.
-
-An ansible inventory file needs to be created with with the fqdn of the webserver. This should be created as /dev.yml or prod.yml. Once in place, you can simply call make to run the deployment command.
-
-### example dev.yml or prod.yml
-
-    [all]
-    host.domain.com
-
-    [all:vars]
-    ansible_ssh_user=user
-    stripe_publish_key=blahblahblah
-    settings_file=settings.yaml
 
 ## LICENSE
 
