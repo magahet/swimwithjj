@@ -15,4 +15,7 @@ export default {
 </script>
 
 <style>
+  .text-maroon {
+    color: #C44D58;
+  }
 </style>

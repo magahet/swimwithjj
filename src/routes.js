@@ -14,11 +14,11 @@ export default new Router({
   mode: 'history',
   routes: [
     {path: '/', component: Home},
-    {path: '/about', component: About},
-    {path: '/lesson-info', component: LessonInfo},
-    {path: '/faq', component: FAQ},
-    {path: '/testimonials', component: Testimonials},
-    {path: '/sign-up', component: SignUp},
-    {path: '/contact', component: Contact},
+    {path: '/about', component: About, meta: {title: 'About JJ'}},
+    {path: '/lesson-info', component: LessonInfo, meta: {title: 'Lesson Info'}},
+    {path: '/faq', component: FAQ, meta: {title: 'FAQ'}},
+    {path: '/testimonials', component: Testimonials, meta: {title: 'Testimonials'}},
+    {path: '/sign-up', component: SignUp, meta: {title: 'Sign-Up'}},
+    {path: '/contact', component: Contact, meta: {title: 'Contact JJ'}}
   ]
 })
