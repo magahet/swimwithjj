@@ -3,7 +3,7 @@
     <b-row>
       <b-col>
 
-        <b-img thumbnail fluid class="m-4" :src="require('../assets/family.jpg')"></b-img>
+        <b-img thumbnail left fluid class="m-4" :src="require('../assets/family.jpg')"></b-img>
 
         <p><strong class="text-maroon">Always a fish myself</strong>, it was only natural that I chose to be on a swim team because that meant I could swim year round!  And, since I loved being in the water so much and also loved kids, it was a logical decision to start teaching swim lessons at the age of 13.</p>
 
@@ -19,9 +19,3 @@
     </b-row>
   </b-container>
 </template>
-
-<style scoped>
-  img {
-    float: left;
-  }
-</style>

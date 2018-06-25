@@ -2,91 +2,80 @@
   <b-container>
     <b-row>
       <b-col>
-        <section class="section">
-          <div class="container is-clearfix">
+        <b-container>
 
-            <div class="heading">
-              <h2 class="title">General Info</h2>
-            </div>
-
-            <div class="clearfix">
-              <b-img right thumbnail fluid :src="require('../assets/culver_city.jpg')"></b-img>
-              <p class="subtitle">Lessons are <strong class="emph">30 minutes</strong> long with <strong class="emph">4 children per lesson</strong>. Sessions run <strong class="emph">2 consecutive weeks</strong>, with lessons <strong class="emph">4 days a week</strong>. Your child will come at the same time for his or her lesson for the entire session.</p>
-            </div>
-
-
-          </div>
-        </section>
-
-        <section class="section">
-          <div class="container">
-
-            <div class="heading">
-              <h2 class="title">Session Dates and Times</h2>
-            </div>
-
-            <div v-if="lessonInfoActive">
-              <div class="container" v-html="calendar"></div>
-            </div>
-
-            <div class="" v-if="!lessonInfoActive">
-              <p class="subtitle">Session dates and times will be posted when sign-ups begin. You can be notified when sign-ups start by providing your email address.</p>
-              <div class=""><a href="/sign-up" class="button is-primary">Go to Notification Form »</a></div>
-            </div>
-
-          </div>
-        </section>
-
-        <section class="section" v-if="lessonInfoActive">
-          <div class="container">
-            <div class="heading">
-              <h2 class="title">Sessions</h2>
-            </div>
-
-            <b-table bordered hover :items="sessionList" :fields="fields"></b-table>
-
-            <ul class="">
-              <li>*Payment is <strong class="emph">non-refundable</strong> (unless a lesson is canceled by JJ) and <strong class="emph">non-transferable.</strong></li>
-            </ul>
-
-          </div>
-        </section>
-
-        <section class="section">
-          <div class="container">
-
-            <div class="heading">
-              <h2>Location</h2>
-            </div>
-
-            <p class="">Lessons are taught here:</p>
-
-            <div class="columns">
-              <div class="column is-half">
-
-                <div class="card">
-                  <div class="card-content">
-                    <a href="https://maps.google.com/maps?q=4261+Lincoln+Ave.+Culver+City,+CA+90232&hl=en&sll=34.020479,-118.411732&sspn=1.183749,0.928345&hnear=4261+Lincoln+Ave,+Culver+City,+Los+Angeles,+California+90232&t=m&z=17" target="_blank">
-                      <address class="">
-                        4261 Lincoln Ave.<br>
-                        Culver City, CA 90232
-                      </address>
-                    </a>
-                  </div>
-                  <div class="card-image">
-                    <figure class="image">
-                      <a href="https://maps.google.com/maps?q=4261+Lincoln+Ave.+Culver+City,+CA+90232&hl=en&sll=34.020479,-118.411732&sspn=1.183749,0.928345&hnear=4261+Lincoln+Ave,+Culver+City,+Los+Angeles,+California+90232&t=m&z=17" target="_blank">
-                        <img src="static/culver-city-map.png">
-                      </a>
-                    </figure>
-                  </div>
-                </div>
-
+          <b-row class="section lead">
+            <b-col>
+              <h2>General Info</h2>
+              <div class="clearfix">
+                <b-img class="ml-2" right thumbnail fluid :src="require('../assets/culver_city.jpg')"></b-img>
+                <p>Lessons are <strong class="text-maroon">30 minutes</strong> long with <strong class="text-maroon">4 children per lesson</strong>. Sessions run <strong class="text-maroon">2 consecutive weeks</strong>, with lessons <strong class="text-maroon">4 days a week</strong>. Your child will come at the same time for his or her lesson for the entire session.</p>
               </div>
-            </div>
+            </b-col>
+          </b-row>
 
-          </div>
-        </section>
+          <b-row class="section">
+            <b-col>
+              <h2>Session Dates and Times</h2>
+
+                <b-container fluid v-if="lessonInfoActive">
+                  <b-row>
+                    <b-col v-for="cal in months" :key="cal.$index" lg="3" md="4">
+                      <calendar :year="cal.year" :month="cal.month" :events="sessionList"></calendar>
+                    </b-col>
+                  </b-row>
+                </b-container>
+
+                <div class="" v-if="!lessonInfoActive">
+                  <p class="subtitle">Session dates and times will be posted when sign-ups begin. You can be notified when sign-ups start by providing your email address.</p>
+                  <div class=""><a href="/sign-up" class="button is-primary">Go to Notification Form »</a></div>
+                </div>
+              </b-col>
+            </b-row>
+
+          <b-row class="section" v-if="lessonInfoActive">
+            <b-col>
+              <h2>Sessions</h2>
+
+              <b-table bordered hover :items="sessionList" :fields="fields">
+                <template slot="index" slot-scope="session">
+                  <span class="session" ref="session">
+                    {{ session.item.num }}<br>
+                    {{ session.item.open ? '' : 'CLOSED' }}
+                  </span>
+                </template>
+                <template slot="datestimes" slot-scope="session">
+                  {{ session.item.dates }}<br>
+                  {{ session.item.times }}<br>
+                  {{ session.item.notes }}
+                </template>
+              </b-table>
+
+              <span>*Payment is <strong class="text-maroon">non-refundable</strong> (unless a lesson is canceled by JJ) and <strong class="text-maroon">non-transferable.</strong></span>
+            </b-col>
+          </b-row>
+
+          <b-row class="section">
+            <b-col>
+              <h2>Location</h2>
+
+              <p>Lessons are taught here:</p>
+
+              <a href="https://maps.google.com/maps?q=4261+Lincoln+Ave.+Culver+City,+CA+90232&hl=en&sll=34.020479,-118.411732&sspn=1.183749,0.928345&hnear=4261+Lincoln+Ave,+Culver+City,+Los+Angeles,+California+90232&t=m&z=17" target="_blank">
+                <address>
+                  4261 Lincoln Ave.<br>
+                  Culver City, CA 90232
+                </address>
+              </a>
+
+              <a href="https://maps.google.com/maps?q=4261+Lincoln+Ave.+Culver+City,+CA+90232&hl=en&sll=34.020479,-118.411732&sspn=1.183749,0.928345&hnear=4261+Lincoln+Ave,+Culver+City,+Los+Angeles,+California+90232&t=m&z=17" target="_blank">
+                <b-img thumbnail :src="require('../assets/culver-city-map.png')"></b-img>
+              </a>
+            </b-col>
+          </b-row>
+
+
+        </b-container>
       </b-col>
     </b-row>
   </b-container>
@@ -102,40 +91,91 @@
 <!--<td>${{s.price}}</td>-->
 
 <script>
+import Calendar from './Calendar.vue'
+import axios from 'axios'
+
 export default {
+  mounted() {
+    axios.get('sessions.json')
+      .then(response => {
+        // console.log(response)
+        this.months = response.data.months
+        this.sessionList = response.data.sessionList
+      })
+      .catch(() => {
+        // console.log(error)
+        this.errored = true
+      })
+      .finally(() => this.loading = false)
+  },
+  updated() {
+    // find session num cells in table and add session classes to them for color
+    let spans = this.$el.querySelectorAll('span.session')
+    for (let i = 0; i < spans.length; ++i) {
+      spans[i].parentNode.classList.add('session' + (i + 1))
+    }
+  },
+  components: {
+    Calendar,
+  },
   data () {
     return {
       lessonInfoActive: true,
+      loading: true,
+      errored: false,
+      months: [],
+      sessionList: [],
       fields: [
         {
-          key: 'num',
+          key: 'index',
           label: 'Session',
-          formatter: (value, key, item) => {
-            return `${item.num}<br>${item.open ? '' : 'CLOSED'}`
-          }
         },
         {
-          key: 'datesTimes',
+          key: 'datestimes',
           label: 'Dates/Times',
-          formatter: (value, key, item) => {
-            return `${item.dates}<br>${item.times}<br>${item.notes}`
-          }
         },
         'days',
-        {key: 'price', label: 'Price*'}
-      ],
-      sessionList: [
         {
-          num: 1,
-          open: false,
-          dates: 'April 2nd to April 5th',
-          times: 'lesson times between 3:00pm and 5:30pm',
-          notes: '',
-          days: 'Monday to Thursday',
-          price: 200
-        }
-      ]
+          key: 'price',
+          label: 'Price*',
+          formatter: (value) => `$${value}`,
+        },
+      ],
     }
-  }
+  },
+  computed: {
+  },
+  methods: {
+  },
 }
 </script>
+
+<style>
+.session, .session span {
+  color: whitesmoke;
+}
+.session1 {
+    background-color:#0074d9;
+}
+.session2 {
+    background-color:#459772;
+}
+.session3 {
+    background-color:#85144b;
+}
+.session4 {
+    background-color:#001f3f;
+}
+.session5 {
+    background-color:#00c555;
+}
+.session6 {
+    background-color:#b10dc9;
+}
+.session7 {
+    background-color:#508da5;
+}
+.session8 {
+    background-color:#3d9970;
+}
+</style>
