@@ -56,7 +56,7 @@
         },
         {
             "num": 3,
-            "open": false,
+            "open": true,
             "dates": "June 18th - June 28th",
             "dateList": [
                 [2018, 6, 18],
@@ -74,7 +74,7 @@
         },
         {
             "num": 4,
-            "open": false,
+            "open": true,
             "dates": "July 2nd - July 12th",
             "dateList": [
                 [2018, 7, 2],
@@ -92,7 +92,7 @@
         },
         {
             "num": 5,
-            "open": false,
+            "open": true,
             "dates": "July 30th - August 9th",
             "dateList": [
                 [2018, 7, 30],

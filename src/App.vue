@@ -24,6 +24,14 @@
     <div class="section-header" v-if="$route.meta.title"><h1 class="text-light">{{$route.meta.title}}</h1></div>
 
     <router-view></router-view>
+
+    <footer class="footer p-5">
+      <hr>
+      <b-container>
+        <span class="text-muted">SwimWithJJ</span>
+      </b-container>
+    </footer>
+
   </div>
 </template>
 
