@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-cloak>
     <b-navbar sticky toggleable="md" type="dark" variant="dark">
 
       <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>

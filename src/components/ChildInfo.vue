@@ -8,6 +8,7 @@
           class="input"
           type="text"
           v-model="name"
+          name="name"
           placeholder="First Name"
           @input="updateData()">
         </b-form-input>
@@ -18,6 +19,7 @@
           class="input"
           type="date"
           v-model="birthday"
+          name="birthday"
           placeholder="Birthday"
           @input="updateData()">
         </b-form-input>
@@ -27,6 +29,7 @@
 <b-form-select
   :state="isFilled(level)"
   v-model="level"
+  name="level"
   class="mb-3"
   :options="levelOptions"
   required
@@ -36,6 +39,7 @@
     <b-form-group label="Sessions" description="Add all the sessions you are interested in">
       <b-form-checkbox-group
         v-model="sessions"
+        name="sessions"
         class="checkbox-buttons"
         @input="updateData()"
         buttons button-variant="outline-primary"
@@ -71,6 +75,7 @@ export default {
   methods: {
     updateData() {
       this.$emit("input", {
+        id: this.childNum,
         name: this.name,
         birthday: this.birthday,
         level: this.level,

@@ -18,20 +18,24 @@
             <b-col>
               <h2>Session Dates and Times</h2>
 
-                <b-container fluid v-if="lessonInfoActive">
-                  <b-row>
-                    <b-col v-for="cal in months" :key="cal.$index" lg="3" md="4">
-                      <calendar :year="cal.year" :month="cal.month" :events="sessionList"></calendar>
-                    </b-col>
-                  </b-row>
-                </b-container>
+              <sorry v-if="!!error">
+                There was a problem loading the session information. Please try again later. If the problem continues, please let me know by filling out the contact form. Thanks.
+              </sorry>
 
-                <div class="" v-if="!lessonInfoActive">
-                  <p class="subtitle">Session dates and times will be posted when sign-ups begin. You can be notified when sign-ups start by providing your email address.</p>
-                  <div class=""><a href="/sign-up" class="button is-primary">Go to Notification Form »</a></div>
-                </div>
-              </b-col>
-            </b-row>
+              <b-container fluid v-if="lessonInfoActive">
+                <b-row>
+                  <b-col v-for="cal in months" :key="cal.$index" lg="3" md="4">
+                    <calendar :year="cal.year" :month="cal.month" :events="sessionList"></calendar>
+                  </b-col>
+                </b-row>
+              </b-container>
+
+              <div class="" v-if="!lessonInfoActive">
+                <p class="subtitle">Session dates and times will be posted when sign-ups begin. You can be notified when sign-ups start by providing your email address.</p>
+                <div class=""><a href="/sign-up" class="button is-primary">Go to Notification Form »</a></div>
+              </div>
+            </b-col>
+          </b-row>
 
           <b-row class="section" v-if="lessonInfoActive">
             <b-col>
@@ -81,30 +85,20 @@
   </b-container>
 </template>
 
-<!--<td v-bind:class="'session' + s.num">{{s.num}} <span v-if="!s.open"><br>CLOSED</span></td>-->
-<!--<td>-->
-<!--{{s.dates}}</br>-->
-<!--{{s.times}}</br>-->
-<!--{{s.note}}-->
-<!--</td>-->
-<!--<td>{{s.days}}</td>-->
-<!--<td>${{s.price}}</td>-->
-
 <script>
 import Calendar from './Calendar.vue'
+import Sorry from './shared/Sorry.vue'
 import axios from 'axios'
 
 export default {
   mounted() {
-    axios.get('sessions.json')
+    axios.get('settings.json')
       .then(response => {
-        // console.log(response)
         this.months = response.data.months
         this.sessionList = response.data.sessionList
       })
-      .catch(() => {
-        // console.log(error)
-        this.errored = true
+      .catch(error => {
+        this.error = error
       })
       .finally(() => this.loading = false)
   },
@@ -117,12 +111,13 @@ export default {
   },
   components: {
     Calendar,
+    Sorry,
   },
   data () {
     return {
       lessonInfoActive: true,
       loading: true,
-      errored: false,
+      error: null,
       months: [],
       sessionList: [],
       fields: [

@@ -1,6 +1,6 @@
-import firebase from 'firebase'
+import firebase from 'firebase/app'
 import 'firebase/firestore'
-import firebaseConfig from './firebaseConfig'
+import firebaseConfig from '@/components/shared/firebaseConfig'
 
 // firebase init goes here
 firebase.initializeApp(firebaseConfig)
@@ -17,11 +17,18 @@ const settings = {
 db.settings(settings)
 
 // firebase collections
+// const year = (new Date()).getFullYear()
+
 const signups = db.collection('signups')
+const waitlist = db.collection('waitlist')
+const messages = db.collection('messages')
+
 const ts = firebase.firestore.FieldValue.serverTimestamp
 
 export default {
     db,
     signups,
+    waitlist,
+    messages,
     ts,
 }
