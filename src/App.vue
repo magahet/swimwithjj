@@ -6,15 +6,15 @@
 
       <b-navbar-brand to="/">SwimWithJJ</b-navbar-brand>
 
-      <b-collapse is-nav id="nav_collapse">
+      <b-collapse is-nav id="nav_collapse" v-model="showMobileNav">
 
         <b-navbar-nav>
-          <b-nav-item to="/about" activeClass="active" tag="li"><a>About JJ</a></b-nav-item>
-          <b-nav-item to="/lesson-info" activeClass="active" tag="li"><a>Lesson Info</a></b-nav-item>
-          <b-nav-item to="/faq" activeClass="active" tag="li"><a>FAQ</a></b-nav-item>
-          <b-nav-item to="/testimonials" activeClass="active" tag="li"><a>Testimonials</a></b-nav-item>
-          <b-nav-item to="/sign-up" activeClass="active" tag="li"><a>Sign-Up</a></b-nav-item>
-          <b-nav-item to="/contact" activeClass="active" tag="li"><a>Contact JJ</a></b-nav-item>
+          <b-nav-item @click="showMobileNav = false" to="/about" activeClass="active" tag="li"><a>About JJ</a></b-nav-item>
+          <b-nav-item @click="showMobileNav = false" to="/lesson-info" activeClass="active" tag="li"><a>Lesson Info</a></b-nav-item>
+          <b-nav-item @click="showMobileNav = false" to="/faq" activeClass="active" tag="li"><a>FAQ</a></b-nav-item>
+          <b-nav-item @click="showMobileNav = false" to="/testimonials" activeClass="active" tag="li"><a>Testimonials</a></b-nav-item>
+          <b-nav-item @click="showMobileNav = false" to="/sign-up" activeClass="active" tag="li"><a>Sign-Up</a></b-nav-item>
+          <b-nav-item @click="showMobileNav = false" to="/contact" activeClass="active" tag="li"><a>Contact JJ</a></b-nav-item>
         </b-navbar-nav>
 
       </b-collapse>
@@ -34,6 +34,16 @@
 
   </div>
 </template>
+
+<script>
+  export default {
+    data() {
+      return {
+        showMobileNav: false,
+      }
+    },
+  }
+</script>
 
 <style>
   .section-header {

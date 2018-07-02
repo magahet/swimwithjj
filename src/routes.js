@@ -20,5 +20,8 @@ export default new Router({
     {path: '/testimonials', component: Testimonials, meta: {title: 'Testimonials'}},
     {path: '/sign-up', component: SignUp, meta: {title: 'Sign-Up'}},
     {path: '/contact', component: Contact, meta: {title: 'Contact JJ'}}
-  ]
+  ],
+  scrollBehavior () {
+    return { x: 0, y: 0 }
+  },
 })

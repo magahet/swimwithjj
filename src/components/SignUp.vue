@@ -23,17 +23,17 @@
       <b-card bg-variant="light" class="mb-3">
         <b-form-group label="Parent's Information" label-size="lg" label-class="font-weight-bold">
           <b-form-row>
-            <b-col>
+            <b-col md="4">
               <b-form-input required :state="isFilled(form.parent.name)" type="text" v-model="form.parent.name"
                 name="name"
                 placeholder="Full Name"></b-form-input>
             </b-col>
-            <b-col>
+            <b-col md="4">
               <b-form-input required :state="isFilled(form.parent.email)" type="email" v-model="form.parent.email"
                 name="email"
                 placeholder="Email"></b-form-input>
             </b-col>
-            <b-col>
+            <b-col md="4">
               <b-form-input :state="isFilled(form.parent.phone)" type="tel" v-model="form.parent.phone"
                 name="phone"
                 placeholder="Phone"></b-form-input>

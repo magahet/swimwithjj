@@ -2,7 +2,7 @@
   <b-form-group :label="childLabel" label-size="lg" label-class="font-weight-bold">
 
     <b-form-row class="mb-3">
-      <b-col>
+      <b-col md="6">
         <b-form-input
           :state="isFilled(name)"
           class="input"
@@ -13,7 +13,7 @@
           @input="updateData()">
         </b-form-input>
       </b-col>
-      <b-col>
+      <b-col md="6">
         <b-form-input
           :state="isFilled(birthday)"
           class="input"
@@ -127,7 +127,7 @@ export default {
   box-shadow: none;
 }
 
-.checkbox-buttons span {
+.checkbox-buttons label {
   text-align: left;
 }
 </style>

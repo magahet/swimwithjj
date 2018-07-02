@@ -3,7 +3,7 @@
     <b-row>
       <b-col>
 
-        <b-img right :src="require('../assets/boy2.svg')"></b-img>
+        <b-img style="max-width: 33%" fluid right :src="require('../assets/boy2.svg')"></b-img>
 
         <blockquote class="blockquote">
             <p class="is-medium">JJ is amazing.  My daughter used to be very timid around the water and now, <strong class="text-maroon">thanks to JJ, she swims like a fish!!</strong></p>
@@ -27,7 +27,7 @@
             <footer class="blockquote-footer">Daniele (mom to Angelina and Isabella, age 5)</footer>
         </blockquote>
 
-        <b-img right :src="require('../assets/boy1.svg')"></b-img>
+        <b-img style="max-width: 33%" right :src="require('../assets/boy1.svg')"></b-img>
 
         <blockquote class="blockquote">
             <p class="is-medium">When they first started at JJ's swimming class, both Leah & Danielle were so scared of being in the water that they would not put their faces in.  JJ's patience and teaching techniques <strong class="text-maroon">enabled my girls to learn</strong>, to be watersafe, and most important of all, to enjoy swimming by the end of the summer.  <strong class="text-maroon">They can't wait to start swimming with JJ again!</strong></p>

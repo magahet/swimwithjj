@@ -12,7 +12,7 @@
           <h3 class="text-maroon">I'm not sure of my summer schedule. Can I sign up and then cancel?</h3>
           <p>Unfortunately, <strong>I am not able to give refunds</strong>. I recommend making swim lessons a priority and scheduling other activities around it.  ;)</p>
 
-          <b-img left class="mr-4" :src="require('../assets/girl2.svg')" />
+          <b-img style="max-width: 20%" left class="mr-4" :src="require('../assets/girl2.svg')" />
 
           <h3 class="text-maroon">How warm do you keep your pool?</h3>
           <p>The pool temperature is <strong>88 degrees Fahrenheit</strong>. It feels like a bathtub!</p>
@@ -44,7 +44,7 @@
           <h3 class="text-maroon">Can I leave my child during the lesson?</h3>
           <p>You are welcome to leave your child, but only after the lesson begins and you must return before the lesson is over.</p>
 
-          <b-img right class="ml-4" :src="require('../assets/girl1.svg')" />
+          <b-img style="max-width: 60%" right class="ml-4" :src="require('../assets/girl1.svg')" />
 
           <h3 class="text-maroon">Is there anything I can be doing to prepare my child for swim lessons?</h3>
           <p>Yes! If your child is uncomfortable putting his or her face in the water, practice often in the bathtub or even a small inflatable pool. Have your child blow bubbles, working up to putting their nose, and eventually their eyes in. When getting their hair wet, don't be afraid to let water run down his or her face. This too will help them become familiar with the feeling of water. You can even have them practice kicking and floating on their back. If you sense that swim lessons are going to be a struggle, be prepared to offer rewards every step of the way! While it might be difficult, you will also want to try to get your children into a pool at least once a week on days without a lesson. You will be amazed at how their confidence builds after spending several hours in the pool outside of lessons.</p>

@@ -1,88 +1,88 @@
 <template>
-  <b-container>
-    <b-row>
-      <b-col>
-        <b-container>
+<b-container>
+<b-row>
+<b-col>
+<b-container>
 
-          <b-row class="section lead">
-            <b-col>
-              <h2>General Info</h2>
-              <div class="clearfix">
-                <b-img class="ml-2" right thumbnail fluid :src="require('../assets/culver_city.jpg')"></b-img>
-                <p>Lessons are <strong class="text-maroon">30 minutes</strong> long with <strong class="text-maroon">4 children per lesson</strong>. Sessions run <strong class="text-maroon">2 consecutive weeks</strong>, with lessons <strong class="text-maroon">4 days a week</strong>. Your child will come at the same time for his or her lesson for the entire session.</p>
-              </div>
-            </b-col>
-          </b-row>
+  <b-row class="section lead">
+    <b-col>
+      <h2>General Info</h2>
+      <div class="clearfix">
+        <b-img class="ml-2" right style="max-width: 50%" thumbnail :src="require('../assets/culver_city.jpg')"></b-img>
+        <p>Lessons are <strong class="text-maroon">30 minutes</strong> long with <strong class="text-maroon">4 children per lesson</strong>. Sessions run <strong class="text-maroon">2 consecutive weeks</strong>, with lessons <strong class="text-maroon">4 days a week</strong>. Your child will come at the same time for his or her lesson for the entire session.</p>
+      </div>
+    </b-col>
+  </b-row>
 
-          <b-row class="section">
-            <b-col>
-              <h2>Session Dates and Times</h2>
+  <b-row class="section">
+    <b-col>
+      <h2>Session Dates and Times</h2>
 
-              <sorry v-if="!!error">
-                There was a problem loading the session information. Please try again later. If the problem continues, please let me know by filling out the contact form. Thanks.
-              </sorry>
+      <sorry v-if="!!error">
+        There was a problem loading the session information. Please try again later. If the problem continues, please let me know by filling out the contact form. Thanks.
+      </sorry>
 
-              <b-container fluid v-if="lessonInfoActive">
-                <b-row>
-                  <b-col v-for="cal in months" :key="cal.$index" lg="3" md="4">
-                    <calendar :year="cal.year" :month="cal.month" :events="sessionList"></calendar>
-                  </b-col>
-                </b-row>
-              </b-container>
+      <b-container fluid v-if="lessonInfoActive">
+        <b-row>
+          <b-col v-for="cal in months" :key="cal.$index" lg="3" md="4">
+            <calendar :year="cal.year" :month="cal.month" :events="sessionList"></calendar>
+          </b-col>
+        </b-row>
+      </b-container>
 
-              <div class="" v-if="!lessonInfoActive">
-                <p class="subtitle">Session dates and times will be posted when sign-ups begin. You can be notified when sign-ups start by providing your email address.</p>
-                <div class=""><a href="/sign-up" class="button is-primary">Go to Notification Form »</a></div>
-              </div>
-            </b-col>
-          </b-row>
+      <div class="" v-if="!lessonInfoActive">
+        <p class="subtitle">Session dates and times will be posted when sign-ups begin. You can be notified when sign-ups start by providing your email address.</p>
+        <div class=""><a href="/sign-up" class="button is-primary">Go to Notification Form »</a></div>
+      </div>
+    </b-col>
+  </b-row>
 
-          <b-row class="section" v-if="lessonInfoActive">
-            <b-col>
-              <h2>Sessions</h2>
+  <b-row class="section" v-if="lessonInfoActive">
+    <b-col>
+      <h2>Sessions</h2>
 
-              <b-table bordered hover :items="sessionList" :fields="fields">
-                <template slot="index" slot-scope="session">
-                  <span class="session" ref="session">
-                    {{ session.item.num }}<br>
-                    {{ session.item.open ? '' : 'CLOSED' }}
-                  </span>
-                </template>
-                <template slot="datestimes" slot-scope="session">
-                  {{ session.item.dates }}<br>
-                  {{ session.item.times }}<br>
-                  {{ session.item.notes }}
-                </template>
-              </b-table>
+      <b-table responsive bordered hover :items="sessionList" :fields="fields">
+        <template slot="index" slot-scope="session">
+          <span class="session" ref="session">
+            {{ session.item.num }}<br>
+            {{ session.item.open ? '' : 'CLOSED' }}
+          </span>
+        </template>
+        <template slot="datestimes" slot-scope="session">
+          {{ session.item.dates }}<br>
+          {{ session.item.times }}<br>
+          {{ session.item.notes }}
+        </template>
+      </b-table>
 
-              <span>*Payment is <strong class="text-maroon">non-refundable</strong> (unless a lesson is canceled by JJ) and <strong class="text-maroon">non-transferable.</strong></span>
-            </b-col>
-          </b-row>
+      <span>*Payment is <strong class="text-maroon">non-refundable</strong> (unless a lesson is canceled by JJ) and <strong class="text-maroon">non-transferable.</strong></span>
+    </b-col>
+  </b-row>
 
-          <b-row class="section">
-            <b-col>
-              <h2>Location</h2>
+  <b-row class="section">
+    <b-col>
+      <h2>Location</h2>
 
-              <p>Lessons are taught here:</p>
+      <p>Lessons are taught here:</p>
 
-              <a href="https://maps.google.com/maps?q=4261+Lincoln+Ave.+Culver+City,+CA+90232&hl=en&sll=34.020479,-118.411732&sspn=1.183749,0.928345&hnear=4261+Lincoln+Ave,+Culver+City,+Los+Angeles,+California+90232&t=m&z=17" target="_blank">
-                <address>
-                  4261 Lincoln Ave.<br>
-                  Culver City, CA 90232
-                </address>
-              </a>
+      <a href="https://maps.google.com/maps?q=4261+Lincoln+Ave.+Culver+City,+CA+90232&hl=en&sll=34.020479,-118.411732&sspn=1.183749,0.928345&hnear=4261+Lincoln+Ave,+Culver+City,+Los+Angeles,+California+90232&t=m&z=17" target="_blank">
+        <address>
+          4261 Lincoln Ave.<br>
+          Culver City, CA 90232
+        </address>
+      </a>
 
-              <a href="https://maps.google.com/maps?q=4261+Lincoln+Ave.+Culver+City,+CA+90232&hl=en&sll=34.020479,-118.411732&sspn=1.183749,0.928345&hnear=4261+Lincoln+Ave,+Culver+City,+Los+Angeles,+California+90232&t=m&z=17" target="_blank">
-                <b-img thumbnail :src="require('../assets/culver-city-map.png')"></b-img>
-              </a>
-            </b-col>
-          </b-row>
+      <a href="https://maps.google.com/maps?q=4261+Lincoln+Ave.+Culver+City,+CA+90232&hl=en&sll=34.020479,-118.411732&sspn=1.183749,0.928345&hnear=4261+Lincoln+Ave,+Culver+City,+Los+Angeles,+California+90232&t=m&z=17" target="_blank">
+        <b-img thumbnail :src="require('../assets/culver-city-map.png')"></b-img>
+      </a>
+    </b-col>
+  </b-row>
 
 
-        </b-container>
-      </b-col>
-    </b-row>
-  </b-container>
+</b-container>
+</b-col>
+</b-row>
+</b-container>
 </template>
 
 <script>
