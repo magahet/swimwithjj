@@ -7,6 +7,7 @@ import FAQ from '@/components/FAQ'
 import Testimonials from '@/components/Testimonials'
 import SignUp from '@/components/SignUp'
 import Contact from '@/components/Contact'
+import Admin from '@/components/Admin'
 
 Vue.use(Router)
 
@@ -19,7 +20,8 @@ export default new Router({
     {path: '/faq', component: FAQ, meta: {title: 'FAQ'}},
     {path: '/testimonials', component: Testimonials, meta: {title: 'Testimonials'}},
     {path: '/sign-up', component: SignUp, meta: {title: 'Sign-Up'}},
-    {path: '/contact', component: Contact, meta: {title: 'Contact JJ'}}
+    {path: '/contact', component: Contact, meta: {title: 'Contact JJ'}},
+    {path: '/admin', component: Admin, meta: {title: 'Admin'}},
   ],
   scrollBehavior () {
     return { x: 0, y: 0 }

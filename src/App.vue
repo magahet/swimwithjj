@@ -1,6 +1,7 @@
 <template>
   <div v-cloak>
-    <b-navbar sticky toggleable="md" type="dark" variant="dark">
+    <b-navbar sticky toggleable="md" type="dark" variant="dark"
+        v-if="$route.meta.title != 'Admin'">
 
       <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
@@ -21,11 +22,15 @@
 
     </b-navbar>
 
-    <div class="section-header" v-if="$route.meta.title"><h1 class="text-light">{{$route.meta.title}}</h1></div>
+    <div class="section-header"
+        v-if="$route.meta.title && $route.meta.title != 'Admin'">
+      <h1 class="text-light">{{$route.meta.title}}</h1>
+    </div>
 
     <router-view></router-view>
 
-    <footer class="footer p-5">
+    <footer class="footer p-5"
+        v-if="$route.meta.title != 'Admin'">
       <hr>
       <b-container>
         <span class="text-muted">SwimWithJJ</span>
