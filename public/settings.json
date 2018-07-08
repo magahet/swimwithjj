@@ -1,5 +1,12 @@
 {
     "signupState": "open",
+    "processStates": [
+        "signup form received",
+        "signup confirmation sent",
+        "lessons scheduled",
+        "lesson confirmation sent",
+        "payment received",
+    ],
     "stripePublishKey": "pk_test_PkNVl7B3DrwF22CceHIRQ12b",
     "months": [
         {

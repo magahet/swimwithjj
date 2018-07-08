@@ -40,22 +40,21 @@
     </div>
 
     <div class="main-content">
+        <b-navbar type="dark" variant="primary">
+          <b-navbar-brand>SwimWithJJ Admin</b-navbar-brand>
 
-      <b-navbar type="dark" variant="primary">
-        <b-navbar-brand>SwimWithJJ Admin</b-navbar-brand>
+          <b-navbar-nav>
+            <b-nav-text>{{authUser.email}}</b-nav-text>
+          </b-navbar-nav>
+          <b-navbar-nav class="ml-auto">
+            <b-nav-item @click="signOut">Sign out</b-nav-item>
+          </b-navbar-nav>
+        </b-navbar>
 
-        <b-navbar-nav>
-          <b-nav-text>{{authUser.email}}</b-nav-text>
-        </b-navbar-nav>
-        <b-navbar-nav class="ml-auto">
-          <b-nav-item @click="signOut">Sign out</b-nav-item>
-        </b-navbar-nav>
-      </b-navbar>
-
-      <admin-signups :signups="signups" v-show="page == 'signups'"></admin-signups>
-      <admin-messages v-show="page == 'messages'"></admin-messages>
-      <admin-waitlist v-show="page == 'waitlist'"></admin-waitlist>
-      <admin-settings v-show="page == 'settings'"></admin-settings>
+        <admin-signups :signups="signups" v-show="page == 'signups'"></admin-signups>
+        <admin-messages :messages="messages" v-show="page == 'messages'"></admin-messages>
+        <admin-waitlist :waitlist="waitlist" v-show="page == 'waitlist'"></admin-waitlist>
+        <admin-settings :settings="settings" v-show="page == 'settings'"></admin-settings>
 
     </div>
 
@@ -72,6 +71,7 @@ import Vue from 'vue'
 import VueFirestore from 'vue-firestore'
 import '@/assets/loading.css'
 import '@/assets/loading-btn.css'
+import axios from "axios";
 
 import fb from "@/components/shared/firebaseInit"
 
@@ -91,6 +91,8 @@ export default {
   },
   data() {
     return {
+      settings: null,
+      error: null,
       isCollapsed: false,
       page: 'signups',
       signin: {
@@ -127,6 +129,14 @@ export default {
     },
   },
   created () {
+    axios.get("settings.json")
+      .then(response => {
+        this.settings = response.data
+    })
+      .catch(error => {
+        this.error = error.message
+    })
+
     fb.auth.onAuthStateChanged(user => {
 
       if (user == null) {
@@ -162,7 +172,7 @@ export default {
   grid-template-areas:
     "sidebar content";
 
-  grid-template-columns: max-content auto;
+  grid-template-columns: max-content 1fr;
 
   justify-content: stretch;
 
