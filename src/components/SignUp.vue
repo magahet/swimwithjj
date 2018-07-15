@@ -147,7 +147,7 @@ import WaitList from "@/components/shared/WaitList";
 import ChildInfo from "@/components/ChildInfo";
 import Sorry from "@/components/shared/Sorry";
 import axios from "axios";
-import fb from "@/components/shared/firebaseInit";
+// import fb from "@/components/shared/firebaseInit";
 import moment from "moment";
 import '@/assets/loading.css'
 import '@/assets/loading-btn.css'
@@ -279,17 +279,18 @@ export default {
         })
     },
     saveForm() {
-      fb.signups
-        .doc(this.formID)
-        .set({ ...this.form, created: fb.ts() })
-        .then(docRef => {
-          this.state = 'submitted'
-          this.clearForm()
-        })
-        .catch(error => {
-          this.state = 'submitError'
-          this.error = error.message
-        })
+      // fb.signups
+      //   .doc(this.formID)
+      //   .set({ ...this.form, created: fb.ts() })
+      //   .then(docRef => {
+      //     this.state = 'submitted'
+      //     this.clearForm()
+      //   })
+      //   .catch(error => {
+      //     this.state = 'submitError'
+      //     this.error = error.message
+      //   })
+      this.$state.dispatch('')
     },
     isFilled(value) {
       if (value) {

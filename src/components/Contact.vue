@@ -58,7 +58,7 @@
 
 <script>
 import moment from 'moment'
-import fb from "@/components/shared/firebaseInit"
+// import fb from "@/components/shared/firebaseInit"
 import Sorry from "@/components/shared/Sorry"
 import '@/assets/loading.css'
 import '@/assets/loading-btn.css'
@@ -102,15 +102,6 @@ export default {
   methods: {
     onSubmit() {
       this.state = 'sending'
-      fb.messages
-        .doc(this.messageID)
-        .set({ ...this.form, created: fb.ts() })
-        .then(() => this.state = 'submitted')
-        .catch(error => {
-          this.error = error
-          this.state = 'error'
-        })
-
     },
   },
 }

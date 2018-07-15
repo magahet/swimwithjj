@@ -51,7 +51,7 @@
           </b-navbar-nav>
         </b-navbar>
 
-        <admin-signups :signups="signups" v-show="page == 'signups'"></admin-signups>
+        <admin-signups v-show="page == 'signups'"></admin-signups>
         <admin-messages :messages="messages" v-show="page == 'messages'"></admin-messages>
         <admin-waitlist :waitlist="waitlist" v-show="page == 'waitlist'"></admin-waitlist>
         <admin-settings :settings="settings" v-show="page == 'settings'"></admin-settings>
@@ -67,20 +67,16 @@
 
 <script>
 
-import Vue from 'vue'
-import VueFirestore from 'vue-firestore'
 import '@/assets/loading.css'
 import '@/assets/loading-btn.css'
 import axios from "axios";
 
-import fb from "@/components/shared/firebaseInit"
+// import fb from "@/components/shared/firebaseInit"
 
 import AdminSignups from '@/components/admin/AdminSignups'
 import AdminMessages from '@/components/admin/AdminMessages'
 import AdminWaitlist from '@/components/admin/AdminWaitlist'
 import AdminSettings from '@/components/admin/AdminSettings'
-
-Vue.use(VueFirestore)
 
 export default {
   components: {
@@ -99,7 +95,6 @@ export default {
         email: '',
         password: '',
       },
-      authUser: null,
       signups: [],
       messages: [],
       waitlist: [],
@@ -116,48 +111,30 @@ export default {
       ],
     }
   },
+  computed: {
+    authUser() {
+      return this.$store.getters.user
+    },
+  },
   methods: {
     signOut () {
-      fb.auth.signOut()
+      this.$store.dispatch('logout')
     },
     signIn () {
-      fb.auth.signInWithEmailAndPassword(this.signin.email, this.signin.password)
-        .catch(error => alert('🤕' + error.message))
+      this.$store.dispatch('signUserIn', this.signin)
     },
     tsToDate(ts) {
       return new Date(ts.seconds * 1000)
     },
   },
   created () {
+    this.$store.dispatch('initLogin')
     axios.get("settings.json")
       .then(response => {
         this.settings = response.data
     })
       .catch(error => {
         this.error = error.message
-    })
-
-    fb.auth.onAuthStateChanged(user => {
-
-      if (user == null) {
-        return
-      }
-
-      this.authUser = user
-
-      // Binding Collections
-      this.$binding("signups", fb.signups)
-        // .catch(error => {
-        //   console.log(error)
-        // })
-      this.$binding("messages", fb.messages)
-        // .catch(error => {
-        //   console.log(error)
-        // })
-      this.$binding("waitlist", fb.waitlist)
-        // .catch(error => {
-        //   console.log(error)
-        // })
     })
   }
 }
