@@ -45,7 +45,7 @@
 
         <b-list-group class="list-group-flush">
         <b-list-group-item
-            v-for="(signup, sinupIndex) in filteredSignups" :key="sinupIndex">
+            v-for="signup in filteredSignups" :key="signup.id">
           <b-container fluid>
             <b-row no-gutters>
 
@@ -55,7 +55,7 @@
 
               <b-col
                   v-for="(child, childIndex) in signup.children" :key="childIndex">
-                <b-container fluid>
+                <b-container fluid class="child-container">
                   <b-row no-gutters>
                     <b-col cols="9" class="mr-2">
 
@@ -163,3 +163,9 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.child-container:nth-child(even) {
+  background-color: azure;
+}
+</style>

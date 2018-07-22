@@ -25,26 +25,30 @@ export default {
   actions: {
     initSignups(context) {
       firestore.collection('signups').onSnapshot(snapshot => {
-        snapshot.docChanges(change => {
+        snapshot.docChanges().forEach(change => {
           if (change.type === 'added') {
             const source = change.doc.metadata.hasPendingWrites ? 'Local' : 'Server'
 
             if (source === 'Server') {
-              context.commit('addSignup', change.doc.data())
+              let signup = change.doc.data()
+              signup.id = change.doc.id
+              context.commit('addSignup', signup)
             }
           }
           if (change.type === 'modified') {
-            context.commit('updateSignup', change.doc.data())
+              let signup = change.doc.data()
+              signup.id = change.doc.id
+            context.commit('updateSignup', signup)
           }
           if (change.type === 'removed') {
-            context.commit('deleteTodo', change.doc.id)
+            context.commit('deleteSignup', change.doc.id)
           }
         })
       })
     },
     addSignup(context, signup) {
       signup.ts = ts()
-      firestore.collection('signup').add(signup)
+      firestore.collection('signups').add(signup)
     },
   },
 }
