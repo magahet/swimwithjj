@@ -5,116 +5,94 @@
         "signup confirmation sent",
         "lessons scheduled",
         "lesson confirmation sent",
-        "payment received",
+        "payment received"
     ],
     "stripePublishKey": "pk_test_PkNVl7B3DrwF22CceHIRQ12b",
     "months": [
         {
-            "year": 2018,
-            "month": 4
-        },
-        {
-            "year": 2018,
-            "month": 5
-        },
-        {
-            "year": 2018,
+            "year": 2019,
             "month": 6
         },
         {
-            "year": 2018,
+            "year": 2019,
             "month": 7
         },
         {
-            "year": 2018,
+            "year": 2019,
             "month": 8
         }
     ],
     "sessionList": [
         {
             "num": 1,
-            "open": false,
-            "dates": "April 2nd to April 5th",
+            "open": true,
+            "dates": "June 17th to June 27th",
             "dateList": [
-                [2018, 4, 2],
-                [2018, 4, 3],
-                [2018, 4, 4],
-                [2018, 4, 5]
+                [2019, 6, 17],
+                [2019, 6, 18],
+                [2019, 6, 19],
+                [2019, 6, 20],
+                [2019, 6, 24],
+                [2019, 6, 25],
+                [2019, 6, 26],
+                [2019, 6, 27]
             ],
             "days": "Monday to Thursday",
-            "times": "45 minute lessons between 2:15 and 5:15",
-            "price": 150
+            "times": "45 minute lessons between 10:00 and 11:30",
+            "price": 200
         },
         {
             "num": 2,
-            "open": false,
-            "dates": "May 29th - June 7th",
+            "open": true,
+            "dates": "July 1st to July 11th",
             "dateList": [
-                [2018, 5, 29],
-                [2018, 5, 30],
-                [2018, 5, 31],
-                [2018, 6, 1],
-                [2018, 6, 4],
-                [2018, 6, 5],
-                [2018, 6, 6],
-                [2018, 6, 7]
+                [2019, 7, 1],
+                [2019, 7, 2],
+                [2019, 7, 3],
+                [2019, 7, 5],
+                [2019, 7, 8],
+                [2019, 7, 9],
+                [2019, 7, 10],
+                [2019, 7, 11]
             ],
-            "days": "Tuesday to Friday and Monday to Thursday",
-            "times": "lesson times between 3:00pm and 5:30pm",
+            "days": "Monday to Thursday",
+            "times": "45 minute lessons between 3pm and 5pm",
             "price": 200
         },
         {
             "num": 3,
             "open": true,
-            "dates": "June 18th - June 28th",
+            "dates": "July 22nd to August 1st",
             "dateList": [
-                [2018, 6, 18],
-                [2018, 6, 19],
-                [2018, 6, 20],
-                [2018, 6, 21],
-                [2018, 6, 25],
-                [2018, 6, 26],
-                [2018, 6, 27],
-                [2018, 6, 28]
+                [2019, 7, 22],
+                [2019, 7, 23],
+                [2019, 7, 24],
+                [2019, 7, 25],
+                [2019, 7, 29],
+                [2019, 7, 30],
+                [2019, 7, 31],
+                [2019, 8, 1]
             ],
             "days": "Monday to Thursday",
-            "times": "lesson times between 3:00pm and 5:30pm",
+            "times": "45 minute lessons between 10am and 11:30",
             "price": 200
         },
         {
             "num": 4,
-            "open": true,
-            "dates": "July 2nd - July 12th",
+            "open": false,
+            "dates": "August 12th to August 22nd",
             "dateList": [
-                [2018, 7, 2],
-                [2018, 7, 3],
-                [2018, 7, 4],
-                [2018, 7, 5],
-                [2018, 7, 9],
-                [2018, 7, 10],
-                [2018, 7, 11],
-                [2018, 7, 12]
+                [2019, 8, 12],
+                [2019, 8, 13],
+                [2019, 8, 14],
+                [2019, 8, 15],
+                [2019, 8, 19],
+                [2019, 8, 20],
+                [2019, 8, 21],
+                [2019, 8, 22]
             ],
             "days": "Monday to Thursday",
-            "times": "lesson times between 9:30am and 12:30pm",
-            "price": 200
-        },
-        {
-            "num": 5,
-            "open": true,
-            "dates": "July 30th - August 9th",
-            "dateList": [
-                [2018, 7, 30],
-                [2018, 7, 31],
-                [2018, 8, 1],
-                [2018, 8, 2],
-                [2018, 8, 6],
-                [2018, 8, 7],
-                [2018, 8, 8],
-                [2018, 8, 9]
-            ],
-            "days": "Monday to Thursday",
-            "times": "lesson times between 9:30am and 12:30pm",
+            "times": "TBD",
             "price": 200
         }
     ]
