@@ -1,4 +1,4 @@
-import {firestore, ts} from '@/db'
+import {firestore} from '@/db'
 
 export default {
   state: {
@@ -23,7 +23,7 @@ export default {
     },
   },
   actions: {
-    initSignups(context) {
+    initSignups({commit}) {
       firestore.collection('signups').onSnapshot(snapshot => {
         snapshot.docChanges().forEach(change => {
           if (change.type === 'added') {
@@ -32,23 +32,19 @@ export default {
             if (source === 'Server') {
               let signup = change.doc.data()
               signup.id = change.doc.id
-              context.commit('addSignup', signup)
+              commit('addSignup', signup)
             }
           }
           if (change.type === 'modified') {
               let signup = change.doc.data()
               signup.id = change.doc.id
-            context.commit('updateSignup', signup)
+            commit('updateSignup', signup)
           }
           if (change.type === 'removed') {
-            context.commit('deleteSignup', change.doc.id)
+            commit('deleteSignup', change.doc.id)
           }
         })
       })
-    },
-    addSignup(context, signup) {
-      signup.ts = ts()
-      firestore.collection('signups').add(signup)
     },
   },
 }

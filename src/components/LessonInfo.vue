@@ -65,16 +65,18 @@
 
       <p>Lessons are taught here:</p>
 
-      <a href="https://maps.google.com/maps?q=4261+Lincoln+Ave.+Culver+City,+CA+90232&hl=en&sll=34.020479,-118.411732&sspn=1.183749,0.928345&hnear=4261+Lincoln+Ave,+Culver+City,+Los+Angeles,+California+90232&t=m&z=17" target="_blank">
+      <a href="https://goo.gl/maps/Auy9jL33tNPW54zq8" target="_blank">
         <address>
-          4261 Lincoln Ave.<br>
-          Culver City, CA 90232
+          853 Mirage Ct.<br>
+          Newbury Park, CA 91320
         </address>
       </a>
 
-      <a href="https://maps.google.com/maps?q=4261+Lincoln+Ave.+Culver+City,+CA+90232&hl=en&sll=34.020479,-118.411732&sspn=1.183749,0.928345&hnear=4261+Lincoln+Ave,+Culver+City,+Los+Angeles,+California+90232&t=m&z=17" target="_blank">
-        <b-img thumbnail :src="require('../assets/culver-city-map.png')"></b-img>
-      </a>
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1167.2152698955242!2d-118.94854914925355!3d34.16211578786757!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80e83a1c8f4561d1%3A0xbf8f9bf6801b5ca6!2s853+Mirage+Ct%2C+Thousand+Oaks%2C+CA+91320!5e0!3m2!1sen!2sus!4v1557546287827!5m2!1sen!2sus" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+
+      <!-- <a href="https://goo.gl/maps/auy9jl33tnpw54zq8" target="_blank">
+        <b-img thumbnail :src="require('../assets/map.png')"></b-img>
+      </a> -->
     </b-col>
   </b-row>
 

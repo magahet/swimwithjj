@@ -50,19 +50,20 @@
       </b-card>
 
       <!-- Child Info -->
-      <b-card bg-variant="light"
-        class="mb-3"
-        v-for="childNum in childCount"
-        :key="childNum"
-        v-if="drawComponents">
+      <div v-if="drawComponents">
+        <b-card bg-variant="light"
+          class="mb-3"
+          v-for="childNum in childCount"
+          :key="childNum">
 
-        <child-info v-model="form.children[childNum - 1]"
-          :child-count="childCount"
-          :child-num="childNum"
-          @destroy="removeChild(childNum)"
-          :openSessions="openSessions">
-        </child-info>
-      </b-card>
+          <child-info v-model="form.children[childNum - 1]"
+            :child-count="childCount"
+            :child-num="childNum"
+            @destroy="removeChild(childNum)"
+            :openSessions="openSessions">
+          </child-info>
+        </b-card>
+      </div>
 
       <!-- Comments -->
       <b-card bg-variant="light" class="mb-3">
@@ -115,7 +116,7 @@
           :visible="submittedState">
         <p>You have completed the signup process. JJ will confirm your exact lesson
           times
-          <strong>within the next 3 weeks.</strong> If you have any additional questions,
+          <strong>within the next 2 weeks.</strong> If you have any additional questions,
           please let her know by using the contact form.</p>
       </b-modal>
 
@@ -147,8 +148,8 @@ import WaitList from "@/components/shared/WaitList";
 import ChildInfo from "@/components/ChildInfo";
 import Sorry from "@/components/shared/Sorry";
 import axios from "axios";
-// import fb from "@/components/shared/firebaseInit";
 import moment from "moment";
+import {firestore, ts} from '@/db'
 import '@/assets/loading.css'
 import '@/assets/loading-btn.css'
 
@@ -255,14 +256,11 @@ export default {
         this.childInfoComplete,
         this.cardComplete,
       ].every(e => !!e)
-    },
-    formID() {
-      return `${this.form.parent.name} - ${moment().format()}`
     }
   },
   methods: {
     removeChild(childNum) {
-      console.log('removing child' + childNum)
+      // console.log('removing child' + childNum)
       let index = this.form.children.findIndex(c => c.id == childNum)
       this.form.children.splice(index, 1)
     },
@@ -279,18 +277,18 @@ export default {
         })
     },
     saveForm() {
-      // fb.signups
-      //   .doc(this.formID)
-      //   .set({ ...this.form, created: fb.ts() })
-      //   .then(docRef => {
-      //     this.state = 'submitted'
-      //     this.clearForm()
-      //   })
-      //   .catch(error => {
-      //     this.state = 'submitError'
-      //     this.error = error.message
-      //   })
-      this.$state.dispatch('')
+      let formID = `${this.form.parent.name} - ${moment().format()}`
+      firestore.collection('signups')
+        .doc(formID)
+        .set({ ...this.form, created: ts(), paymentTotal: this.paymentTotal })
+        .then(() => {
+          this.state = 'submitted'
+          this.clearForm()
+        })
+        .catch(error => {
+          this.state = 'submitError'
+          this.error = error.message
+        })
     },
     isFilled(value) {
       if (value) {

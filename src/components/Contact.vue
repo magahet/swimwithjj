@@ -58,8 +58,9 @@
 
 <script>
 import moment from 'moment'
-// import fb from "@/components/shared/firebaseInit"
 import Sorry from "@/components/shared/Sorry"
+import {firestore, ts} from '@/db'
+
 import '@/assets/loading.css'
 import '@/assets/loading-btn.css'
 
@@ -102,6 +103,26 @@ export default {
   methods: {
     onSubmit() {
       this.state = 'sending'
+      let formID = `${this.form.name} - ${moment().format()}`
+      firestore.collection('messages')
+        .doc(formID)
+        .set({ ...this.form, created: ts() })
+        .then(() => {
+          this.state = 'submitted'
+          this.clearForm()
+        })
+        .catch(error => {
+          this.state = 'error'
+          this.error = error.message
+        })
+    },
+    clearForm() {
+      this.form = {
+        name: '',
+        email: '',
+        phone: '',
+        message: '',
+      }
     },
   },
 }
