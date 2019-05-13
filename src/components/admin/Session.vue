@@ -29,9 +29,8 @@ export default {
   methods: {
     async save() {
       let doc = await firestore.collection('signups').doc(this.signupId).get()
-      console.debug(doc)
       if (!doc.exists) {
-        console.error('Could not find signup to edit in firestore')
+        this.error = 'Could not find signup to edit in firestore'
         return
       }
       let signup = doc.data()
@@ -39,7 +38,7 @@ export default {
       try {
         await firestore.collection('signups').doc(this.signupId).update(signup)
       } catch(err) {
-        console.error('could not update signup', err)
+        alert(`could not update signup: ${err}`)
       }
       this.editable = false
     }

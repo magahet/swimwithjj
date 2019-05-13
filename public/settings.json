@@ -2,7 +2,7 @@
     "signupState": "open",
     "processStates": [
         "signup form received",
-        "lessons scheduled",
+        "lessons scheduled"
     ],
     "stripePublishKey": "pk_live_mfTxbsnXY6f9fXZJAR17EajZ",
     "months": [

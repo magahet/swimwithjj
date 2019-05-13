@@ -186,11 +186,16 @@ export default {
   created() {
     axios.get("settings.json")
       .then(response => {
-        this.signupState = response.data.signupState
-        this.stripePublishKey = response.data.stripePublishKey
-        this.months = response.data.months
-        this.sessionList = response.data.sessionList
-        this.drawComponents = true
+        if (typeof response.data === 'string') {
+          this.error = 'Could not parse settings.json'
+          this.state = 'setupError'
+        } else {
+          this.signupState = response.data.signupState
+          this.stripePublishKey = response.data.stripePublishKey
+          this.months = response.data.months
+          this.sessionList = response.data.sessionList
+          this.drawComponents = true
+        }
     })
       .catch(error => {
         this.error = error.message
@@ -260,7 +265,6 @@ export default {
   },
   methods: {
     removeChild(childNum) {
-      // console.log('removing child' + childNum)
       let index = this.form.children.findIndex(c => c.id == childNum)
       this.form.children.splice(index, 1)
     },
