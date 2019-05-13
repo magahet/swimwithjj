@@ -8,6 +8,8 @@ import { store } from './store'
 
 Vue.use(BootstrapVue)
 Vue.config.productionTip = false
+// Vue.config.devtools = process.env.CONTEXT !== 'production'
+Vue.config.devtools = true
 
 /* eslint-disable no-new */
 new Vue({
