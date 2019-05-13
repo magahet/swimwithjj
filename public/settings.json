@@ -38,7 +38,7 @@
                 [2019, 6, 27]
             ],
             "days": "Monday to Thursday",
-            "times": "45 minute lessons between 10:00 and 11:30",
+            "times": "30 minute lessons between 10:00 and 11:30",
             "price": 200
         },
         {
@@ -56,7 +56,7 @@
                 [2019, 7, 11]
             ],
             "days": "Monday to Thursday",
-            "times": "45 minute lessons between 3pm and 5pm",
+            "times": "30 minute lessons between 3pm and 5pm",
             "price": 200
         },
         {
@@ -74,7 +74,7 @@
                 [2019, 8, 1]
             ],
             "days": "Monday to Thursday",
-            "times": "45 minute lessons between 10am and 11:30",
+            "times": "30 minute lessons between 10am and 11:30",
             "price": 200
         },
         {

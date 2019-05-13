@@ -3,26 +3,30 @@
 
     <b-form-row class="mb-3">
       <b-col md="6">
-        <b-form-input
-          :state="isFilled(name)"
-          class="input"
-          type="text"
-          v-model="name"
-          name="name"
-          placeholder="First Name"
-          @input="updateData()">
-        </b-form-input>
+        <b-form-group label="Name">
+          <b-form-input
+            :state="isFilled(name)"
+            class="input"
+            type="text"
+            v-model="name"
+            name="name"
+            placeholder="First Name"
+            @input="updateData()">
+          </b-form-input>
+        </b-form-group>
       </b-col>
       <b-col md="6">
-        <b-form-input
-          :state="isFilled(birthday)"
-          class="input"
-          type="date"
-          v-model="birthday"
-          name="birthday"
-          placeholder="Birthday"
-          @input="updateData()">
-        </b-form-input>
+        <b-form-group label="Birthday">
+          <b-form-input
+            :state="isFilled(birthday)"
+            class="input"
+            type="date"
+            v-model="birthday"
+            name="birthday"
+            placeholder="Birthday"
+            @input="updateData()">
+          </b-form-input>
+        </b-form-group>
       </b-col>
     </b-form-row>
 
@@ -103,7 +107,7 @@ export default {
       return this.openSessions.map(s => {
         return {
           text: `Session ${s.num}: ${s.dates}`,
-          value: s.num
+          value: {id: s.num, time: '', text: `Session ${s.num}: ${s.dates}`},
         };
       });
     }

@@ -72,9 +72,9 @@
                     <b-col>
                       <span class="font-weight-bold font-italic">sessions</span>
                       <ul class="list-unstyled">
-                        <li v-for="(session, sessionIdx) in child.sessions"
-                            :key="sessionIdx">
-                          {{ session.num }}:
+                        <li v-for="session in child.sessions"
+                            :key="session.id">
+                          {{ session.id }}:
                           <b-link v-if="!!session.time">{{ session.time }}</b-link>
                           <b-link v-else>set time</b-link>
                         </li>
@@ -97,6 +97,21 @@
 <script>
 import SignupInfo from '@/components/admin/SignupInfo'
 
+function getNested(o, s) {
+    s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
+    s = s.replace(/^\./, '');           // strip a leading dot
+    var a = s.split('.');
+    for (var i = 0, n = a.length; i < n; ++i) {
+        var k = a[i];
+        if (k in o) {
+            o = o[k];
+        } else {
+            return;
+        }
+    }
+    return o;
+}
+
 export default {
   components: {
     SignupInfo,
@@ -109,6 +124,7 @@ export default {
       searchTerm: '',
       statusFilter: 'All',
       sessionFilter: 'All',
+      sortBy: 'created.seconds',
       statusList: [
         'signup received',
         'signup confirmation sent',
@@ -136,7 +152,7 @@ export default {
     },
     newSignups() {
       return this.signups.reduce((total, signup) => {
-        let v = signup.status != 'signup confirmation sent' ? 0 : 1
+        let v = signup.status != 'signup received' ? 0 : 1
         return total + v
       }, 0)
     },
@@ -145,13 +161,15 @@ export default {
         return this.statusFilter == 'All' || this.statusFilter == signup.status
       }).filter(signup => {
         return this.sessionFilter == 'All' || signup.children.some(child => {
-          return child.sessions.some(session => session.num == this.sessionFilter)
+          return child.sessions.some(session => session.id == this.sessionFilter)
         })
       }).filter(signup => {
         if (this.searchTerm == '') {
           return true
         }
         return JSON.stringify(signup).toLowerCase().search(this.searchTerm.toLowerCase()) != -1
+      }).sort((a, b) => {
+        return getNested(b, this.sortBy) - getNested(a, this.sortBy)
       })
     },
     filtersOn() {

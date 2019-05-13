@@ -8,8 +8,8 @@
     <b-col>
       <h2>General Info</h2>
       <div class="clearfix">
-        <b-img class="ml-2" right style="max-width: 50%" thumbnail :src="require('../assets/culver_city.jpg')"></b-img>
-        <p>Lessons are <strong class="text-maroon">30 minutes</strong> long with <strong class="text-maroon">4 children per lesson</strong>. Sessions run <strong class="text-maroon">2 consecutive weeks</strong>, with lessons <strong class="text-maroon">4 days a week</strong>. Your child will come at the same time for his or her lesson for the entire session.</p>
+        <!-- <b-img class="ml-2" right style="max-width: 50%" thumbnail :src="require('../assets/culver_city.jpg')"></b-img> -->
+        <p>Lessons are <strong class="text-maroon">30 minutes</strong> long with <strong class="text-maroon">2 to 4 children per lesson</strong>. Sessions run <strong class="text-maroon">2 consecutive weeks</strong>, with lessons <strong class="text-maroon">4 days a week</strong>. Your child will come at the same time for his or her lesson for the entire session.</p>
       </div>
     </b-col>
   </b-row>

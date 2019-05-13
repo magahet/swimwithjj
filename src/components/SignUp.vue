@@ -230,7 +230,7 @@ export default {
     },
     paymentTotal() {
       let prices = this.enrolledSessions.map(
-        s => this.sessionList[s - 1].price
+        s => this.sessionList[s.id - 1].price
       )
       return prices.length ? prices.reduce((a, b) => a + b) : 0
     },
@@ -280,7 +280,12 @@ export default {
       let formID = `${this.form.parent.name} - ${moment().format()}`
       firestore.collection('signups')
         .doc(formID)
-        .set({ ...this.form, created: ts(), paymentTotal: this.paymentTotal })
+        .set({
+          ...this.form,
+          created: ts(),
+          paymentTotal: this.paymentTotal,
+          status: 'signup received',
+        })
         .then(() => {
           this.state = 'submitted'
           this.clearForm()
