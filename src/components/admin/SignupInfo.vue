@@ -29,6 +29,8 @@
 </template>
 
 <script>
+import {firestore} from '@/db'
+
 export default {
   props: ['signup', 'statusList'],
   data() {
@@ -43,8 +45,12 @@ export default {
       let date = new Date(ts.seconds * 1000)
       return date.toLocaleString()
     },
-    changeStatus() {
-      this.signup.status = this.newStatus
+    async changeStatus() {
+      try {
+        await firestore.collection('signups').doc(this.signup.id).update({status: this.newStatus})
+      } catch {
+        console.error('could not update signup in firestore', this.signup.id)
+      }
       this.statusEditable = false
     },
   },

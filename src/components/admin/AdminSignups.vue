@@ -54,7 +54,7 @@
               </b-col>
 
               <b-col
-                  v-for="(child, childIndex) in signup.children" :key="childIndex">
+                  v-for="(child, childIdx) in signup.children" :key="childIdx">
                 <b-container fluid class="child-container">
                   <b-row no-gutters>
                     <b-col cols="9" class="mr-2">
@@ -72,11 +72,13 @@
                     <b-col>
                       <span class="font-weight-bold font-italic">sessions</span>
                       <ul class="list-unstyled">
-                        <li v-for="session in child.sessions"
+                        <li v-for="(session, sessionIdx) in child.sessions"
                             :key="session.id">
-                          {{ session.id }}:
-                          <b-link v-if="!!session.time">{{ session.time }}</b-link>
-                          <b-link v-else>set time</b-link>
+                          <session :session="session"
+                            :signup-id="signup.id"
+                            :child-idx="childIdx"
+                            :session-idx="sessionIdx">
+                          </session>
                         </li>
                       </ul>
                     </b-col>
@@ -96,6 +98,8 @@
 
 <script>
 import SignupInfo from '@/components/admin/SignupInfo'
+import Session from '@/components/admin/Session'
+
 
 function getNested(o, s) {
     s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
@@ -115,6 +119,7 @@ function getNested(o, s) {
 export default {
   components: {
     SignupInfo,
+    Session,
   },
   props: [
   ],
@@ -127,9 +132,7 @@ export default {
       sortBy: 'created.seconds',
       statusList: [
         'signup received',
-        'signup confirmation sent',
         'lessons scheduled',
-        'lesson confirmation sent',
       ],
       sessionList: [
         1, 2, 3, 4, 5,

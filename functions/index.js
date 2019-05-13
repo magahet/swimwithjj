@@ -20,6 +20,7 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
 
 admin.initializeApp()
 
+
 // Sends an email confirmation when a user submits a signup form.
 exports.sendEmailConfirmation = functions.firestore.document('/signups/{uid}').onCreate((snap, context) => {
   const signup = snap.data()
@@ -55,6 +56,50 @@ You have signed up for the following sessions:
     .then(() => console.log('Signup confirmation email sent to:', signup.parent.email))
     .catch(err => console.error('There was an error while sending the signup confirmation email:', err))
 })
+
+function sendLessonTimeEmail(signup) {
+  const mailOptions = {
+    from: '"JJ" <jj@swimwithjj.com>',
+    to: signup.parent.email,
+  }
+
+  const cost = currencyFormatter.format(signup.parent.paymentTotal)
+
+  // Building Email message.
+  mailOptions.subject = 'SwimWithJJ Lesson Times'
+
+  const lessons = signup.children.map(child => {
+    return `${child.name}:\n` + child.sessions.map(s => `${s.text} at ${s.time}`).join('\n')
+  }).join('\n\n')
+
+  mailOptions.text = `Your lesson times have been set!
+You have been scheduled for the following sessions and times:
+
+${lessons}
+
+Payment will be charged to the credit card you provided.
+The total amount that will be charged is: ${cost}   
+`
+    
+return mailTransport.sendMail(mailOptions)
+  .then(() => console.log('Signup confirmation email sent to:', signup.parent.email))
+  .catch(err => console.error('There was an error while sending the signup confirmation email:', err))
+
+}
+
+// Process signup changes
+exports.processSignupChanges = functions.firestore.document('/signups/{uid}').onUpdate((change, context) => {
+  const oldSignup = change.before.data()
+  const newSignup = change.after.data()
+
+  if (newSignup.status !== oldSignup.status && newSignup.status === 'lessons scheduled') {
+    return sendLessonTimeEmail(newSignup)
+  }
+
+  console.debug('signup changed, but status did not trigger ')
+  return null
+})
+
 
 
 // Sends an email when a user sends a message on the site.
