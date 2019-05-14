@@ -121,7 +121,12 @@ export default {
       this.$store.dispatch('logout')
     },
     signIn () {
-      this.$store.dispatch('signUserIn', this.signin)
+      this.$store.dispatch('signUserIn', this.signin).finally(() => {
+        this.signin = {
+          email: '',
+          password: '',
+        }
+      })
     },
     tsToDate(ts) {
       return new Date(ts.seconds * 1000)

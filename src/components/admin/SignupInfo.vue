@@ -14,11 +14,14 @@
       <i class="fas fa-times"></i>
     </b-link>
   </li>
-  <li v-show="more">{{ signup.parent.email }}</li>
-  <li v-show="more">{{ signup.parent.phone}}</li>
-  <li v-show="more">
-      {{ signup.request }} 
-  </li>
+  <template v-show="more">
+    <li><b-link target="_blank"
+           :href="'https://manage.stripe.com/customers/' + signup.stripeCustomerId">{{signup.stripeCustomerId}}</b-link></li>
+    <li>{{ signup.paymentTotal | currency }}</li>
+    <li>{{ signup.parent.email }}</li>
+    <li>{{ signup.parent.phone}}</li>
+    <li>{{ signup.request }}</li>
+  </template>
   <li>
     <b-btn variant="link" v-show="!more"
         @click="more = true">more</b-btn>
@@ -54,5 +57,18 @@ export default {
       this.statusEditable = false
     },
   },
+  filters: {
+    currency(value) {
+      if (typeof value !== "number") {
+        return value
+      }
+      var formatter = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 0
+      })
+      return formatter.format(value)
+    }
+  }
 }
 </script>

@@ -29,7 +29,7 @@ export default {
     signUserIn ({commit}, payload) {
       commit('setLoading', true)
       commit('clearError')
-      firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
+      return firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
         .catch(error => commit('setError', error))
         .finally(() => commit('setLoading', false))
     },

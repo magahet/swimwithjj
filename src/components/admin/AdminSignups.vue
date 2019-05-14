@@ -3,7 +3,7 @@
     <b-row no-gutters>
       <b-col>
         <h4>Signups <b-badge pill variant="primary"
-            @click="statusFilter = 'signup confirmation sent'"
+            @click="statusFilter = 'signup received'"
             href="#">{{ newSignups }}</b-badge></h4>
 
         <b-link v-show="!filterBarOpen" @click="filterBarOpen = true">show filters</b-link>
