@@ -24,25 +24,27 @@ admin.initializeApp()
 
 
 // Process new signup
-exports.processNewSignup = functions.firestore.document('/signups/{uid}').onCreate((snap, context) => {
+exports.processNewSignup = functions.firestore.document('/signups/{uid}').onCreate(async (snap, context) => {
   const signup = snap.data()
 
-  // Create a stripe customer with token
-  stripe.customers.create({
-    account_balance: signup.paymentTotal * 100,
-    description: signup.parent.name,
-    name: signup.parent.name,
-    email: signup.parent.email,
-    source: signup.token,
-  }, (err, customer) => {
-    if (Bolean(err)) {
-      console.error('Could not create stripe customer:', signup.parent.name)
-    } else {
-      snap.ref.update({stripeCustomerId: customer.id})
-    }
-  })
+  await sendConfirmationEmail(signup)
 
-  sendConfirmationEmail(signup)
+  // Create a stripe customer with token
+  try {
+    const customer = await stripe.customers.create({
+      account_balance: signup.paymentTotal * 100,
+      description: signup.parent.name,
+      name: signup.parent.name,
+      email: signup.parent.email,
+      source: signup.token,
+    })
+    console.log(customer)
+    await snap.ref.update({stripeCustomerId: customer.id})
+  } catch(err) {
+    console.error('Could not save stripe customer id:', signup.parent.name, err)
+    await snap.ref.update({stripeError: err})
+  }
+  return null
 })
 
 
