@@ -79,7 +79,11 @@
         <b-form-group label="Payment" label-size="lg" label-class="font-weight-bold" v-if="drawComponents"
           description="* Your card will only be charged after JJ confirms your lesson times.">
 
-          <card class='form-control' required :class="{ 'is-valid': cardComplete }" :stripe="stripePublishKey"
+          <card class='form-control'
+            required
+            :class="{ 'is-valid': cardComplete }"
+            :stripe="stripePublishKey"
+            :options='stripeOptions'
             @change='cardComplete = $event.complete' />
         </b-form-group>
 
@@ -168,6 +172,9 @@ export default {
       months: [],
       sessionList: [],
       stripePublishKey: "",
+      stripeOptions: {
+        hidePostalCode: true,
+      },
       form: {
         parent: {
           name: "",
