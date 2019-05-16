@@ -27,7 +27,6 @@
 <script>
 export default {
   props: [
-    'messages',
   ],
   data() {
     return {
@@ -48,7 +47,7 @@ export default {
       return this.$store.getters.messages
     },
     filteredMessages() {
-      return Array.prototype.slice.call(this.messages).sort((a, b) => b.created.seconds - a.created.seconds)
+      return this.messages.sort((a, b) => a.created.seconds - b.created.seconds)
     }
   },
   created() {
