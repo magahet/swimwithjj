@@ -59,7 +59,7 @@
         {
             "num": 3,
             "open": true,
-            "dates": "July 22nd to August 1st",
+            "dates": "July 22nd to August 1st (morning)",
             "dateList": [
                 [2019, 7, 22],
                 [2019, 7, 23],
@@ -76,6 +76,24 @@
         },
         {
             "num": 4,
+            "open": true,
+            "dates": "July 22nd to August 1st (afternoon)",
+            "dateList": [
+                [2019, 7, 22],
+                [2019, 7, 23],
+                [2019, 7, 24],
+                [2019, 7, 25],
+                [2019, 7, 29],
+                [2019, 7, 30],
+                [2019, 7, 31],
+                [2019, 8, 1]
+            ],
+            "days": "Monday to Thursday",
+            "times": "30 minute lessons between 2:30 and 4pm",
+            "price": 200
+        },
+        {
+            "num": 5,
             "open": false,
             "dates": "August 12th to August 22nd",
             "dateList": [
