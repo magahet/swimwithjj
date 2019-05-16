@@ -14,13 +14,14 @@
       <i class="fas fa-times"></i>
     </b-link>
   </li>
-  <template v-show="more">
+  <template v-if="more">
     <li><b-link target="_blank"
            :href="'https://manage.stripe.com/customers/' + signup.stripeCustomerId">{{signup.stripeCustomerId}}</b-link></li>
     <li>{{ signup.paymentTotal | currency }}</li>
     <li>{{ signup.parent.email }}</li>
     <li>{{ signup.parent.phone}}</li>
     <li>{{ signup.request }}</li>
+    <li><b-button variant="danger" size="sm" @click.prevent="deleteSignup()">Delete</b-button></li>
   </template>
   <li>
     <b-btn variant="link" v-show="!more"
@@ -55,6 +56,15 @@ export default {
         alert(`could not update signup in firestore: ${this.signup.id}`)
       }
       this.statusEditable = false
+    },
+    async deleteSignup() {
+      if (confirm(`Are you sure you want to delete the signup for ${this.signup.parent.name}?`)) {
+        try {
+          await firestore.collection('signups').doc(this.signup.id).delete()
+        } catch {
+          alert(`could not delete signup in firestore: ${this.signup.id}`)
+        }
+      }
     },
   },
   filters: {
