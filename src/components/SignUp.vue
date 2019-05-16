@@ -76,8 +76,7 @@
       </b-card>
 
       <b-card bg-variant="light" class="mb-3">
-        <b-form-group label="Payment" label-size="lg" label-class="font-weight-bold" v-if="drawComponents"
-          description="* Your card will only be charged after JJ confirms your lesson times.">
+        <b-form-group label="Payment" label-size="lg" label-class="font-weight-bold" v-if="drawComponents">
 
           <card class='form-control'
             required
@@ -85,6 +84,10 @@
             :stripe="stripePublishKey"
             :options='stripeOptions'
             @change='cardComplete = $event.complete' />
+
+          <b-form-text tag="large" text-variant="black">
+            *** Your card will only be charged after JJ confirms your lesson times ***
+          </b-form-text>
         </b-form-group>
 
         <b-form-row>
