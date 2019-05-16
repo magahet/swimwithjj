@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import shared from './modules/shared'
 import user from './modules/user'
 import signups from './modules/signups'
+import messages from './modules/messages'
 
 Vue.use(Vuex)
 
@@ -11,5 +12,6 @@ export const store = new Vuex.Store({
     shared,
     user,
     signups,
+    messages,
   }
 })
