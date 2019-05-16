@@ -85,8 +85,8 @@
             :options='stripeOptions'
             @change='cardComplete = $event.complete' />
 
-          <b-form-text tag="large" text-variant="black">
-            *** Your card will only be charged after JJ confirms your lesson times ***
+          <b-form-text tag="span" text-variant="black">
+            * Your card will only be charged after JJ confirms your lesson times
           </b-form-text>
         </b-form-group>
 
