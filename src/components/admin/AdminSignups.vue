@@ -61,7 +61,7 @@
 
                       <div>
                         <span class="font-weight-bold">{{ child.name }}</span>
-                        <span class="ml-4">{{ child.birthday }}</span>
+                        <span class="ml-4">{{ child.birthday }} ({{ child.birthday | age }})</span>
                       </div>
 
                       <div>
@@ -99,6 +99,7 @@
 <script>
 import SignupInfo from '@/components/admin/SignupInfo'
 import Session from '@/components/admin/Session'
+import moment from 'moment'
 
 
 function getNested(o, s) {
@@ -181,6 +182,12 @@ export default {
   },
   created() {
     this.$store.dispatch('initSignups')
+  },
+  filters: {
+    age(birthday) {
+      let age = moment.duration(moment() - moment(birthday))
+      return `${age.years()}y ${age.months()}m`
+    },
   },
 }
 </script>
