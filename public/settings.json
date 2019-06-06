@@ -22,7 +22,7 @@
     "sessionList": [
         {
             "num": 1,
-            "open": true,
+            "open": false,
             "dates": "June 17th to June 27th",
             "dateList": [
                 [2019, 6, 17],
