@@ -1,5 +1,6 @@
 {
-    "signupState": "closed",
+    "signupState": "open",
+    "lessonInfoActive": false,
     "processStates": [
         "signup form received",
         "lessons scheduled"

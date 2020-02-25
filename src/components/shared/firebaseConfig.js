@@ -5,6 +5,5 @@ export default {
     databaseURL: "https://swimwithjj-f6a63.firebaseio.com",
     projectId: "swimwithjj-f6a63",
     storageBucket: "swimwithjj-f6a63.appspot.com",
-    messagingSenderId: "582128058106",
-    timestampsInSnapshots: true
+    messagingSenderId: "582128058106"
 }
