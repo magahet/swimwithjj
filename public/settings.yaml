@@ -1,0 +1,46 @@
+sessionList:
+  - num: 1
+    open: true
+    price: 220
+    dates: June 14th to 24th
+    days: Monday to Thursday
+    times: "30 minute lessons between 2pm and 4pm"
+    dateList:
+      - [2021, 6, 14]
+      - [2021, 6, 15]
+      - [2021, 6, 16]
+      - [2021, 6, 17]
+      - [2021, 6, 21]
+      - [2021, 6, 22]
+      - [2021, 6, 23]
+      - [2021, 6, 24]
+  - num: 2
+    open: true
+    price: 220
+    dates: July 12th to 22nd (morning)
+    days: Monday to Thursday
+    times: "30 minute lessons between 10am and 12pm"
+    dateList:
+      - [2021, 7, 12]
+      - [2021, 7, 13]
+      - [2021, 7, 14]
+      - [2021, 7, 15]
+      - [2021, 7, 19]
+      - [2021, 7, 20]
+      - [2021, 7, 21]
+      - [2021, 7, 22]
+  - num: 3
+    open: true
+    price: 220
+    dates: July 12th to 22nd (afternoon)
+    days: Monday to Thursday
+    times: "30 minute lessons between 2pm and 4pm"
+    dateList:
+      - [2021, 7, 12]
+      - [2021, 7, 13]
+      - [2021, 7, 14]
+      - [2021, 7, 15]
+      - [2021, 7, 19]
+      - [2021, 7, 20]
+      - [2021, 7, 21]
+      - [2021, 7, 22]

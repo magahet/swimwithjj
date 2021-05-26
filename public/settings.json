@@ -1,6 +1,6 @@
 {
     "signupState": "open",
-    "lessonInfoActive": false,
+    "lessonInfoActive": true,
     "processStates": [
         "signup form received",
         "lessons scheduled"
@@ -8,268 +8,164 @@
     "stripePublishKey": "pk_live_mfTxbsnXY6f9fXZJAR17EajZ",
     "months": [
         {
-            "year": 2019,
+            "year": 2021,
             "month": 6
         },
         {
-            "year": 2019,
+            "year": 2021,
             "month": 7
-        },
-        {
-            "year": 2019,
-            "month": 8
         }
     ],
     "sessionList": [
         {
             "num": 1,
-            "open": false,
-            "dates": "June 17th to June 27th",
+            "open": true,
+            "price": 220,
+            "dates": "June 14th to 24th",
+            "days": "Monday to Thursday",
+            "times": "30 minute lessons between 2pm and 4pm",
             "dateList": [
                 [
-                    2019,
+                    2021,
+                    6,
+                    14
+                ],
+                [
+                    2021,
+                    6,
+                    15
+                ],
+                [
+                    2021,
+                    6,
+                    16
+                ],
+                [
+                    2021,
                     6,
                     17
                 ],
                 [
-                    2019,
+                    2021,
                     6,
-                    18
+                    21
                 ],
                 [
-                    2019,
+                    2021,
                     6,
-                    19
+                    22
                 ],
                 [
-                    2019,
+                    2021,
                     6,
-                    20
+                    23
                 ],
                 [
-                    2019,
+                    2021,
                     6,
                     24
-                ],
-                [
-                    2019,
-                    6,
-                    25
-                ],
-                [
-                    2019,
-                    6,
-                    26
-                ],
-                [
-                    2019,
-                    6,
-                    27
                 ]
-            ],
-            "days": "Monday to Thursday",
-            "times": "30 minute lessons between 10:00am and 11:30am",
-            "price": 200
+            ]
         },
         {
             "num": 2,
             "open": true,
-            "dates": "July 1st to July 11th",
+            "price": 220,
+            "dates": "July 12th to 22nd (morning)",
+            "days": "Monday to Thursday",
+            "times": "30 minute lessons between 10am and 12pm",
             "dateList": [
                 [
-                    2019,
+                    2021,
                     7,
-                    1
+                    12
                 ],
                 [
-                    2019,
+                    2021,
                     7,
-                    2
+                    13
                 ],
                 [
-                    2019,
+                    2021,
                     7,
-                    3
+                    14
                 ],
                 [
-                    2019,
+                    2021,
                     7,
-                    5
+                    15
                 ],
                 [
-                    2019,
+                    2021,
                     7,
-                    8
+                    19
                 ],
                 [
-                    2019,
+                    2021,
                     7,
-                    9
+                    20
                 ],
                 [
-                    2019,
+                    2021,
                     7,
-                    10
+                    21
                 ],
                 [
-                    2019,
+                    2021,
                     7,
-                    11
+                    22
                 ]
-            ],
-            "days": "Monday to Thursday",
-            "times": "30 minute lessons between 3pm and 5pm",
-            "price": 200
+            ]
         },
         {
             "num": 3,
             "open": true,
-            "dates": "July 22nd to August 1st (morning)",
-            "dateList": [
-                [
-                    2019,
-                    7,
-                    22
-                ],
-                [
-                    2019,
-                    7,
-                    23
-                ],
-                [
-                    2019,
-                    7,
-                    24
-                ],
-                [
-                    2019,
-                    7,
-                    25
-                ],
-                [
-                    2019,
-                    7,
-                    29
-                ],
-                [
-                    2019,
-                    7,
-                    30
-                ],
-                [
-                    2019,
-                    7,
-                    31
-                ],
-                [
-                    2019,
-                    8,
-                    1
-                ]
-            ],
+            "price": 220,
+            "dates": "July 12th to 22nd (afternoon)",
             "days": "Monday to Thursday",
-            "times": "30 minute lessons between 10am and 11:30am",
-            "price": 200
-        },
-        {
-            "num": 4,
-            "open": true,
-            "dates": "July 22nd to August 1st (afternoon)",
+            "times": "30 minute lessons between 2pm and 4pm",
             "dateList": [
                 [
-                    2019,
+                    2021,
                     7,
-                    22
-                ],
-                [
-                    2019,
-                    7,
-                    23
-                ],
-                [
-                    2019,
-                    7,
-                    24
-                ],
-                [
-                    2019,
-                    7,
-                    25
-                ],
-                [
-                    2019,
-                    7,
-                    29
-                ],
-                [
-                    2019,
-                    7,
-                    30
-                ],
-                [
-                    2019,
-                    7,
-                    31
-                ],
-                [
-                    2019,
-                    8,
-                    1
-                ]
-            ],
-            "days": "Monday to Thursday",
-            "times": "30 minute lessons between 2:30pm and 4pm",
-            "price": 200
-        },
-        {
-            "num": 5,
-            "open": false,
-            "dates": "August 12th to August 22nd",
-            "dateList": [
-                [
-                    2019,
-                    8,
                     12
                 ],
                 [
-                    2019,
-                    8,
+                    2021,
+                    7,
                     13
                 ],
                 [
-                    2019,
-                    8,
+                    2021,
+                    7,
                     14
                 ],
                 [
-                    2019,
-                    8,
+                    2021,
+                    7,
                     15
                 ],
                 [
-                    2019,
-                    8,
+                    2021,
+                    7,
                     19
                 ],
                 [
-                    2019,
-                    8,
+                    2021,
+                    7,
                     20
                 ],
                 [
-                    2019,
-                    8,
+                    2021,
+                    7,
                     21
                 ],
                 [
-                    2019,
-                    8,
+                    2021,
+                    7,
                     22
                 ]
-            ],
-            "days": "Monday to Thursday",
-            "times": "TBD",
-            "price": 200
+            ]
         }
     ]
 }
