@@ -1,0 +1,1 @@
+from app.signups import process_signups
