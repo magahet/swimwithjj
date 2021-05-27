@@ -1,3 +1,16 @@
+const firebaseConfig = JSON.parse(process.env.FIREBASE_CONFIG);
+/*
+{
+  stripe: {
+    key: "<stripekey>",
+  },
+  gmail: {
+    email: "<emailaddress>",
+    password: "<emailpassword>"
+  }
+}
+*/
+
 const admin = require('firebase-admin')
 const functions = require('firebase-functions')
 const nodemailer = require('nodemailer')
@@ -38,11 +51,11 @@ exports.processNewSignup = functions.firestore.document('/signups/{uid}').onCrea
       email: signup.parent.email,
       source: signup.token,
     })
-    console.log(customer)
-    await snap.ref.update({stripeCustomerId: customer.id})
-  } catch(err) {
-    console.error('Could not save stripe customer id:', signup.parent.name, err)
-    await snap.ref.update({stripeError: err})
+    functions.logger.log(customer)
+    await snap.ref.update({ stripeCustomerId: customer.id })
+  } catch (err) {
+    functions.logger.error('Could not save stripe customer id:', signup.parent.name, err)
+    await snap.ref.update({ stripeError: err })
   }
   return null
 })
@@ -58,7 +71,7 @@ exports.processSignupChanges = functions.firestore.document('/signups/{uid}').on
     return sendLessonTimeEmail(newSignup)
   }
 
-  console.debug('signup changed, but status did not trigger ')
+  functions.logger.debug('signup changed, but status did not trigger ')
   return null
 })
 
@@ -81,10 +94,10 @@ ${message.phone}
 
 ${message.message}
 `
-    
+
   return mailTransport.sendMail(mailOptions)
-    .then(() => console.log('Message email sent'))
-    .catch(err => console.error('There was an error while sending the message email:', err))
+    .then(() => functions.logger.log('Message email sent'))
+    .catch(err => functions.logger.error('There was an error while sending the message email:', err))
 })
 
 
@@ -117,10 +130,10 @@ You have signed up for the following sessions:
     mailOptions.text += child.sessions.map(s => s.text).join("\n")
     mailOptions.text += "\n\n"
   })
-    
+
   return mailTransport.sendMail(mailOptions)
-    .then(() => console.log('Signup confirmation email sent to:', signup.parent.email))
-    .catch(err => console.error('There was an error while sending the signup confirmation email:', err))
+    .then(() => functions.logger.log('Signup confirmation email sent to:', signup.parent.email))
+    .catch(err => functions.logger.error('there was an error while sending the signup confirmation email:', err))
 }
 
 
@@ -148,9 +161,9 @@ ${lessons}
 Payment will be charged to the credit card you provided.
 The total amount that will be charged is: ${cost}   
 `
-    
-return mailTransport.sendMail(mailOptions)
-  .then(() => console.log('Signup confirmation email sent to:', signup.parent.email))
-  .catch(err => console.error('There was an error while sending the signup confirmation email:', err))
+
+  return mailTransport.sendMail(mailOptions)
+    .then(() => functions.logger.log('Signup confirmation email sent to:', signup.parent.email))
+    .catch(err => functions.logger.error('there was an error while sending the signup confirmation email:', err))
 
 }
