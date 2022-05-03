@@ -1,57 +1,72 @@
 sessionList:
   - num: 1
-    open: false
+    open: true
     price: 220
-    dates: June 14th to 24th
-    days: Monday to Thursday
+    dates: May 31st to June 3rd
+    days: "Tuesday to Friday and Monday to Thursday"
     times: "30 minute lessons between 2pm and 4pm"
     dateList:
-      - [2021, 6, 14]
-      - [2021, 6, 15]
-      - [2021, 6, 16]
-      - [2021, 6, 17]
+      - [2022, 5, 31]
+      - [2022, 6, 1]
+      - [2022, 6, 2]
+      - [2022, 6, 3]
+      - [2022, 6, 6]
+      - [2022, 6, 7]
+      - [2022, 6, 8]
+      - [2022, 6, 9]
+  - num: 2
+    open: true
+    price: 220
+    dates: June 20th to 30th
+    days: Monday to Thursday
+    times: "30 minute lessons between 10am and 1pm"
+    dateList:
+      - [2021, 6, 20]
       - [2021, 6, 21]
       - [2021, 6, 22]
       - [2021, 6, 23]
-      - [2021, 6, 24]
-  - num: 2
-    open: false
-    price: 220
-    dates: July 12th to 22nd (morning)
-    days: Monday to Thursday
-    times: "30 minute lessons between 10am and 12pm"
-    dateList:
-      - [2021, 7, 12]
-      - [2021, 7, 13]
-      - [2021, 7, 14]
-      - [2021, 7, 15]
-      - [2021, 7, 19]
-      - [2021, 7, 20]
-      - [2021, 7, 21]
-      - [2021, 7, 22]
+      - [2021, 6, 27]
+      - [2021, 6, 28]
+      - [2021, 6, 29]
+      - [2021, 6, 30]
   - num: 3
-    open: false
+    open: true
     price: 220
-    dates: July 12th to 22nd (afternoon)
+    dates: July 11th to 21st (morning)
     days: Monday to Thursday
-    times: "30 minute lessons between 2pm and 4pm"
+    times: "30 minute lessons between 9:30am and 12:30pm"
     dateList:
+      - [2021, 7, 11]
       - [2021, 7, 12]
       - [2021, 7, 13]
       - [2021, 7, 14]
-      - [2021, 7, 15]
+      - [2021, 7, 18]
       - [2021, 7, 19]
       - [2021, 7, 20]
       - [2021, 7, 21]
-      - [2021, 7, 22]
   - num: 4
     open: true
-    price: 165
-    dates: July 26th to 29th
+    price: 220
+    dates: July 11th to 21st (afternoon)
     days: Monday to Thursday
-    times: "45 minute lessons between 9:30am and 12:00pm"
+    times: "30 minute lessons between 9:30am and 12:30pm"
     dateList:
-      - [2021, 7, 26]
-      - [2021, 7, 27]
-      - [2021, 7, 28]
-      - [2021, 7, 29]
+      - [2021, 7, 11]
+      - [2021, 7, 12]
+      - [2021, 7, 13]
+      - [2021, 7, 14]
+      - [2021, 7, 18]
+      - [2021, 7, 19]
+      - [2021, 7, 20]
+      - [2021, 7, 21]
+  - num: 5
+    open: true
+    price: 165
+    dates: August 1st to 4th (not for new swimmers)
+    days: Monday to Thursday
+    times: "45 minute lessons between 10:0am and 1:00pm"
+    dateList:
+      - [2021, 8, 1]
+      - [2021, 8, 2]
+      - [2021, 8, 3]
+      - [2021, 8, 4]
