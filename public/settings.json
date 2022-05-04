@@ -28,7 +28,7 @@
         {
             "num": 1,
             "open": true,
-            "price": 220,
+            "price": 240,
             "dates": "May 31st to June 3rd",
             "days": "Tuesday to Friday and Monday to Thursday",
             "times": "30 minute lessons between 2pm and 4pm",
@@ -78,7 +78,7 @@
         {
             "num": 2,
             "open": true,
-            "price": 220,
+            "price": 240,
             "dates": "June 20th to 30th",
             "days": "Monday to Thursday",
             "times": "30 minute lessons between 10am and 1pm",
@@ -128,7 +128,7 @@
         {
             "num": 3,
             "open": true,
-            "price": 220,
+            "price": 240,
             "dates": "July 11th to 21st (morning)",
             "days": "Monday to Thursday",
             "times": "30 minute lessons between 9:30am and 12:30pm",
@@ -178,7 +178,7 @@
         {
             "num": 4,
             "open": true,
-            "price": 220,
+            "price": 240,
             "dates": "July 11th to 21st (afternoon)",
             "days": "Monday to Thursday",
             "times": "30 minute lessons between 9:30am and 12:30pm",
@@ -228,7 +228,7 @@
         {
             "num": 5,
             "open": true,
-            "price": 165,
+            "price": 180,
             "dates": "August 1st to 4th (not for new swimmers)",
             "days": "Monday to Thursday",
             "times": "45 minute lessons between 10:0am and 1:00pm",
