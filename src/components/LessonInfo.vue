@@ -11,9 +11,12 @@
                 <p>
                   Lessons are
                   <strong class="text-maroon">30 minutes</strong> long with
-                  <strong class="text-maroon">2 to 4 children per lesson</strong>. Sessions run
-                  <strong class="text-maroon">2 consecutive weeks</strong>, with lessons
-                  <strong class="text-maroon">4 days a week</strong>. Your child will come at the same time for his or her lesson for the entire session.
+                  <strong class="text-maroon">3 to 4 children per lesson</strong
+                  >. Sessions run
+                  <strong class="text-maroon">2 consecutive weeks</strong>, with
+                  lessons <strong class="text-maroon">4 days a week</strong>.
+                  Your child will come at the same time for his or her lesson
+                  for the entire session.
                 </p>
               </div>
             </b-col>
@@ -23,24 +26,34 @@
             <b-col>
               <h2>Session Dates and Times</h2>
 
-              <sorry
-                v-if="!!error"
-              >There was a problem loading the session information. Please try again later. If the problem continues, please let me know by filling out the contact form. Thanks.</sorry>
+              <sorry v-if="!!error"
+                >There was a problem loading the session information. Please try
+                again later. If the problem continues, please let me know by
+                filling out the contact form. Thanks.</sorry
+              >
 
               <b-container fluid v-if="lessonInfoActive">
                 <b-row>
                   <b-col v-for="cal in months" :key="cal.$index" lg="3" md="4">
-                    <calendar :year="cal.year" :month="cal.month" :events="sessionList"></calendar>
+                    <calendar
+                      :year="cal.year"
+                      :month="cal.month"
+                      :events="sessionList"
+                    ></calendar>
                   </b-col>
                 </b-row>
               </b-container>
 
               <div class v-if="!lessonInfoActive">
-                <p
-                  class="subtitle"
-                >Session dates and times will be posted when sign-ups begin. You can be notified when sign-ups start by providing your email address.</p>
+                <p class="subtitle">
+                  Session dates and times will be posted when sign-ups begin.
+                  You can be notified when sign-ups start by providing your
+                  email address.
+                </p>
                 <div class>
-                  <a href="/sign-up" class="button is-primary">Go to Notification Form »</a>
+                  <a href="/sign-up" class="button is-primary"
+                    >Go to Notification Form »</a
+                  >
                 </div>
               </div>
             </b-col>
@@ -50,12 +63,18 @@
             <b-col>
               <h2>Sessions</h2>
 
-              <b-table responsive bordered hover :items="sessionList" :fields="fields">
+              <b-table
+                responsive
+                bordered
+                hover
+                :items="sessionList"
+                :fields="fields"
+              >
                 <template v-slot:cell(index)="session">
                   <span class="session" ref="session">
                     {{ session.item.num }}
                     <br />
-                    {{ session.item.open ? '' : 'CLOSED' }}
+                    {{ session.item.open ? "" : "CLOSED" }}
                   </span>
                 </template>
                 <template v-slot:cell(datestimes)="session">
@@ -69,10 +88,9 @@
 
               <span>
                 *Payment is
-                <strong class="text-maroon">non-refundable</strong> (unless a lesson is canceled by JJ) and
-                <strong
-                  class="text-maroon"
-                >non-transferable.</strong>
+                <strong class="text-maroon">non-refundable</strong> (unless a
+                lesson is canceled by JJ) and
+                <strong class="text-maroon">non-transferable.</strong>
               </span>
             </b-col>
           </b-row>
@@ -95,7 +113,7 @@
                 width="600"
                 height="450"
                 frameborder="0"
-                style="border:0"
+                style="border: 0"
                 allowfullscreen
               ></iframe>
 
@@ -119,12 +137,12 @@ export default {
   mounted() {
     axios
       .get("settings.json")
-      .then(response => {
+      .then((response) => {
         this.months = response.data.months;
         this.sessionList = response.data.sessionList;
         this.lessonInfoActive = response.data.lessonInfoActive;
       })
-      .catch(error => {
+      .catch((error) => {
         this.error = error;
       })
       .finally(() => (this.loading = false));
@@ -138,7 +156,7 @@ export default {
   },
   components: {
     Calendar,
-    Sorry
+    Sorry,
   },
   data() {
     return {
@@ -150,23 +168,23 @@ export default {
       fields: [
         {
           key: "index",
-          label: "Session"
+          label: "Session",
         },
         {
           key: "datestimes",
-          label: "Dates/Times"
+          label: "Dates/Times",
         },
         "days",
         {
           key: "price",
           label: "Price*",
-          formatter: value => `$${value}`
-        }
-      ]
+          formatter: (value) => `$${value}`,
+        },
+      ],
     };
   },
   computed: {},
-  methods: {}
+  methods: {},
 };
 </script>
 
