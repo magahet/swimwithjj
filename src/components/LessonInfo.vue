@@ -16,7 +16,8 @@
                   <strong class="text-maroon">2 consecutive weeks</strong>, with
                   lessons <strong class="text-maroon">4 days a week</strong>.
                   Your child will come at the same time for his or her lesson
-                  for the entire session.
+                  for the entire session. Lessons are for children ages 3 and
+                  up.
                 </p>
               </div>
             </b-col>

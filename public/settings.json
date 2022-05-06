@@ -31,7 +31,7 @@
             "price": 240,
             "dates": "May 31st to June 3rd",
             "days": "Tuesday to Friday and Monday to Thursday",
-            "times": "30 minute lessons between 2pm and 4pm",
+            "times": "30 minute lessons between 2:00pm and 4:00pm",
             "dateList": [
                 [
                     2022,
@@ -81,7 +81,7 @@
             "price": 240,
             "dates": "June 20th to 30th",
             "days": "Monday to Thursday",
-            "times": "30 minute lessons between 10am and 1pm",
+            "times": "30 minute lessons between 10:00am and 1:00pm",
             "dateList": [
                 [
                     2022,
@@ -231,7 +231,7 @@
             "price": 180,
             "dates": "August 1st to 4th (not for new swimmers)",
             "days": "Monday to Thursday",
-            "times": "45 minute lessons between 10:0am and 1:00pm",
+            "times": "45 minute lessons between 10:00am and 1:00pm",
             "dateList": [
                 [
                     2022,
