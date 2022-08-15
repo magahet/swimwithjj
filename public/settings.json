@@ -1,5 +1,5 @@
 {
-    "signupState": "open",
+    "signupState": "closed",
     "lessonInfoActive": true,
     "processStates": [
         "signup form received",
@@ -27,7 +27,7 @@
     "sessionList": [
         {
             "num": 1,
-            "open": true,
+            "open": false,
             "price": 240,
             "dates": "May 31st to June 3rd",
             "days": "Tuesday to Friday and Monday to Thursday",
@@ -77,7 +77,7 @@
         },
         {
             "num": 2,
-            "open": true,
+            "open": false,
             "price": 240,
             "dates": "June 20th to 30th",
             "days": "Monday to Thursday",
@@ -127,7 +127,7 @@
         },
         {
             "num": 3,
-            "open": true,
+            "open": false,
             "price": 240,
             "dates": "July 11th to 21st (morning)",
             "days": "Monday to Thursday",
@@ -177,7 +177,7 @@
         },
         {
             "num": 4,
-            "open": true,
+            "open": false,
             "price": 240,
             "dates": "July 11th to 21st (afternoon)",
             "days": "Monday to Thursday",
@@ -227,7 +227,7 @@
         },
         {
             "num": 5,
-            "open": true,
+            "open": false,
             "price": 180,
             "dates": "August 1st to 4th (not for new swimmers)",
             "days": "Monday to Thursday",
@@ -252,6 +252,106 @@
                     2022,
                     8,
                     4
+                ]
+            ]
+        },
+        {
+            "num": 6,
+            "open": true,
+            "price": 240,
+            "dates": "August 29th to September 1st",
+            "days": "Monday to Thursday and Tuesday to Friday",
+            "times": "45 minute lessons between 2:00pm and 5:00pm",
+            "dateList": [
+                [
+                    2022,
+                    8,
+                    29
+                ],
+                [
+                    2022,
+                    8,
+                    30
+                ],
+                [
+                    2022,
+                    8,
+                    31
+                ],
+                [
+                    2022,
+                    9,
+                    1
+                ],
+                [
+                    2022,
+                    9,
+                    6
+                ],
+                [
+                    2022,
+                    9,
+                    7
+                ],
+                [
+                    2022,
+                    9,
+                    8
+                ],
+                [
+                    2022,
+                    9,
+                    9
+                ]
+            ]
+        },
+        {
+            "num": 7,
+            "open": true,
+            "price": 240,
+            "dates": "September 12th to 22nd",
+            "days": "Monday to Thursday",
+            "times": "45 minute lessons between 2:00pm and 5:00pm",
+            "dateList": [
+                [
+                    2022,
+                    9,
+                    12
+                ],
+                [
+                    2022,
+                    9,
+                    13
+                ],
+                [
+                    2022,
+                    9,
+                    14
+                ],
+                [
+                    2022,
+                    9,
+                    15
+                ],
+                [
+                    2022,
+                    9,
+                    19
+                ],
+                [
+                    2022,
+                    9,
+                    20
+                ],
+                [
+                    2022,
+                    9,
+                    21
+                ],
+                [
+                    2022,
+                    9,
+                    22
                 ]
             ]
         }
