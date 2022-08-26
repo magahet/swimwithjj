@@ -1,39 +1,44 @@
 <template>
-<ul class="list-unstyled">
-  <li><span class="font-weight-bold">{{ signup.parent.name }}</span></li>
-  <li>{{ tsToDate(signup.created) }}</li>
-  <li v-show="!statusEditable">{{ signup.status }} 
-    <b-link @click.prevent="statusEditable = true"><i class="fas fa-edit"></i></b-link>
-  </li>
-  <li v-show="statusEditable">
-    <b-select v-model="newStatus" :options="statusList" />
-    <b-link @click.prevent="changeStatus">
-      <i class="fas fa-check"></i>
-    </b-link> &nbsp;
-    <b-link @click.prevent="statusEditable = false">
-      <i class="fas fa-times"></i>
-    </b-link>
-  </li>
-  <template v-if="more">
-    <li><b-link target="_blank"
-           :href="'https://manage.stripe.com/customers/' + signup.stripeCustomerId">{{signup.stripeCustomerId}}</b-link></li>
-    <li>{{ signup.paymentTotal | currency }}</li>
-    <li>{{ signup.parent.email }}</li>
-    <li>{{ signup.parent.phone}}</li>
-    <li>{{ signup.request }}</li>
-    <li><b-button variant="danger" size="sm" @click.prevent="deleteSignup()">Delete</b-button></li>
-  </template>
-  <li>
-    <b-btn variant="link" v-show="!more"
-        @click="more = true">more</b-btn>
-    <b-btn variant="link" v-show="more"
-        @click="more = false">less</b-btn>
-  </li>
-</ul>
+  <ul class="list-unstyled">
+    <li><span class="font-weight-bold">{{ signup.parent.name }}</span></li>
+    <li>{{ tsToDate(signup.created) }}</li>
+    <li v-show="!statusEditable">{{ signup.status }}
+      <b-link @click.prevent="statusEditable = true"><i class="fas fa-edit"></i>
+      </b-link>
+    </li>
+    <li v-show="statusEditable">
+      <b-select v-model="newStatus" :options="statusList" />
+      <b-link @click.prevent="changeStatus">
+        <i class="fas fa-check"></i>
+      </b-link> &nbsp;
+      <b-link @click.prevent="statusEditable = false">
+        <i class="fas fa-times"></i>
+      </b-link>
+    </li>
+    <template v-if="more">
+      <li>
+        <b-link target="_blank"
+          :href="'https://manage.stripe.com/customers/' + signup.stripeCustomerId">
+          {{ signup.stripeCustomerId }}</b-link>
+      </li>
+      <li>{{ signup.paymentTotal | currency }}</li>
+      <li>{{ signup.parent.email }}</li>
+      <li>{{ signup.parent.phone }}</li>
+      <li>{{ signup.request }}</li>
+      <li>
+        <b-button variant="danger" size="sm" @click.prevent="deleteSignup()">
+          Delete</b-button>
+      </li>
+    </template>
+    <li>
+      <b-btn variant="link" v-show="!more" @click="more = true">more</b-btn>
+      <b-btn variant="link" v-show="more" @click="more = false">less</b-btn>
+    </li>
+  </ul>
 </template>
 
 <script>
-import {firestore} from '@/db'
+import { firestore } from '@/db'
 
 export default {
   props: ['signup', 'statusList'],
@@ -50,8 +55,13 @@ export default {
       return date.toLocaleString()
     },
     async changeStatus() {
+      const emptyTime = this.signup.children.some((child) => child.sessions.some((session) => session.time.trim().length === 0))
+      if (emptyTime) {
+        alert('Session times have not been entered for one or more sessions. Please set all session times before changing the status to "lessons scheduled".')
+        return
+      }
       try {
-        await firestore.collection('signups').doc(this.signup.id).update({status: this.newStatus})
+        await firestore.collection('signups').doc(this.signup.id).update({ status: this.newStatus })
       } catch {
         alert(`could not update signup in firestore: ${this.signup.id}`)
       }
