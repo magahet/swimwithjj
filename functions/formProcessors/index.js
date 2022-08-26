@@ -1,16 +1,4 @@
 const firebaseConfig = JSON.parse(process.env.FIREBASE_CONFIG);
-/*
-{
-  stripe: {
-    key: "<stripekey>",
-  },
-  gmail: {
-    email: "<emailaddress>",
-    password: "<emailpassword>"
-  }
-}
-*/
-
 const admin = require('firebase-admin')
 const functions = require('firebase-functions')
 const nodemailer = require('nodemailer')
@@ -35,6 +23,10 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
 
 admin.initializeApp()
 
+// New version of processSignupChanges using sendgrid
+const changes = require('./changes')
+exports.processSignupChanges = changes.processSignupChanges
+
 
 // Process new signup
 exports.processNewSignup = functions.firestore.document('/signups/{uid}').onCreate(async (snap, context) => {
@@ -57,21 +49,6 @@ exports.processNewSignup = functions.firestore.document('/signups/{uid}').onCrea
     functions.logger.error('Could not save stripe customer id:', signup.parent.name, err)
     await snap.ref.update({ stripeError: err })
   }
-  return null
-})
-
-
-
-// Process signup changes
-exports.processSignupChanges = functions.firestore.document('/signups/{uid}').onUpdate((change, context) => {
-  const oldSignup = change.before.data()
-  const newSignup = change.after.data()
-
-  if (newSignup.status !== oldSignup.status && newSignup.status === 'lessons scheduled') {
-    return sendLessonTimeEmail(newSignup)
-  }
-
-  functions.logger.debug('signup changed, but status did not trigger ')
   return null
 })
 
@@ -134,36 +111,4 @@ You have signed up for the following sessions:
   return mailTransport.sendMail(mailOptions)
     .then(() => functions.logger.log('Signup confirmation email sent to:', signup.parent.email))
     .catch(err => functions.logger.error('there was an error while sending the signup confirmation email:', err))
-}
-
-
-
-function sendLessonTimeEmail(signup) {
-  const mailOptions = {
-    from: '"JJ" <jj@swimwithjj.com>',
-    to: signup.parent.email,
-  }
-
-  const cost = currencyFormatter.format(signup.paymentTotal)
-
-  // Building Email message.
-  mailOptions.subject = 'SwimWithJJ Lesson Times'
-
-  const lessons = signup.children.map(child => {
-    return `${child.name}:\n` + child.sessions.map(s => `${s.text} at ${s.time}`).join('\n')
-  }).join('\n\n')
-
-  mailOptions.text = `Your lesson times have been set!
-You have been scheduled for the following sessions and times:
-
-${lessons}
-
-Payment will be charged to the credit card you provided.
-The total amount that will be charged is: ${cost}   
-`
-
-  return mailTransport.sendMail(mailOptions)
-    .then(() => functions.logger.log('Signup confirmation email sent to:', signup.parent.email))
-    .catch(err => functions.logger.error('there was an error while sending the signup confirmation email:', err))
-
 }
