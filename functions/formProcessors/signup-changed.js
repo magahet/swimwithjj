@@ -1,14 +1,9 @@
 const functions = require('firebase-functions');
 const sgMail = require('@sendgrid/mail')
+const utils = require('./utils')
 
 
-const currencyFormatter = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-  minimumFractionDigits: 0
-})
-
-exports.processSignupChanges = functions
+exports.signupChanged = functions
   .runWith({ secrets: ["SENDGRID_API_KEY"] })
   .firestore
   .document('/signups/{uid}')
@@ -27,7 +22,7 @@ exports.processSignupChanges = functions
 
 function sendLessonTimeEmail(signup) {
 
-  const cost = currencyFormatter.format(signup.paymentTotal)
+  const cost = utils.currencyFormatter.format(signup.paymentTotal)
 
   const lessons = signup.children.map(child => {
     return `${child.name}:\n` + child.sessions.map(s => `${s.text} at ${s.time}`).join('\n')
@@ -52,12 +47,7 @@ The total amount that will be charged is: ${cost}
 
   sgMail
     .send(msg)
-    .then(() => {
-      console.log('Email sent')
-      return
-    })
-    .catch((error) => {
-      console.error(error)
-    })
+    .then(() => functions.logger.log('Lesson Time email sent to:', signup.parent.email))
+    .catch(err => functions.logger.error('there was an error while sending the lesson time email:', err))
 
 }

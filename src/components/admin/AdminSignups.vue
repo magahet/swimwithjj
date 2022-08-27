@@ -3,12 +3,16 @@
     <b-row no-gutters>
       <b-col>
         <h4>Signups <b-badge pill variant="primary"
-            @click="statusFilter = 'signup received'"
-            href="#">{{ newSignups }}</b-badge></h4>
+            @click="statusFilter = 'signup received'" href="#">{{ newSignups }}
+          </b-badge>
+        </h4>
 
-        <b-link v-show="!filterBarOpen" @click="filterBarOpen = true">show filters</b-link>
-        <b-link v-show="filterBarOpen" @click="filterBarOpen = false">hide filters</b-link>
-        <span v-show="filtersOn"> | <b-link @click="clearFilters">clear filters</b-link></span>
+        <b-link v-show="!filterBarOpen" @click="filterBarOpen = true">show
+          filters</b-link>
+        <b-link v-show="filterBarOpen" @click="filterBarOpen = false">hide
+          filters</b-link>
+        <span v-show="filtersOn"> | <b-link @click="clearFilters">clear filters
+          </b-link></span>
 
         <div v-show="filterBarOpen">
 
@@ -31,7 +35,8 @@
               </b-col>
               <b-col>
                 <b-form-group label="Sessions">
-                  <b-form-radio-group buttons v-model="sessionFilter" :options="sessionList">
+                  <b-form-radio-group buttons v-model="sessionFilter"
+                    :options="sessionList">
                     <template slot="first">
                       <!-- this slot appears above the options from 'options' prop -->
                       <b-form-radio value="All">All</b-form-radio>
@@ -44,51 +49,52 @@
         </div>
 
         <b-list-group class="list-group-flush">
-        <b-list-group-item
-            v-for="signup in filteredSignups" :key="signup.id">
-          <b-container fluid>
-            <b-row no-gutters>
+          <b-list-group-item v-for="signup in filteredSignups" :key="signup.id">
+            <b-container fluid>
+              <b-row no-gutters>
 
-              <b-col md="4">
-                <signup-info :signup="signup" :status-list="statusList"></signup-info>
-              </b-col>
+                <b-col md="4">
+                  <signup-info :signup="signup" :status-list="statusList">
+                  </signup-info>
+                </b-col>
 
-              <b-col
-                  v-for="(child, childIdx) in signup.children" :key="childIdx">
-                <b-container fluid class="child-container">
-                  <b-row no-gutters>
-                    <b-col cols="9" class="mr-2">
+                <b-col v-for="(child, childIdx) in signup.children"
+                  :key="childIdx">
+                  <b-container fluid class="child-container">
+                    <b-row no-gutters>
+                      <b-col cols="9" class="mr-2">
 
-                      <div>
-                        <span class="font-weight-bold">{{ child.name }}</span>
-                        <span class="ml-4">{{ child.birthday }} ({{ child.birthday | age }})</span>
-                      </div>
+                        <div>
+                          <span class="font-weight-bold">{{ child.name }}</span>
+                          <span class="ml-4">{{ child.birthday }} ({{
+                              child.birthday | age
+                          }})</span>
+                        </div>
 
-                      <div>
-                        {{ child.level }}
-                      </div>
+                        <div>
+                          {{ child.level }}
+                        </div>
 
-                    </b-col>
-                    <b-col>
-                      <span class="font-weight-bold font-italic">sessions</span>
-                      <ul class="list-unstyled">
-                        <li v-for="(session, sessionIdx) in child.sessions"
+                      </b-col>
+                      <b-col>
+                        <span
+                          class="font-weight-bold font-italic">sessions</span>
+                        <ul class="list-unstyled">
+                          <li v-for="(session, sessionIdx) in child.sessions"
                             :key="session.id">
-                          <session :session="session"
-                            :signup-id="signup.id"
-                            :child-idx="childIdx"
-                            :session-idx="sessionIdx">
-                          </session>
-                        </li>
-                      </ul>
-                    </b-col>
-                  </b-row>
-                </b-container>
-              </b-col>
+                            <session :session="session" :signup-id="signup.id"
+                              :child-idx="childIdx" :session-idx="sessionIdx">
+                            </session>
+                          </li>
+                        </ul>
+                      </b-col>
+                    </b-row>
+                  </b-container>
+                </b-col>
 
-            </b-row>
-          </b-container>
-        </b-list-group-item>
+              </b-row>
+            </b-container>
+          </b-list-group-item>
         </b-list-group>
 
       </b-col>
@@ -103,18 +109,18 @@ import moment from 'moment'
 
 
 function getNested(o, s) {
-    s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
-    s = s.replace(/^\./, '');           // strip a leading dot
-    var a = s.split('.');
-    for (var i = 0, n = a.length; i < n; ++i) {
-        var k = a[i];
-        if (k in o) {
-            o = o[k];
-        } else {
-            return;
-        }
+  s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
+  s = s.replace(/^\./, '');           // strip a leading dot
+  var a = s.split('.');
+  for (var i = 0, n = a.length; i < n; ++i) {
+    var k = a[i];
+    if (k in o) {
+      o = o[k];
+    } else {
+      return;
     }
-    return o;
+  }
+  return o;
 }
 
 export default {
@@ -134,9 +140,6 @@ export default {
       statusList: [
         'signup received',
         'lessons scheduled',
-      ],
-      sessionList: [
-        1, 2, 3, 4, 5,
       ],
     }
   },
@@ -159,6 +162,11 @@ export default {
         let v = signup.status != 'signup received' ? 0 : 1
         return total + v
       }, 0)
+    },
+    sessionList() {
+      let sessions = this.signups.flatMap(signup => signup.children.flatMap(child => child.sessions.flatMap(session => session.id)))
+      sessions.sort((a, b) => a - b)
+      return [...new Set(sessions)]
     },
     filteredSignups() {
       return this.signups.filter(signup => {
