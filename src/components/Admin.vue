@@ -134,7 +134,7 @@ export default {
   },
   created () {
     this.$store.dispatch('initLogin')
-    axios.get("https://storage.cloud.google.com/swimwithjj-public/settings.json")
+    axios.get("https://storage.googleapis.com/swimwithjj-public/settings.json")
       .then(response => {
         this.settings = response.data
     })

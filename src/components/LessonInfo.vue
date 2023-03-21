@@ -137,7 +137,7 @@ import axios from "axios";
 export default {
   mounted() {
     axios
-      .get("https://storage.cloud.google.com/swimwithjj-public/settings.json")
+      .get("https://storage.googleapis.com/swimwithjj-public/settings.json")
       .then((response) => {
         this.months = response.data.months;
         this.sessionList = response.data.sessionList;

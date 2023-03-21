@@ -1,0 +1,8 @@
+[
+    {
+      "origin": ["https://www.swimwithjj.com"],
+      "method": ["HEAD", "GET"],
+      "responseHeader": ["Content-Type", "authorization"],
+      "maxAgeSeconds": 3600
+    }
+]
