@@ -1,5 +1,5 @@
 {
-    "signupState": "open",
+    "signupState": "closed",
     "lessonInfoActive": true,
     "processStates": [
         "signup form received",
@@ -8,342 +8,395 @@
     "stripePublishKey": "pk_live_mfTxbsnXY6f9fXZJAR17EajZ",
     "months": [
         {
-            "year": 2022,
-            "month": 8
+            "year": 2023,
+            "month": 5
         },
         {
-            "year": 2022,
-            "month": 9
+            "year": 2023,
+            "month": 6
+        },
+        {
+            "year": 2023,
+            "month": 7
+        },
+        {
+            "year": 2023,
+            "month": 8
         }
     ],
     "sessionList": [
         {
             "num": 1,
-            "open": false,
-            "price": 240,
-            "dates": "May 31st to June 3rd",
-            "days": "Tuesday to Friday and Monday to Thursday",
-            "times": "30 minute lessons between 2:00pm and 4:00pm",
+            "open": true,
+            "price": 220,
+            "dates": "May 30 - June 2 (Tues.-Fri.); June 5 - June 8",
+            "days": "Tuesday to Friday",
+            "times": "30 minute lessons between 1:30pm and 3:30pm",
             "dateList": [
                 [
-                    2022,
+                    2023,
+                    5,
+                    30
+                ],
+                [
+                    2023,
                     5,
                     31
                 ],
                 [
-                    2022,
+                    2023,
                     6,
                     1
                 ],
                 [
-                    2022,
+                    2023,
                     6,
                     2
                 ],
                 [
-                    2022,
+                    2023,
                     6,
-                    3
+                    5
                 ],
                 [
-                    2022,
+                    2023,
                     6,
                     6
                 ],
                 [
-                    2022,
+                    2023,
                     6,
                     7
                 ],
                 [
-                    2022,
+                    2023,
                     6,
                     8
-                ],
-                [
-                    2022,
-                    6,
-                    9
                 ]
             ]
         },
         {
             "num": 2,
-            "open": false,
-            "price": 240,
-            "dates": "June 20th to 30th",
+            "open": true,
+            "price": 220,
+            "dates": "June 19 - 22; June 26 - 29 (morning)",
             "days": "Monday to Thursday",
-            "times": "30 minute lessons between 10:00am and 1:00pm",
+            "times": "30 minute lessons between 9:30am and 11:30am",
             "dateList": [
                 [
-                    2022,
+                    2023,
+                    6,
+                    19
+                ],
+                [
+                    2023,
                     6,
                     20
                 ],
                 [
-                    2022,
+                    2023,
                     6,
                     21
                 ],
                 [
-                    2022,
+                    2023,
                     6,
                     22
                 ],
                 [
-                    2022,
+                    2023,
                     6,
-                    23
+                    26
                 ],
                 [
-                    2022,
+                    2023,
                     6,
                     27
                 ],
                 [
-                    2022,
+                    2023,
                     6,
                     28
                 ],
                 [
-                    2022,
+                    2023,
                     6,
                     29
-                ],
-                [
-                    2022,
-                    6,
-                    30
                 ]
             ]
         },
         {
             "num": 3,
-            "open": false,
-            "price": 240,
-            "dates": "July 11th to 21st (morning)",
+            "open": true,
+            "price": 220,
+            "dates": "June 19 - 22; June 26 - 29 (afternoon)",
             "days": "Monday to Thursday",
-            "times": "30 minute lessons between 9:30am and 12:30pm",
+            "times": "30 minute lessons between 2:30pm and 4:30pm",
             "dateList": [
                 [
-                    2022,
-                    7,
-                    11
-                ],
-                [
-                    2022,
-                    7,
-                    12
-                ],
-                [
-                    2022,
-                    7,
-                    13
-                ],
-                [
-                    2022,
-                    7,
-                    14
-                ],
-                [
-                    2022,
-                    7,
-                    18
-                ],
-                [
-                    2022,
-                    7,
+                    2023,
+                    6,
                     19
                 ],
                 [
-                    2022,
-                    7,
+                    2023,
+                    6,
                     20
                 ],
                 [
-                    2022,
-                    7,
+                    2023,
+                    6,
                     21
+                ],
+                [
+                    2023,
+                    6,
+                    22
+                ],
+                [
+                    2023,
+                    6,
+                    26
+                ],
+                [
+                    2023,
+                    6,
+                    27
+                ],
+                [
+                    2023,
+                    6,
+                    28
+                ],
+                [
+                    2023,
+                    6,
+                    29
                 ]
             ]
         },
         {
             "num": 4,
-            "open": false,
-            "price": 240,
-            "dates": "July 11th to 21st (afternoon)",
-            "days": "Monday to Thursday",
-            "times": "30 minute lessons between 2:30am and 5:00pm",
+            "open": true,
+            "price": 220,
+            "dates": "July 3, 5 - 7; July 10 - July 13 (morning)",
+            "days": "Monday, Wednesday to Friday and Monday to Thursday",
+            "times": "30 minute lessons between 9:30am and 11:30am",
             "dateList": [
                 [
-                    2022,
+                    2023,
+                    7,
+                    3
+                ],
+                [
+                    2023,
+                    7,
+                    5
+                ],
+                [
+                    2023,
+                    7,
+                    6
+                ],
+                [
+                    2023,
+                    7,
+                    7
+                ],
+                [
+                    2023,
+                    7,
+                    10
+                ],
+                [
+                    2023,
                     7,
                     11
                 ],
                 [
-                    2022,
+                    2023,
                     7,
                     12
                 ],
                 [
-                    2022,
+                    2023,
                     7,
                     13
-                ],
-                [
-                    2022,
-                    7,
-                    14
-                ],
-                [
-                    2022,
-                    7,
-                    18
-                ],
-                [
-                    2022,
-                    7,
-                    19
-                ],
-                [
-                    2022,
-                    7,
-                    20
-                ],
-                [
-                    2022,
-                    7,
-                    21
                 ]
             ]
         },
         {
             "num": 5,
-            "open": false,
-            "price": 180,
-            "dates": "August 1st to 4th (not for new swimmers)",
-            "days": "Monday to Thursday",
-            "times": "45 minute lessons between 10:00am and 1:00pm",
+            "open": true,
+            "price": 220,
+            "dates": "July 3, 5 - 7; July 10 - July 13 (afternoon)",
+            "days": "Monday, Wednesday to Friday and Monday to Thursday",
+            "times": "30 minute lessons between 2:30pm and 4:30pm",
             "dateList": [
                 [
-                    2022,
-                    8,
-                    1
-                ],
-                [
-                    2022,
-                    8,
-                    2
-                ],
-                [
-                    2022,
-                    8,
+                    2023,
+                    7,
                     3
                 ],
                 [
-                    2022,
-                    8,
-                    4
+                    2023,
+                    7,
+                    5
+                ],
+                [
+                    2023,
+                    7,
+                    6
+                ],
+                [
+                    2023,
+                    7,
+                    7
+                ],
+                [
+                    2023,
+                    7,
+                    10
+                ],
+                [
+                    2023,
+                    7,
+                    11
+                ],
+                [
+                    2023,
+                    7,
+                    12
+                ],
+                [
+                    2023,
+                    7,
+                    13
                 ]
             ]
         },
         {
             "num": 6,
-            "open": true,
-            "price": 240,
-            "dates": "August 29th to September 9th",
-            "days": "Monday to Thursday and Tuesday to Friday",
-            "times": "30 minute lessons between 2:00pm and 5:00pm",
+            "open": false,
+            "price": 220,
+            "dates": "July 31 - Aug. 3; Aug. 7 - 10 (tentative)",
+            "days": "Monday to Thursday",
+            "times": "30 minute lessons between 9:30am and 12:30pm",
             "dateList": [
                 [
-                    2022,
-                    8,
-                    29
-                ],
-                [
-                    2022,
-                    8,
-                    30
-                ],
-                [
-                    2022,
-                    8,
+                    2023,
+                    7,
                     31
                 ],
                 [
-                    2022,
-                    9,
+                    2023,
+                    8,
                     1
                 ],
                 [
-                    2022,
-                    9,
-                    6
+                    2023,
+                    8,
+                    2
                 ],
                 [
-                    2022,
-                    9,
+                    2023,
+                    8,
+                    3
+                ],
+                [
+                    2023,
+                    8,
                     7
                 ],
                 [
-                    2022,
-                    9,
+                    2023,
+                    8,
                     8
                 ],
                 [
-                    2022,
-                    9,
+                    2023,
+                    8,
                     9
+                ],
+                [
+                    2023,
+                    8,
+                    10
                 ]
             ]
         },
         {
             "num": 7,
-            "open": true,
-            "price": 240,
-            "dates": "September 12th to 22nd",
-            "days": "Monday to Thursday",
-            "times": "30 minute lessons between 2:00pm and 5:00pm",
+            "open": false,
+            "price": 165,
+            "dates": "August 15 - August 17 (tentative, mini session)",
+            "days": "Tuesday to Thursday",
+            "times": "45 minute lessons between 9:30am and 11:30am",
             "dateList": [
                 [
-                    2022,
+                    2023,
+                    8,
+                    15
+                ],
+                [
+                    2023,
+                    8,
+                    16
+                ],
+                [
+                    2023,
+                    8,
+                    17
+                ]
+            ]
+        },
+        {
+            "num": 8,
+            "open": false,
+            "price": 220,
+            "dates": "September 5 - September 8; Sept 11 - 14 (tentative)",
+            "days": "Tuesday to Friday and Monday to Thursday",
+            "times": "30 minute lessons between 2:30pm and 4:30pm",
+            "dateList": [
+                [
+                    2023,
+                    9,
+                    5
+                ],
+                [
+                    2023,
+                    9,
+                    6
+                ],
+                [
+                    2023,
+                    9,
+                    7
+                ],
+                [
+                    2023,
+                    9,
+                    8
+                ],
+                [
+                    2023,
+                    9,
+                    11
+                ],
+                [
+                    2023,
                     9,
                     12
                 ],
                 [
-                    2022,
+                    2023,
                     9,
                     13
                 ],
                 [
-                    2022,
+                    2023,
                     9,
                     14
-                ],
-                [
-                    2022,
-                    9,
-                    15
-                ],
-                [
-                    2022,
-                    9,
-                    19
-                ],
-                [
-                    2022,
-                    9,
-                    20
-                ],
-                [
-                    2022,
-                    9,
-                    21
-                ],
-                [
-                    2022,
-                    9,
-                    22
                 ]
             ]
         }
