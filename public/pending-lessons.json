@@ -1,0 +1,53 @@
+{
+    "sessionList": [
+        {
+            "num": 6,
+            "open": false,
+            "price": 250,
+            "dates": "July 31 - Aug. 3; Aug. 7 - 10 (tentative)",
+            "days": "Monday to Thursday",
+            "times": "30 minute lessons between 9:30am and 12:30pm",
+            "dateList": [
+                [2023,7,31],
+                [2023,8,1],
+                [2023,8,2],
+                [2023,8,3],
+                [2023,8,7],
+                [2023,8,8],
+                [2023,8,9],
+                [2023,8,10]
+            ]
+        },
+        {
+            "num": 7,
+            "open": false,
+            "price": 189,
+            "dates": "August 15 - August 17 (tentative, mini session)",
+            "days": "Tuesday to Thursday",
+            "times": "45 minute lessons between 9:30am and 11:30am",
+            "dateList": [
+                [2023,8,15],
+                [2023,8,16],
+                [2023,8,17]
+            ]
+        },
+        {
+            "num": 8,
+            "open": false,
+            "price": 250,
+            "dates": "September 5 - September 8; Sept 11 - 14 (tentative)",
+            "days": "Tuesday to Friday and Monday to Thursday",
+            "times": "30 minute lessons between 2:30pm and 4:30pm",
+            "dateList": [
+                [2023,9,5],
+                [2023,9, 6],
+                [2023,9,7],
+                [2023,9,8],
+                [2023,9,11],
+                [2023,9,12],
+                [2023,9,13],
+                [2023,9,14]
+            ]
+        }
+    ]
+}
