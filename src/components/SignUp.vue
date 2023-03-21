@@ -256,7 +256,7 @@ export default {
   },
   created() {
     axios
-      .get("settings.json")
+      .get("https://storage.cloud.google.com/swimwithjj-public/settings.json")
       .then((response) => {
         if (typeof response.data === "string") {
           this.error = "Could not parse settings.json";
