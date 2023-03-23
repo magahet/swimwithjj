@@ -256,7 +256,7 @@ export default {
   },
   created() {
     axios
-      .get("https://storage.googleapis.com/swimwithjj-public/settings.json")
+      .get(process.env.VUE_APP_SETTINGS_URL)
       .then((response) => {
         if (typeof response.data === "string") {
           this.error = "Could not parse settings.json";

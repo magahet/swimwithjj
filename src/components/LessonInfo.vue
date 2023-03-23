@@ -75,7 +75,8 @@
                   <span class="session" ref="session">
                     {{ session.item.num }}
                     <br />
-                    {{ session.item.open ? "" : "CLOSED" }}
+                    <!-- {{ session.item.open ? "" : "CLOSED" }} -->
+                    {{ renderSessionLabel(session.item) }}
                   </span>
                 </template>
                 <template v-slot:cell(datestimes)="session">
@@ -134,10 +135,11 @@ import Calendar from "./Calendar.vue";
 import Sorry from "./shared/Sorry.vue";
 import axios from "axios";
 
+
 export default {
   mounted() {
     axios
-      .get("https://storage.googleapis.com/swimwithjj-public/settings.json")
+      .get(process.env.VUE_APP_SETTINGS_URL)
       .then((response) => {
         this.months = response.data.months;
         this.sessionList = response.data.sessionList;
@@ -185,7 +187,17 @@ export default {
     };
   },
   computed: {},
-  methods: {},
+  methods: {
+    renderSessionLabel(s) {
+      if (s.open) {
+        return ""
+      }
+
+      return s.sessionLabel ?? "CLOSED"
+      
+
+    },
+  },
 };
 </script>
 
