@@ -12,7 +12,7 @@
     "bootstrap-vue": "^2.5.0",
     "core-js": "^3.6.4",
     "firebase": "^7.9.1",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "vue": "^2.6.11",
     "vue-firestore": "^0.3.30",
     "vue-fuse": "^2.2.0",
