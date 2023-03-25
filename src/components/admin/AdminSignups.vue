@@ -103,8 +103,8 @@
 </template>
 
 <script>
-import SignupInfo from '@/components/admin/SignupInfo'
-import Session from '@/components/admin/Session'
+import SignupInfo from '@/components/admin/SignupInfo.vue'
+import Session from '@/components/admin/Session.vue'
 import moment from 'moment'
 
 

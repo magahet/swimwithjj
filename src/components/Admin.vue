@@ -73,10 +73,10 @@ import axios from "axios";
 
 // import fb from "@/components/shared/firebaseInit"
 
-import AdminSignups from '@/components/admin/AdminSignups'
-import AdminMessages from '@/components/admin/AdminMessages'
-import AdminWaitlist from '@/components/admin/AdminWaitlist'
-import AdminSettings from '@/components/admin/AdminSettings'
+import AdminSignups from '@/components/admin/AdminSignups.vue'
+import AdminMessages from '@/components/admin/AdminMessages.vue'
+import AdminWaitlist from '@/components/admin/AdminWaitlist.vue'
+import AdminSettings from '@/components/admin/AdminSettings.vue'
 
 export default {
   components: {
@@ -135,7 +135,7 @@ export default {
   created () {
     this.$store.dispatch('initLogin')
     axios
-      .get(process.env.VUE_APP_SETTINGS_URL)
+      .get(import.meta.env.VITE_SETTINGS_URL)
       .then(response => {
         this.settings = response.data
     })
