@@ -64,7 +64,7 @@
 
 <script>
 // import fb from "@/components/shared/firebaseInit"
-import Sorry from '@/components/shared/Sorry'
+import Sorry from '@/components/shared/Sorry.vue'
 import moment from 'moment'
 import {firestore, ts} from '@/db'
 import '@/assets/loading.css'

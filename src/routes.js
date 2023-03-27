@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/components/Home'
-import About from '@/components/About'
-import LessonInfo from '@/components/LessonInfo'
-import FAQ from '@/components/FAQ'
-import Testimonials from '@/components/Testimonials'
-import SignUp from '@/components/SignUp'
-import Contact from '@/components/Contact'
-import Admin from '@/components/Admin'
+import Home from '@/components/Home.vue'
+import About from '@/components/About.vue'
+import LessonInfo from '@/components/LessonInfo.vue'
+import FAQ from '@/components/FAQ.vue'
+import Testimonials from '@/components/Testimonials.vue'
+import SignUp from '@/components/SignUp.vue'
+import Contact from '@/components/Contact.vue'
+import Admin from '@/components/Admin.vue'
 
 Vue.use(Router)
 

@@ -58,7 +58,7 @@
 
 <script>
 import moment from 'moment'
-import Sorry from "@/components/shared/Sorry"
+import Sorry from "@/components/shared/Sorry.vue"
 import {firestore, ts} from '@/db'
 
 import '@/assets/loading.css'

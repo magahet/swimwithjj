@@ -124,7 +124,7 @@
         {
             "num": 6,
             "open": false,
-            "sessionLabel": "Tentitive",
+            "sessionLabel": "TENTATIVE",
             "price": 250,
             "dates": "July 31 - Aug. 3; Aug. 7 - 10 (tentative)",
             "days": "Monday to Thursday",
@@ -143,12 +143,13 @@
         {
             "num": 7,
             "open": false,
-            "sessionLabel": "Tentitive",
+            "sessionLabel": "TENTATIVE",
             "price": 189,
-            "dates": "August 15 - August 17 (tentative, mini session)",
-            "days": "Tuesday to Thursday",
+            "dates": "August 14 - August 17 (tentative, mini session)",
+            "days": "Monday to Thursday",
             "times": "45 minute lessons between 9:30am and 11:30am",
             "dateList": [
+                [2023,8,14],
                 [2023,8,15],
                 [2023,8,16],
                 [2023,8,17]
@@ -157,7 +158,7 @@
         {
             "num": 8,
             "open": false,
-            "sessionLabel": "Tentitive",
+            "sessionLabel": "TENTATIVE",
             "price": 250,
             "dates": "September 5 - September 8; Sept 11 - 14 (tentative)",
             "days": "Tuesday to Friday and Monday to Thursday",

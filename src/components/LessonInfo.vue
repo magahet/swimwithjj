@@ -139,7 +139,7 @@ import axios from "axios";
 export default {
   mounted() {
     axios
-      .get(process.env.VUE_APP_SETTINGS_URL)
+      .get(import.meta.env.VITE_SETTINGS_URL)
       .then((response) => {
         this.months = response.data.months;
         this.sessionList = response.data.sessionList;

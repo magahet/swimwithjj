@@ -212,9 +212,9 @@
 /* eslint-disable */
 import { Card, createToken } from "vue-stripe-elements-plus";
 
-import WaitList from "@/components/shared/WaitList";
-import ChildInfo from "@/components/ChildInfo";
-import Sorry from "@/components/shared/Sorry";
+import WaitList from "@/components/shared/WaitList.vue";
+import ChildInfo from "@/components/ChildInfo.vue";
+import Sorry from "@/components/shared/Sorry.vue";
 import axios from "axios";
 import moment from "moment";
 import { firestore, ts } from "@/db";
@@ -256,7 +256,7 @@ export default {
   },
   created() {
     axios
-      .get(process.env.VUE_APP_SETTINGS_URL)
+      .get(import.meta.env.VITE_SETTINGS_URL)
       .then((response) => {
         if (typeof response.data === "string") {
           this.error = "Could not parse settings.json";
