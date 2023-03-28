@@ -288,12 +288,18 @@ export default {
       return this.state == "submitted";
     },
     signupClosed() {
+      if (this.$route.query.test) {
+        return false
+      }
       return this.signupState == "closed";
     },
     signupFull() {
       return this.signupState == "full";
     },
     signupOpen() {
+      if (this.$route.query.test) {
+        return true
+      }
       return this.signupState == "open";
     },
     buttonText() {
