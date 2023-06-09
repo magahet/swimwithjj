@@ -1,11 +1,11 @@
 const functions = require('firebase-functions');
-const sgMail = require('@sendgrid/mail')
+const SibApiV3Sdk = require('sib-api-v3-sdk');
 const utils = require('./utils')
 
 
 // Process new signup
 exports.signupNew = functions
-  .runWith({ secrets: ["STRIPE_KEY", "SENDGRID_API_KEY"] })
+  .runWith({ secrets: ["STRIPE_KEY", "SIB_API_KEY"] })
   .firestore.document('/signups/{uid}').onCreate(async (snap, context) => {
 
     const stripe = require("stripe")(process.env.STRIPE_KEY)
@@ -34,10 +34,6 @@ exports.signupNew = functions
 
 function sendConfirmationEmail(signup) {
   // Send confirmation email
-  const mailOptions = {
-    from: '"JJ" <jj@swimwithjj.com>',
-    to: signup.parent.email,
-  }
 
   const cost = utils.currencyFormatter.format(signup.paymentTotal)
 
@@ -61,16 +57,18 @@ You have signed up for the following sessions:
     text += "\n\n"
   })
 
-  sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+  let client = SibApiV3Sdk.ApiClient.instance.authentications['api-key'].apiKey = process.env.SIB_API_KEY;
+
   const msg = {
-    to: signup.parent.email, // Change to your recipient
-    from: '"JJ" <jj@swimwithjj.com>',
-    subject: 'SwimWithJJ Lesson Times',
-    text: text
+    'subject': `SwimWithJJ Lesson Times`,
+    'sender' : {'email':'jj@swimwithjj.com', 'name':'JJ'},
+    'replyTo' : {'email':'jj@swimwithjj.com', 'name':'JJ'},
+    'to' : [{'name': signup.parent.name, 'email':signup.parent.email}],
+    'textContent' : text,
   }
 
-  sgMail
-    .send(msg)
-    .then(() => functions.logger.log('Signup confirmation email sent to:', signup.parent.email))
-    .catch(err => functions.logger.error('there was an error while sending the signup confirmation email:', err))
+  new SibApiV3Sdk.TransactionalEmailsApi()
+      .sendTransacEmail(msg)
+      .then(data => functions.logger.log(`Signup confirmation email sent to: ${signup.parent.email}. ${data}`))
+      .catch(err => functions.logger.error('there was an error while sending the signup confirmation email:', err))
 }

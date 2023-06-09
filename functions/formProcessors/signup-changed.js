@@ -1,10 +1,10 @@
 const functions = require('firebase-functions');
-const sgMail = require('@sendgrid/mail')
+const SibApiV3Sdk = require('sib-api-v3-sdk');
 const utils = require('./utils')
 
 
 exports.signupChanged = functions
-  .runWith({ secrets: ["SENDGRID_API_KEY"] })
+  .runWith({ secrets: ["SIB_API_KEY"] })
   .firestore
   .document('/signups/{uid}')
   .onUpdate((change, context) => {
@@ -36,18 +36,19 @@ ${lessons}
 Payment will be charged to the credit card you provided.
 The total amount that will be charged is: ${cost}   
 `
+  let client = SibApiV3Sdk.ApiClient.instance.authentications['api-key'].apiKey = process.env.SIB_API_KEY;
 
-  sgMail.setApiKey(process.env.SENDGRID_API_KEY)
   const msg = {
-    to: signup.parent.email, // Change to your recipient
-    from: '"JJ" <jj@swimwithjj.com>',
-    subject: 'SwimWithJJ Lesson Times',
-    text: body
+    'subject': `SwimWithJJ Lesson Times`,
+    'sender' : {'email':'jj@swimwithjj.com', 'name':'JJ'},
+    'replyTo' : {'email':'jj@swimwithjj.com', 'name':'JJ'},
+    'to' : [{'name': signup.parent.name, 'email':signup.parent.email}],
+    'textContent' : body,
   }
 
-  sgMail
-    .send(msg)
-    .then(() => functions.logger.log('Lesson Time email sent to:', signup.parent.email))
-    .catch(err => functions.logger.error('there was an error while sending the lesson time email:', err))
+  new SibApiV3Sdk.TransactionalEmailsApi()
+      .sendTransacEmail(msg)
+      .then(data => functions.logger.log(`Lesson Time email sent to: ${signup.parent.email}. ${data}`))
+      .catch(err => functions.logger.error('there was an error while sending the message email:', err))
 
 }
