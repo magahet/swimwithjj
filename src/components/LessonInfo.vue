@@ -230,4 +230,10 @@ export default {
 .session8 {
   background-color: #3d9970;
 }
+.session9 {
+  background-color: #0074d9;
+}
+.session10 {
+  background-color: #459772;
+}
 </style>
