@@ -106,34 +106,39 @@
         {
             "num": 5,
             "open": true,
-            "price": 250,
-            "dates": "July 3, 5 - 7; July 10 - July 13 (afternoon)",
-            "days": "Monday, Wednesday to Friday and Monday to Thursday",
-            "times": "30 minute lessons between 2:30pm and 4:00pm",
-            "dateList": [
-                [2023,7,3],
-                [2023,7,5],
-                [2023,7,6],
-                [2023,7,7],
-                [2023,7,10],
-                [2023,7,11],
-                [2023,7,12],
-                [2023,7,13]
-            ]
-        },
-        {
-            "num": 6,
-            "open": false,
-            "sessionLabel": "TENTATIVE",
-            "price": 250,
-            "dates": "July 31 - Aug. 3; Aug. 7 - 10 (tentative)",
+            "price": 187,
+            "dates": "July 31 - August 3 (morning)",
             "days": "Monday to Thursday",
-            "times": "30 minute lessons between 9:30am and 12:30pm",
+            "times": "45 minute lessons between 9:30am and 12:30pm",
             "dateList": [
                 [2023,7,31],
                 [2023,8,1],
                 [2023,8,2],
-                [2023,8,3],
+                [2023,8,3]
+            ]
+        },
+        {
+            "num": 6,
+            "open": true,
+            "price": 187,
+            "dates": "July 31 - August 3 (afternoon)",
+            "days": "Monday to Thursday",
+            "times": "45 minute lessons between 2:00pm and 4:30pm",
+            "dateList": [
+                [2023,7,31],
+                [2023,8,1],
+                [2023,8,2],
+                [2023,8,3]
+            ]
+        },
+        {
+            "num": 7,
+            "open": true,
+            "price": 187,
+            "dates": "August 7 - 10 (morning)",
+            "days": "Monday to Thursday",
+            "times": "45 minute lessons between 9:30am and 12:00pm",
+            "dateList": [
                 [2023,8,7],
                 [2023,8,8],
                 [2023,8,9],
@@ -141,13 +146,12 @@
             ]
         },
         {
-            "num": 7,
-            "open": false,
-            "sessionLabel": "TENTATIVE",
-            "price": 189,
-            "dates": "August 14 - August 17 (tentative, mini session)",
+            "num": 8,
+            "open": true,
+            "price": 187,
+            "dates": "August 14 - 17 (afternoon)",
             "days": "Monday to Thursday",
-            "times": "45 minute lessons between 9:30am and 11:30am",
+            "times": "45 minute lessons between 1:30pm and 4:30pm",
             "dateList": [
                 [2023,8,14],
                 [2023,8,15],
@@ -156,22 +160,41 @@
             ]
         },
         {
-            "num": 8,
+            "num": 9,
             "open": false,
             "sessionLabel": "TENTATIVE",
             "price": 250,
-            "dates": "September 5 - September 8; Sept 11 - 14 (tentative)",
-            "days": "Tuesday to Friday and Monday to Thursday",
-            "times": "30 minute lessons between 2:30pm and 4:30pm",
+            "dates": "August 28 - 31; September 2 - 5 (afternoon)",
+            "days": "Monday to Thursday",
+            "times": "30 minute lessons between 1:30pm and 3:30pm",
             "dateList": [
-                [2023,9,5],
-                [2023,9, 6],
-                [2023,9,7],
-                [2023,9,8],
+                [2023,8,28],
+                [2023,8,29],
+                [2023,8,30],
+                [2023,8,31],
+                [2023,9,2],
+                [2023,9,3],
+                [2023,9,4],
+                [2023,9,5]
+            ]
+        },
+        {
+            "num": 10,
+            "open": false,
+            "sessionLabel": "TENTATIVE",
+            "price": 250,
+            "dates": "September 11 - 14; September 17 - 20 (afternoon)",
+            "days": "Monday to Thursday",
+            "times": "30 minute lessons between 1:30pm and 3:30pm",
+            "dateList": [
                 [2023,9,11],
                 [2023,9,12],
                 [2023,9,13],
-                [2023,9,14]
+                [2023,9,14],
+                [2023,9,17],
+                [2023,9,18],
+                [2023,9,19],
+                [2023,9,20]
             ]
         }
     ]
