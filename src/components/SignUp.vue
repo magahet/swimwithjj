@@ -308,12 +308,19 @@ export default {
     openSessions() {
       return this.sessionList.filter((s) => s.open);
     },
+    sessionIndex() {
+      const obj = {}
+      this.sessionList.forEach((s, i) => {
+        obj[s.num] = i
+      })
+      return obj
+    },
     sessionTotal() {
       return this.enrolledSessions.length;
     },
     paymentTotal() {
       let prices = this.enrolledSessions.map(
-        (s) => this.sessionList[s.id - 1].price
+        (s) => this.sessionList[this.sessionIndex[s.id]].price
       );
       return prices.length ? prices.reduce((a, b) => a + b) : 0;
     },
