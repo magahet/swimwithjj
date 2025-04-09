@@ -30,6 +30,7 @@ The site is built with [Astro](https://astro.build/), a modern static site gener
 │   │   └── firebase.ts # Firebase configuration
 │   │   └── firebaseClient.ts # Firebase utility functions
 │   │   └── initSettings.ts # Settings initialization
+│   │   └── sessionManager.ts # Session management utilities
 │   ├── pages/         # Each .astro file becomes a route
 │   │   ├── index.astro
 │   │   ├── about.astro
@@ -54,6 +55,8 @@ The site is built with [Astro](https://astro.build/), a modern static site gener
 - **Pages**: Individual content pages, each with their specific content and layout variations
 - **Firebase**: Backend services for authentication, database, and storage
 - **Admin Area**: Protected admin dashboard with settings management
+- **Session Management**: Dynamic display and selection of lesson sessions
+- **Sign-up Form**: Interactive form with support for multiple children and session selection
 
 ## 💻 Development
 
@@ -90,6 +93,13 @@ This will start the development server at `http://localhost:4321`
 ### Firebase Setup
 
 For detailed instructions on setting up Firebase, please see the [Firebase Setup Guide](FIREBASE_SETUP.md).
+
+#### Session Management
+
+The site features dynamic session management:
+1. Sessions are stored in Firestore and can be managed through the admin interface
+2. Open sessions are automatically displayed on the lesson information page
+3. The sign-up form allows parents to select specific sessions for each child
 
 ### Admin Authentication
 
