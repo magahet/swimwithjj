@@ -1,0 +1,340 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+---
+
+<AdminLayout title="Session Management">
+  <div class="mb-6">
+    <p class="text-gray-700">
+      Manage swimming sessions, schedules, and availability. Changes made here will be reflected on the public site.
+    </p>
+  </div>
+  
+  <div id="sessions-admin" class="p-6 bg-white rounded-lg shadow border border-gray-200">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-xl font-semibold">Sessions</h2>
+      
+      <button id="add-session-btn" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+        Add New Session
+      </button>
+    </div>
+    
+    <div id="sessions-loading" class="text-center py-4">
+      <p>Loading sessions...</p>
+    </div>
+    
+    <div id="sessions-error" class="hidden bg-red-100 text-red-800 p-3 rounded mb-4">
+      Could not load sessions. Please check your Firebase configuration.
+    </div>
+    
+    <div id="sessions-table" class="hidden overflow-x-auto">
+      <table class="min-w-full bg-white">
+        <thead class="bg-gray-100 border-b">
+          <tr>
+            <th class="text-left p-3 w-16">ID</th>
+            <th class="text-left p-3">Dates</th>
+            <th class="text-left p-3">Days</th>
+            <th class="text-left p-3">Times</th>
+            <th class="text-left p-3 w-24">Price</th>
+            <th class="text-center p-3 w-24">Status</th>
+            <th class="text-right p-3 w-48">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="sessions-tbody">
+          <!-- Sessions will be populated here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <!-- Session Edit Modal -->
+  <div id="session-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-xl">
+      <h3 id="modal-title" class="text-xl font-semibold mb-4">Edit Session</h3>
+      
+      <form id="session-form" class="space-y-4">
+        <input type="hidden" id="session-id">
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block mb-1 font-medium" for="session-dates">Dates</label>
+            <input type="text" id="session-dates" class="w-full p-2 border rounded" required>
+          </div>
+          
+          <div>
+            <label class="block mb-1 font-medium" for="session-days">Days</label>
+            <input type="text" id="session-days" class="w-full p-2 border rounded" required>
+          </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block mb-1 font-medium" for="session-times">Times</label>
+            <input type="text" id="session-times" class="w-full p-2 border rounded" required>
+          </div>
+          
+          <div>
+            <label class="block mb-1 font-medium" for="session-price">Price</label>
+            <input type="number" id="session-price" class="w-full p-2 border rounded" required min="0">
+          </div>
+        </div>
+        
+        <div>
+          <label class="block mb-1 font-medium" for="session-notes">Notes (optional)</label>
+          <textarea id="session-notes" class="w-full p-2 border rounded" rows="2"></textarea>
+        </div>
+        
+        <div>
+          <label class="block mb-1 font-medium">Status</label>
+          <div class="flex items-center">
+            <input type="checkbox" id="session-open" class="mr-2">
+            <span>Open for enrollment</span>
+          </div>
+        </div>
+        
+        <div class="flex justify-between pt-4 border-t">
+          <button type="button" id="delete-session-btn" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+            Delete
+          </button>
+          <div>
+            <button type="button" id="close-modal-btn" class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 mr-2">
+              Cancel
+            </button>
+            <button type="submit" id="save-session-btn" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+              Save
+            </button>
+          </div>
+        </div>
+      </form>
+      
+      <div id="modal-error" class="mt-4 hidden bg-red-100 text-red-800 p-3 rounded"></div>
+    </div>
+  </div>
+</AdminLayout>
+
+<script>
+  // Only execute this script if the sessions admin component is present on the page
+  if (document.getElementById('sessions-admin')) {
+    // Import the sessions functions
+    const sessionsModule = import('../../lib/sessionManager');
+    
+    // Elements
+    const sessionsLoading = document.getElementById('sessions-loading');
+    const sessionsError = document.getElementById('sessions-error');
+    const sessionsTable = document.getElementById('sessions-table');
+    const sessionsTbody = document.getElementById('sessions-tbody');
+    const addSessionBtn = document.getElementById('add-session-btn');
+    
+    // Modal elements
+    const sessionModal = document.getElementById('session-modal');
+    const modalTitle = document.getElementById('modal-title');
+    const sessionForm = document.getElementById('session-form');
+    const sessionIdInput = document.getElementById('session-id');
+    const sessionDatesInput = document.getElementById('session-dates');
+    const sessionDaysInput = document.getElementById('session-days');
+    const sessionTimesInput = document.getElementById('session-times');
+    const sessionPriceInput = document.getElementById('session-price');
+    const sessionNotesInput = document.getElementById('session-notes');
+    const sessionOpenCheck = document.getElementById('session-open');
+    const deleteSessionBtn = document.getElementById('delete-session-btn');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+    const modalError = document.getElementById('modal-error');
+    
+    // Function to show error in modal
+    const showModalError = (message) => {
+      modalError.textContent = message;
+      modalError.classList.remove('hidden');
+    };
+    
+    // Function to hide modal error
+    const hideModalError = () => {
+      modalError.textContent = '';
+      modalError.classList.add('hidden');
+    };
+    
+    // Function to open modal for editing a session
+    const openEditModal = (session = null) => {
+      hideModalError();
+      
+      if (session) {
+        modalTitle.textContent = 'Edit Session';
+        sessionIdInput.value = session.id;
+        sessionDatesInput.value = session.dates;
+        sessionDaysInput.value = session.days;
+        sessionTimesInput.value = session.times;
+        sessionPriceInput.value = session.price;
+        sessionNotesInput.value = session.notes || '';
+        sessionOpenCheck.checked = session.open;
+        deleteSessionBtn.classList.remove('hidden');
+      } else {
+        modalTitle.textContent = 'Add New Session';
+        sessionForm.reset();
+        sessionIdInput.value = '';
+        sessionOpenCheck.checked = false;
+        deleteSessionBtn.classList.add('hidden');
+      }
+      
+      sessionModal.classList.remove('hidden');
+    };
+    
+    // Function to close modal
+    const closeModal = () => {
+      sessionModal.classList.add('hidden');
+      sessionForm.reset();
+    };
+    
+    // Function to load and display sessions
+    const loadSessions = async () => {
+      try {
+        sessionsLoading.classList.remove('hidden');
+        sessionsTable.classList.add('hidden');
+        sessionsError.classList.add('hidden');
+        
+        const { getAllSessions } = await sessionsModule;
+        const sessions = await getAllSessions();
+        
+        // Sort sessions by ID
+        sessions.sort((a, b) => parseInt(a.id) - parseInt(b.id));
+        
+        // Clear existing sessions
+        sessionsTbody.innerHTML = '';
+        
+        // Add sessions to table
+        sessions.forEach(session => {
+          const row = document.createElement('tr');
+          row.classList.add('border-b', 'hover:bg-gray-50');
+          
+          row.innerHTML = `
+            <td class="p-3">${session.id}</td>
+            <td class="p-3">${session.dates}</td>
+            <td class="p-3">${session.days}</td>
+            <td class="p-3">${session.times}</td>
+            <td class="p-3">$${session.price}</td>
+            <td class="p-3 text-center">
+              <span class="px-2 py-1 rounded-full text-xs font-medium ${session.open ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}">
+                ${session.open ? 'Open' : 'Closed'}
+              </span>
+            </td>
+            <td class="p-3 text-right">
+              <button class="edit-session-btn px-3 py-1 text-blue-600 hover:underline" data-id="${session.id}">
+                Edit
+              </button>
+              <button class="toggle-status-btn px-3 py-1 text-${session.open ? 'orange' : 'green'}-600 hover:underline" data-id="${session.id}">
+                ${session.open ? 'Close' : 'Open'}
+              </button>
+            </td>
+          `;
+          
+          sessionsTbody.appendChild(row);
+        });
+        
+        // Show table
+        sessionsLoading.classList.add('hidden');
+        sessionsTable.classList.remove('hidden');
+        
+        // Add event listeners to edit buttons
+        document.querySelectorAll('.edit-session-btn').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const id = btn.getAttribute('data-id');
+            const { getSession } = await sessionsModule;
+            const session = await getSession(id);
+            openEditModal(session);
+          });
+        });
+        
+        // Add event listeners to toggle status buttons
+        document.querySelectorAll('.toggle-status-btn').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const id = btn.getAttribute('data-id');
+            try {
+              const { toggleSessionStatus } = await sessionsModule;
+              await toggleSessionStatus(id);
+              loadSessions();
+            } catch (error) {
+              console.error('Error toggling session status:', error);
+              sessionsError.textContent = error.message || 'Error toggling session status';
+              sessionsError.classList.remove('hidden');
+            }
+          });
+        });
+      } catch (error) {
+        console.error('Error loading sessions:', error);
+        sessionsLoading.classList.add('hidden');
+        sessionsError.textContent = error.message || 'Error loading sessions. Please check your Firebase configuration.';
+        sessionsError.classList.remove('hidden');
+      }
+    };
+    
+    // Add new session button
+    addSessionBtn.addEventListener('click', () => {
+      openEditModal();
+    });
+    
+    // Close modal button
+    closeModalBtn.addEventListener('click', closeModal);
+    
+    // Delete session button
+    deleteSessionBtn.addEventListener('click', async () => {
+      const id = sessionIdInput.value;
+      if (!id) return;
+      
+      if (confirm(`Are you sure you want to delete session ${id}? This action cannot be undone.`)) {
+        try {
+          const { deleteSession } = await sessionsModule;
+          await deleteSession(id);
+          closeModal();
+          loadSessions();
+        } catch (error) {
+          console.error('Error deleting session:', error);
+          showModalError(error.message || 'Error deleting session');
+        }
+      }
+    });
+    
+    // Form submit handler
+    sessionForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hideModalError();
+      
+      const id = sessionIdInput.value;
+      const sessionData = {
+        dates: sessionDatesInput.value,
+        days: sessionDaysInput.value,
+        times: sessionTimesInput.value,
+        price: Number(sessionPriceInput.value),
+        notes: sessionNotesInput.value || undefined,
+        open: sessionOpenCheck.checked
+      };
+      
+      try {
+        if (id) {
+          // Update existing session
+          const { updateSession } = await sessionsModule;
+          await updateSession(id, sessionData);
+        } else {
+          // Create new session
+          const { createSession } = await sessionsModule;
+          await createSession(sessionData);
+        }
+        
+        closeModal();
+        loadSessions();
+      } catch (error) {
+        console.error('Error saving session:', error);
+        showModalError(error.message || 'Error saving session');
+      }
+    });
+    
+    // Close modal when clicking outside
+    sessionModal.addEventListener('click', (e) => {
+      if (e.target === sessionModal) {
+        closeModal();
+      }
+    });
+    
+    // Load sessions when the page loads
+    document.addEventListener('DOMContentLoaded', loadSessions);
+    
+    // Also load sessions when admin is authenticated
+    document.addEventListener('admin-authenticated', loadSessions);
+  }
+</script> 

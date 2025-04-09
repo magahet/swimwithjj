@@ -1,0 +1,52 @@
+---
+// This component provides Firebase authentication UI
+// It doesn't render anything by default, but provides client-side scripts
+---
+
+<div id="firebase-auth-container" class="hidden">
+  <!-- Auth UI will be rendered here -->
+</div>
+
+<script>
+  // This script will run on the client side
+  // Import Firebase auth functions from our utility file
+  import { auth } from '../lib/firebase';
+  import { onAuthStateChanged } from 'firebase/auth';
+  
+  // Get client utility functions using dynamic import to avoid client/server mismatch
+  const getClientUtils = async () => {
+    const module = await import('../lib/firebaseClient');
+    return {
+      signIn: module.signIn,
+      signUp: module.signUp,
+      signOut: module.signOut,
+      getCurrentUser: module.getCurrentUser
+    };
+  };
+  
+  // Make utilities available globally
+  getClientUtils().then(utils => {
+    window.firebaseAuthUtils = utils;
+  });
+  
+  // Listen for auth state changes
+  onAuthStateChanged(auth, (user) => {
+    // This code will run whenever the user's authentication state changes
+    // You can use this to update UI elements or redirect the user
+    
+    const authContainer = document.getElementById('firebase-auth-container');
+    
+    if (user) {
+      // User is signed in
+      console.log('User is signed in:', user.uid);
+      // You can update UI elements here if needed
+    } else {
+      // User is signed out
+      console.log('User is signed out');
+      // You can update UI elements here if needed
+    }
+  });
+  
+  // This component doesn't render any visible UI by default
+  // You can customize it or create additional components that use the Firebase auth functions
+</script> 

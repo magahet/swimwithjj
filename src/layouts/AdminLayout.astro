@@ -1,0 +1,150 @@
+---
+import '../styles/global.css';
+import AdminNav from '../components/AdminNav.astro';
+import AdminAuth from '../components/AdminAuth.astro';
+const { title } = Astro.props;
+---
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <title>{title} - SwimWithJJ Admin</title>
+</head>
+<body class="bg-gray-100 min-h-screen">
+  <div class="flex flex-col h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-sm z-10">
+      <div class="px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+        <div class="flex items-center">
+          <h1 class="text-xl font-bold text-blue-600">SwimWithJJ</h1>
+          <span class="ml-2 px-2 py-1 bg-gray-200 rounded text-sm font-medium text-gray-700">Admin</span>
+        </div>
+        <div class="w-auto">
+          <AdminAuth />
+        </div>
+      </div>
+    </header>
+    
+    <div class="flex flex-1 overflow-hidden">
+      <!-- Sidebar -->
+      <aside class="bg-white shadow-sm w-64 shrink-0 hidden md:block overflow-y-auto">
+        <AdminNav />
+      </aside>
+      
+      <!-- Mobile menu bar -->
+      <div class="bg-white shadow-sm p-3 md:hidden flex items-center justify-between">
+        <button id="mobile-menu-button" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+        <span class="font-medium">{title}</span>
+        <div class="w-6"></div>
+      </div>
+      
+      <!-- Mobile menu drawer -->
+      <div id="mobile-menu" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="bg-white w-64 h-full">
+          <div class="p-3 flex justify-between items-center border-b">
+            <h2 class="font-semibold">Menu</h2>
+            <button id="close-menu-button" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          <AdminNav />
+        </div>
+      </div>
+      
+      <!-- Main content -->
+      <main class="flex-1 p-4 sm:p-6 overflow-auto">
+        <div class="max-w-full mx-auto">
+          <h1 class="text-2xl font-bold text-gray-900 mb-6">{title}</h1>
+          <slot />
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    // Mobile menu functionality
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const closeMenuButton = document.getElementById('close-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    if (mobileMenuButton && closeMenuButton && mobileMenu) {
+      mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.remove('hidden');
+      });
+      
+      closeMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+      });
+      
+      // Close menu when clicking outside
+      mobileMenu.addEventListener('click', (e) => {
+        if (e.target === mobileMenu) {
+          mobileMenu.classList.add('hidden');
+        }
+      });
+    }
+  </script>
+
+  <script>
+    // Check authentication and redirect if not authenticated
+    document.addEventListener('admin-unauthenticated', () => {
+      // Check if we're already at the login attempt
+      const isInitialLoad = sessionStorage.getItem('admin-login-attempt') !== 'true';
+      
+      if (isInitialLoad) {
+        // Set flag for initial login attempt
+        sessionStorage.setItem('admin-login-attempt', 'true');
+        // Give time for login UI to display
+        setTimeout(() => {
+          const authStatus = document.getElementById('auth-status');
+          if (authStatus) {
+            authStatus.textContent = 'Please log in to access admin area';
+            authStatus.classList.remove('hidden');
+            authStatus.classList.add('bg-yellow-100', 'text-yellow-800');
+          }
+        }, 500);
+
+        // Set a timeout to redirect if not logged in after a delay
+        setTimeout(() => {
+          // Check if still unauthenticated (by checking for login form visibility)
+          const loginForm = document.getElementById('login-form');
+          if (loginForm && !loginForm.classList.contains('hidden')) {
+            // User is still not authenticated, redirect to home
+            window.location.href = '/';
+          }
+        }, 30000); // 30 seconds timeout
+      }
+    });
+
+    // Clear login attempt flag when authenticated
+    document.addEventListener('admin-authenticated', () => {
+      sessionStorage.removeItem('admin-login-attempt');
+    });
+
+    // Immediate authentication check on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      // If Firebase auth is already initialized, we'll get an auth state change event
+      // If not, we'll set a timeout to check for login UI state
+      setTimeout(() => {
+        const loginForm = document.getElementById('login-form');
+        const logoutContainer = document.getElementById('logout-container');
+        
+        // If login form is visible and logout container is hidden, user is not authenticated
+        if (loginForm && !loginForm.classList.contains('hidden') && 
+            logoutContainer && logoutContainer.classList.contains('hidden')) {
+          // Trigger the unauthenticated handler
+          document.dispatchEvent(new CustomEvent('admin-unauthenticated'));
+        }
+      }, 1000); // Short delay to allow Firebase auth to initialize
+    });
+  </script>
+</body>
+</html> 

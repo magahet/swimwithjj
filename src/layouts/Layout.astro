@@ -2,6 +2,8 @@
 import '../styles/global.css';
 import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
+import FirebaseProvider from '../components/FirebaseProvider.astro';
+import SettingsManager from '../components/SettingsManager.astro';
 
 interface Props {
 	title: string;
@@ -34,6 +36,8 @@ const { title, full_width_hero = false } = Astro.props;
 		)}
 
 		<Footer />
+		<FirebaseProvider />
+		<SettingsManager />
 	</body>
 </html>
 

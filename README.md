@@ -6,6 +6,10 @@ This repository contains the website for Swim With JJ, a swimming instruction se
 
 Swim With JJ is a swimming lesson business that offers personalized instruction with a focus on water safety and skill development. This website provides information about the services, lesson details, testimonials, FAQ, and contact information.
 
+## 📋 Changelog
+
+See the [CHANGELOG.md](CHANGELOG.md) file for a detailed list of changes between versions.
+
 ## 🚀 Architecture
 
 The site is built with [Astro](https://astro.build/), a modern static site generator, with TailwindCSS for styling. It follows a standard Astro project structure:
@@ -21,6 +25,11 @@ The site is built with [Astro](https://astro.build/), a modern static site gener
 │   │   └── Welcome.astro
 │   ├── layouts/       # Page layouts
 │   │   └── Layout.astro
+│   │   └── AdminLayout.astro  # Admin pages layout with authentication
+│   ├── lib/           # Utility functions and services
+│   │   └── firebase.ts # Firebase configuration
+│   │   └── firebaseClient.ts # Firebase utility functions
+│   │   └── initSettings.ts # Settings initialization
 │   ├── pages/         # Each .astro file becomes a route
 │   │   ├── index.astro
 │   │   ├── about.astro
@@ -28,7 +37,8 @@ The site is built with [Astro](https://astro.build/), a modern static site gener
 │   │   ├── faq.astro
 │   │   ├── lesson-info.astro
 │   │   ├── sign-up.astro
-│   │   └── testimonials.astro
+│   │   ├── testimonials.astro
+│   │   └── admin/     # Admin section with authentication
 │   └── styles/        # Global styles
 │       └── global.css
 ├── package.json
@@ -42,6 +52,8 @@ The site is built with [Astro](https://astro.build/), a modern static site gener
 - **Navigation**: The main menu bar with a dark background, providing access to all main sections
 - **Layout**: The base layout that wraps all pages, with options for full-width hero images
 - **Pages**: Individual content pages, each with their specific content and layout variations
+- **Firebase**: Backend services for authentication, database, and storage
+- **Admin Area**: Protected admin dashboard with settings management
 
 ## 💻 Development
 
@@ -49,6 +61,7 @@ The site is built with [Astro](https://astro.build/), a modern static site gener
 
 - Node.js (v16 or later)
 - npm or yarn
+- Firebase project (for backend services)
 
 ### Setup & Installation
 
@@ -63,12 +76,30 @@ cd swimwithjj-astro
 npm install
 ```
 
-3. Start the development server
+3. Set up environment variables
+   - Copy the `.env.example` file to `.env`
+   - Fill in your Firebase project details in the `.env` file
+
+4. Start the development server
 ```bash
 npm run dev
 ```
 
 This will start the development server at `http://localhost:4321`
+
+### Firebase Setup
+
+For detailed instructions on setting up Firebase, please see the [Firebase Setup Guide](FIREBASE_SETUP.md).
+
+### Admin Authentication
+
+The admin area is protected with Firebase Authentication. To set up admin access:
+
+1. Enable Email/Password authentication in your Firebase project
+2. Create admin user accounts in Firebase Authentication
+3. Use these credentials to access the admin area at `/admin`
+
+For detailed instructions, see the [Admin Authentication Setup Guide](ADMIN_AUTH_SETUP.md).
 
 ### Commands
 
@@ -90,6 +121,12 @@ The site is designed to be deployed as a static site. After building with `npm r
 - GitHub Pages
 - Any static site hosting service
 
+### Firebase Setup:
+
+1. Create a Firebase project at [firebase.google.com](https://firebase.google.com/)
+2. Enable the services you need (Authentication, Firestore, Storage)
+3. Add your Firebase configuration to the `.env` file
+
 ## 🎨 Design
 
 The site uses a clean, modern design with:
@@ -105,6 +142,8 @@ The site uses a clean, modern design with:
 - **Layout**: Page layouts can be modified in the `src/layouts` directory
 - **Content**: Page content is managed in individual `.astro` files in the `src/pages` directory
 - **Components**: Reusable components are in the `src/components` directory
+- **Firebase**: Firebase services configuration in `src/lib/firebase.ts`
+- **Admin**: Admin interface components in `src/pages/admin` directory
 
 ## 📝 License
 

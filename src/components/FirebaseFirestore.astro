@@ -1,0 +1,63 @@
+---
+// This component provides Firebase Firestore functionality
+// It doesn't render anything by default, but provides client-side scripts
+---
+
+<div id="firebase-firestore-container" class="hidden">
+  <!-- Firestore UI can be rendered here if needed -->
+</div>
+
+<script>
+  // This script will run on the client side
+  // Import Firebase Firestore functions from our utility file
+  import { db } from '../lib/firebase';
+  
+  // Use dynamic imports to get client utilities
+  const getFirestoreUtils = async () => {
+    const module = await import('../lib/firebaseClient');
+    return {
+      createDocument: module.createDocument,
+      updateDocument: module.updateDocument,
+      deleteDocument: module.deleteDocument,
+      getDocument: module.getDocument,
+      getDocuments: module.getDocuments,
+      queryDocuments: module.queryDocuments
+    };
+  };
+  
+  // This component doesn't render any visible UI by default
+  // You can extend this or create additional components that use the Firebase Firestore functions
+  
+  // Initialize Firestore global helpers
+  const initFirestoreHelpers = async () => {
+    const utils = await getFirestoreUtils();
+    
+    // Example: Add global helpers for Firestore operations
+    window.firebaseDB = {
+      create: async (collection, data) => {
+        try {
+          const result = await utils.createDocument(collection, data);
+          console.log(`Document created in ${collection}:`, result.id);
+          return result;
+        } catch (error) {
+          console.error(`Error creating document in ${collection}:`, error);
+          throw error;
+        }
+      },
+      
+      get: async (collection, id) => {
+        try {
+          const result = await utils.getDocument(collection, id);
+          console.log(`Document retrieved from ${collection}:`, result);
+          return result;
+        } catch (error) {
+          console.error(`Error getting document from ${collection}:`, error);
+          throw error;
+        }
+      }
+    };
+  };
+  
+  // Initialize the helpers
+  initFirestoreHelpers();
+</script> 
