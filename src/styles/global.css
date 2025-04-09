@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --maroon: #800000;
+    --blue: #3490dc;
+}
+
+@layer base {
+    body {
+        @apply bg-white text-gray-800 font-sans leading-normal;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        @apply font-semibold mb-4;
+    }
+
+    h1 {
+        @apply text-3xl;
+    }
+
+    h2 {
+        @apply text-2xl;
+    }
+
+    h3 {
+        @apply text-xl;
+    }
+
+    p {
+        @apply mb-4;
+    }
+
+    a {
+        @apply text-blue-600 transition duration-200;
+    }
+
+    a:hover {
+        @apply text-blue-800;
+    }
+}
+
+@layer components {
+    .btn {
+        @apply inline-block px-6 py-2 text-white bg-blue-600 rounded font-semibold transition duration-200;
+    }
+
+    .btn:hover {
+        @apply bg-blue-700;
+    }
+
+    .btn-success {
+        @apply bg-green-600;
+    }
+
+    .btn-success:hover {
+        @apply bg-green-700;
+    }
+
+    .text-maroon {
+        color: var(--maroon);
+    }
+
+    .blockquote {
+        @apply pl-4 border-l-4 border-blue-600 italic my-8;
+    }
+
+    .blockquote footer {
+        @apply text-gray-600 mt-2 text-sm;
+    }
+
+    .jumbotron {
+        @apply relative py-16 px-8 text-white;
+        background-size: cover;
+        background-position: center;
+    }
+}

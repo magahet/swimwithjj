@@ -1,38 +1,76 @@
-# Astro Starter Kit: Basics
+# Swim With JJ - Website
 
-```sh
-npm create astro@latest -- --template basics
+This repository contains the website for Swim With JJ, a swimming instruction service. The site is built using Astro, a modern static site generator.
+
+## 🏊‍♀️ Site Overview
+
+Swim With JJ is a swimming lesson business that offers personalized instruction with a focus on water safety and skill development. This website provides information about the services, lesson details, testimonials, FAQ, and contact information.
+
+## 🚀 Architecture
+
+The site is built with [Astro](https://astro.build/), a modern static site generator, with TailwindCSS for styling. It follows a standard Astro project structure:
+
 ```
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
 /
-├── public/
-│   └── favicon.svg
+├── public/            # Static assets (images, favicon)
 ├── src/
-│   ├── layouts/
+│   ├── assets/        # Source assets that need processing
+│   ├── components/    # Reusable UI components
+│   │   ├── Footer.astro
+│   │   ├── Navigation.astro
+│   │   └── Welcome.astro
+│   ├── layouts/       # Page layouts
 │   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
+│   ├── pages/         # Each .astro file becomes a route
+│   │   ├── index.astro
+│   │   ├── about.astro
+│   │   ├── contact.astro
+│   │   ├── faq.astro
+│   │   ├── lesson-info.astro
+│   │   ├── sign-up.astro
+│   │   └── testimonials.astro
+│   └── styles/        # Global styles
+│       └── global.css
+├── package.json
+├── astro.config.mjs
+├── tailwind.config.js
+└── tsconfig.json
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+### Key Components
 
-## 🧞 Commands
+- **Navigation**: The main menu bar with a dark background, providing access to all main sections
+- **Layout**: The base layout that wraps all pages, with options for full-width hero images
+- **Pages**: Individual content pages, each with their specific content and layout variations
 
-All commands are run from the root of the project, from a terminal:
+## 💻 Development
+
+### Prerequisites
+
+- Node.js (v16 or later)
+- npm or yarn
+
+### Setup & Installation
+
+1. Clone this repository
+```bash
+git clone https://github.com/magahet/swimwithjj-astro.git
+cd swimwithjj-astro
+```
+
+2. Install dependencies
+```bash
+npm install
+```
+
+3. Start the development server
+```bash
+npm run dev
+```
+
+This will start the development server at `http://localhost:4321`
+
+### Commands
 
 | Command                   | Action                                           |
 | :------------------------ | :----------------------------------------------- |
@@ -40,9 +78,34 @@ All commands are run from the root of the project, from a terminal:
 | `npm run dev`             | Starts local dev server at `localhost:4321`      |
 | `npm run build`           | Build your production site to `./dist/`          |
 | `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
 
-## 👀 Want to learn more?
+## 🖥️ Deployment
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+The site is designed to be deployed as a static site. After building with `npm run build`, the `dist` directory contains all the files needed for deployment.
+
+### Deployment Options:
+
+- Netlify
+- Vercel
+- GitHub Pages
+- Any static site hosting service
+
+## 🎨 Design
+
+The site uses a clean, modern design with:
+
+- A dark navigation bar
+- Full-width hero section for the homepage
+- Responsive layout for all device sizes
+- Swimming-themed images and colors
+
+## 🔧 Customization
+
+- **Colors**: Main colors are defined in the TailwindCSS configuration
+- **Layout**: Page layouts can be modified in the `src/layouts` directory
+- **Content**: Page content is managed in individual `.astro` files in the `src/pages` directory
+- **Components**: Reusable components are in the `src/components` directory
+
+## 📝 License
+
+All rights reserved, SwimWithJJ © 2024
