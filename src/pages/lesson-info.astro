@@ -36,7 +36,7 @@ import Layout from '../layouts/Layout.astro';
 					<iframe 
 						src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d6602.572485564248!2d-118.95206516140746!3d34.16459857144125!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80e83a1c8f4561d1%3A0xbf8f9bf6801b5ca6!2s853+Mirage+Ct%2C+Thousand+Oaks%2C+CA+91320!5e0!3m2!1sen!2sus!4v1558025018436!5m2!1sen!2sus" 
 						width="100%" 
-						height="450" 
+						height="250" 
 						style="border:0;" 
 						allowfullscreen 
 						loading="lazy">
@@ -44,7 +44,18 @@ import Layout from '../layouts/Layout.astro';
 				</div>
 			</section>
 			
-			<!-- Session information will be added later -->
+			<!-- Sessions from Firebase -->
+			<section id="sessions-section" class="mb-12 hidden">
+				<div class="flex items-center justify-between mb-3">
+					<h2 class="text-2xl font-bold">Available Sessions</h2>
+					<button id="toggle-closed-sessions" class="text-sm px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded">
+						Show Closed Sessions
+					</button>
+				</div>
+				<div id="sessions-container" class="grid gap-3">
+					<p class="text-gray-500 italic">Loading sessions...</p>
+				</div>
+			</section>
 		</div>
 	</div>
 </Layout>
@@ -52,7 +63,7 @@ import Layout from '../layouts/Layout.astro';
 <style>
 	.responsive-map {
 		position: relative;
-		padding-bottom: 56.25%;
+		padding-bottom: 30%; /* Reduced further from 40% to make map smaller */
 		height: 0;
 		overflow: hidden;
 	}
@@ -64,4 +75,121 @@ import Layout from '../layouts/Layout.astro';
 		width: 100%;
 		height: 100%;
 	}
-</style> 
+</style>
+
+<script>
+	import { getAllSessions } from '../lib/sessionManager';
+	import { getSettings } from '../lib/initSettings';
+	
+	// State to track if closed sessions should be shown
+	let showClosedSessions = false;
+	
+	// Function to check if lessons info is active and render sessions
+	async function checkSettingsAndRenderSessions() {
+		try {
+			// First, check if lessonInfoActive is true
+			const settings = await getSettings();
+			const sessionsSection = document.getElementById('sessions-section');
+			
+			if (!settings.lessonInfoActive) {
+				// If settings.lessonInfoActive is false, hide the sessions section
+				if (sessionsSection) {
+					sessionsSection.classList.add('hidden');
+				}
+				return;
+			}
+			
+			// If settings.lessonInfoActive is true, show the sessions section
+			if (sessionsSection) {
+				sessionsSection.classList.remove('hidden');
+			}
+			
+			// Set up toggle button for closed sessions
+			const toggleButton = document.getElementById('toggle-closed-sessions');
+			if (toggleButton) {
+				toggleButton.addEventListener('click', () => {
+					showClosedSessions = !showClosedSessions;
+					toggleButton.textContent = showClosedSessions ? 'Hide Closed Sessions' : 'Show Closed Sessions';
+					renderSessions();
+				});
+			}
+			
+			// Proceed with rendering sessions
+			await renderSessions();
+		} catch (error) {
+			console.error('Error checking settings:', error);
+		}
+	}
+	
+	// Function to render sessions
+	async function renderSessions() {
+		try {
+			const sessionsContainer = document.getElementById('sessions-container');
+			
+			if (!sessionsContainer) {
+				console.error('Sessions container not found');
+				return;
+			}
+			
+			// Clear loading message
+			sessionsContainer.innerHTML = '';
+			
+			// Get all sessions from Firestore
+			const sessions = await getAllSessions();
+			
+			// Sort sessions by ID in ascending order
+			sessions.sort((a, b) => parseInt(a.id) - parseInt(b.id));
+			
+			// Filter sessions based on the showClosedSessions state
+			const filteredSessions = showClosedSessions 
+				? sessions 
+				: sessions.filter(session => session.open);
+			
+			if (filteredSessions.length === 0) {
+				sessionsContainer.innerHTML = '<p class="text-gray-500">No sessions are currently available.</p>';
+				return;
+			}
+			
+			// Create session cards
+			filteredSessions.forEach(session => {
+				const sessionEl = document.createElement('div');
+				sessionEl.className = 'bg-white rounded-lg shadow-md p-3 border border-gray-200';
+				
+				// Add a badge for open/closed status
+				const statusBadge = session.open 
+					? '<span class="inline-block px-2 py-0.5 text-xs font-semibold rounded-full bg-green-100 text-green-800 mr-2">Open</span>'
+					: '<span class="inline-block px-2 py-0.5 text-xs font-semibold rounded-full bg-red-100 text-red-800 mr-2">Closed</span>';
+				
+				sessionEl.innerHTML = `
+					<div class="flex items-center justify-between mb-2">
+						<h3 class="text-lg font-semibold">Session ${session.id}</h3>
+						${statusBadge}
+					</div>
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+						<div>
+							<p class="mb-1"><span class="font-medium">Dates:</span> ${session.dates}</p>
+							<p class="mb-1"><span class="font-medium">Days:</span> ${session.days}</p>
+						</div>
+						<div>
+							<p class="mb-1"><span class="font-medium">Times:</span> ${session.times}</p>
+							<p class="mb-1"><span class="font-medium">Price:</span> $${session.price}</p>
+						</div>
+					</div>
+					${session.notes ? `<p class="mt-1 text-gray-700 text-sm"><span class="font-medium">Notes:</span> ${session.notes}</p>` : ''}
+				`;
+				
+				sessionsContainer.appendChild(sessionEl);
+			});
+			
+		} catch (error) {
+			console.error('Error rendering sessions:', error);
+			const sessionsContainer = document.getElementById('sessions-container');
+			if (sessionsContainer) {
+				sessionsContainer.innerHTML = '<p class="text-red-500">Failed to load sessions. Please try again later.</p>';
+			}
+		}
+	}
+	
+	// Initialize when DOM is loaded
+	document.addEventListener('DOMContentLoaded', checkSettingsAndRenderSessions);
+</script> 

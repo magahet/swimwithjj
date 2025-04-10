@@ -47,7 +47,7 @@ const defaultSettings = {
         "signup form received",
         "lessons scheduled"
     ],
-    stripePublishKey: "pk_live_mfTxbsnXY6f9fXZJAR17EajZ"
+    stripePublishKey: process.env.STRIPE_PUBLISH_KEY
 };
 
 // Function to initialize settings

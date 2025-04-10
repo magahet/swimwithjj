@@ -137,6 +137,22 @@ The site is designed to be deployed as a static site. After building with `npm r
 2. Enable the services you need (Authentication, Firestore, Storage)
 3. Add your Firebase configuration to the `.env` file
 
+### Firebase Functions:
+
+The project includes Firebase Cloud Functions for backend operations:
+- Email notifications for signups and contact form submissions
+- MailChimp integration for marketing subscriptions
+- Session data processing
+
+To deploy the functions:
+```bash
+cd functions
+npm install
+firebase deploy --only functions
+```
+
+See the [functions/README.md](functions/README.md) file for detailed setup instructions.
+
 ## 🎨 Design
 
 The site uses a clean, modern design with:
