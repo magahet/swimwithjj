@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0] - 2025-04-10
+
+### Added
+- Modern Stripe integration with Payment Methods API
+- New stripeClient.js module for frontend Stripe Elements integration
+- Customer search functionality in signup-new Firebase function
+- Direct links to Stripe customer dashboard in admin interface
+
+### Changed
+- Upgraded Stripe from v8 to v18
+- Replaced token-based payment with modern payment methods
+- Improved payment UI with Stripe Elements
+- Enhanced error handling for payment processing
+- Updated data schema to use paymentMethodId instead of token
+
+### Fixed
+- Date formatting in admin signup details modal
+- Improved date display in admin interface for various timestamp formats
+
 ## [0.3.0] - 2024-04-10
 
 ### Added

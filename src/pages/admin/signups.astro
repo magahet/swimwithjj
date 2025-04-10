@@ -47,7 +47,7 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
       <table class="min-w-full bg-white">
         <thead class="bg-gray-100 border-b">
           <tr>
-            <th class="text-left p-3 w-24">Date</th>
+            <th class="text-left p-3 w-24">Signup Date</th>
             <th class="text-left p-3 w-48">Parent</th>
             <th class="text-left p-3">Contact</th>
             <th class="text-left p-3">Children</th>
@@ -161,12 +161,50 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
     const formatDate = (timestamp) => {
       if (!timestamp) return 'N/A';
       
-      const date = new Date(timestamp._seconds * 1000);
-      return date.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-      });
+      try {
+        // Handle different timestamp formats
+        if (timestamp._seconds !== undefined) {
+          // Firestore timestamp object
+          return new Date(timestamp._seconds * 1000).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+          });
+        } else if (timestamp.toDate instanceof Function) {
+          // Firestore Timestamp class with toDate method
+          return timestamp.toDate().toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+          });
+        } else if (timestamp instanceof Date) {
+          // JavaScript Date object
+          return timestamp.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+          });
+        } else if (typeof timestamp === 'string') {
+          // ISO string or other date string
+          return new Date(timestamp).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+          });
+        } else if (typeof timestamp === 'number') {
+          // Unix timestamp in milliseconds
+          return new Date(timestamp).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+          });
+        }
+        
+        return 'Invalid Date Format';
+      } catch (error) {
+        console.error('Error formatting date:', error, timestamp);
+        return 'Invalid Date';
+      }
     };
     
     // Function to open modal for viewing signup details
@@ -201,7 +239,7 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
                 <p><strong>Name:</strong> ${signup.parent.name}</p>
                 <p><strong>Email:</strong> <a href="mailto:${signup.parent.email}" class="text-blue-600 hover:underline">${signup.parent.email}</a></p>
                 <p><strong>Phone:</strong> <a href="tel:${signup.parent.phone}" class="text-blue-600 hover:underline">${signup.parent.phone}</a></p>
-                <p><strong>Date:</strong> ${createdDate}</p>
+                <p><strong>Signup Date:</strong> ${createdDate}</p>
               </div>
             </div>
             
@@ -210,7 +248,9 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
               <div class="border rounded p-3">
                 <p><strong>Amount:</strong> $${signup.paymentTotal.toFixed(2)}</p>
                 <p><strong>Status:</strong> <span class="px-2 py-0.5 rounded ${getStatusClass(signup.status)}">${signup.status || 'Unknown'}</span></p>
-                <p><strong>Stripe Customer:</strong> ${signup.stripeCustomerId}</p>
+                <p><strong>Stripe Customer:</strong> ${signup.stripeCustomerId ? 
+                  `<a href="https://dashboard.stripe.com/customers/${signup.stripeCustomerId}" target="_blank" class="text-blue-600 hover:underline">${signup.stripeCustomerId}</a>` : 
+                  'Not available'}</p>
               </div>
             </div>
           </div>

@@ -31,6 +31,7 @@ The site is built with [Astro](https://astro.build/), a modern static site gener
 │   │   └── firebaseClient.ts # Firebase utility functions
 │   │   └── initSettings.ts # Settings initialization
 │   │   └── sessionManager.ts # Session management utilities
+│   │   └── stripeClient.js # Stripe payment integration
 │   ├── pages/         # Each .astro file becomes a route
 │   │   ├── index.astro
 │   │   ├── about.astro
@@ -57,6 +58,7 @@ The site is built with [Astro](https://astro.build/), a modern static site gener
 - **Admin Area**: Protected admin dashboard with settings management
 - **Session Management**: Dynamic display and selection of lesson sessions
 - **Sign-up Form**: Interactive form with support for multiple children and session selection
+- **Payment Processing**: Modern Stripe integration for secure payment handling
 
 ## 💻 Development
 
@@ -65,6 +67,7 @@ The site is built with [Astro](https://astro.build/), a modern static site gener
 - Node.js (v16 or later)
 - npm or yarn
 - Firebase project (for backend services)
+- Stripe account (for payment processing)
 
 ### Setup & Installation
 
@@ -143,6 +146,7 @@ The project includes Firebase Cloud Functions for backend operations:
 - Email notifications for signups and contact form submissions
 - MailChimp integration for marketing subscriptions
 - Session data processing
+- Stripe payment processing
 
 To deploy the functions:
 ```bash
@@ -152,6 +156,34 @@ firebase deploy --only functions
 ```
 
 See the [functions/README.md](functions/README.md) file for detailed setup instructions.
+
+### Payment Processing
+
+The website uses Stripe for payment processing with a modern implementation:
+
+#### Payment Workflow
+
+1. **Frontend (Sign-Up Form)**:
+   - Uses Stripe Elements for secure card collection
+   - Collects parent information, child details, and selected sessions
+   - Creates a Payment Method using Stripe's API
+   - Submits form data with Payment Method ID to Firestore
+
+2. **Backend (Firebase Function)**:
+   - Triggered when a new signup document is created
+   - Searches for existing customer with the same email
+   - If found: attaches the new payment method to the existing customer
+   - If not found: creates a new Stripe customer with the payment method
+   - Updates the signup document with the Stripe customer ID
+   - Sends confirmation email to the customer
+
+3. **Admin Interface**:
+   - Displays signup details including payment information
+   - Provides a direct link to the Stripe customer dashboard
+   - Allows administrators to update signup status (which can trigger payment charging)
+   - When status is changed to "lessons scheduled", an email notification is sent
+
+This implementation follows Stripe's best practices by using the Payment Methods API instead of the legacy Tokens API, providing better security, reusability, and support for SCA/3D Secure requirements.
 
 ## 🎨 Design
 

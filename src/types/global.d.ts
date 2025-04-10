@@ -43,7 +43,7 @@ interface Signup {
     request?: string;
     status: string;
     paymentTotal: number;
-    token: string;
+    paymentMethodId: string;
     stripeCustomerId: string;
     created: {
         _seconds: number;

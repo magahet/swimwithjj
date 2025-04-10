@@ -19,15 +19,41 @@ exports.signupNew = onDocumentCreated({
 
   await sendConfirmationEmail(signup);
 
-  // Create a stripe customer with token
   try {
-    const customer = await stripe.customers.create({
-      account_balance: signup.paymentTotal * 100,
-      description: signup.parent.name,
-      name: signup.parent.name,
-      email: signup.parent.email,
-      source: signup.token,
-    })
+    // Search for existing customer with the same email
+    const customerSearchResults = await stripe.customers.search({
+      query: `email:'${signup.parent.email}'`,
+    });
+
+    let customer;
+
+    if (customerSearchResults.data.length > 0) {
+      // Use existing customer
+      customer = customerSearchResults.data[0];
+      logger.log(`Using existing customer: ${customer.id}`);
+
+      // Attach the new payment method to the existing customer
+      await stripe.paymentMethods.attach(
+        signup.paymentMethodId,
+        { customer: customer.id }
+      );
+
+      // Update customer balance if needed
+      await stripe.customers.update(customer.id, {
+        balance: signup.paymentTotal * 100,
+      });
+    } else {
+      // Create a new stripe customer with payment method
+      customer = await stripe.customers.create({
+        balance: signup.paymentTotal * 100,
+        description: signup.parent.name,
+        name: signup.parent.name,
+        email: signup.parent.email,
+        payment_method: signup.paymentMethodId,
+      });
+      logger.log(`Created new customer: ${customer.id}`);
+    }
+
     logger.log(customer);
     await snap.ref.update({ stripeCustomerId: customer.id });
   } catch (err) {
