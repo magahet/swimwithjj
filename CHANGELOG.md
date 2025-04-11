@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.1] - 2024-06-28
+
+### Added
+- Enhanced HTML email templates for contact form submissions
+- Modern responsive email layout for signup confirmations
+- Improved email templates for lesson schedule notifications
+- Email preview access in admin dashboard
+
+### Changed
+- Email message formatting with better visual hierarchy
+- Updated Firebase functions to support HTML email content
+- Improved admin dashboard's Messages section UI
+
+### Fixed
+- Email formatting issues in notification emails
+- Missing copyright year in email templates
+- Admin navigation link consistency
+
 ## [0.5.0] - 2024-06-25
 
 ### Added

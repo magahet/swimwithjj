@@ -39,6 +39,76 @@ ${lessons}
 Payment will be charged to the credit card you provided.
 The total amount that will be charged is: ${cost}   
 `;
+
+  // Create HTML version of the email
+  let lessonsHtml = '';
+  signup.children.forEach(child => {
+    lessonsHtml += `
+    <div style="margin-bottom: 20px;">
+      <h3 style="color: #0078B3; margin-top: 0; margin-bottom: 10px; font-size: 18px;">${child.name}</h3>
+      <ul style="padding-left: 20px; margin-top: 5px;">
+      ${child.sessions.map(s => `
+        <li style="margin-bottom: 8px;">
+          <strong>${s.text}</strong> at ${s.time}
+        </li>`).join('')}
+      </ul>
+    </div>`;
+  });
+
+  const html = `
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SwimWithJJ Lesson Times</title>
+  </head>
+  <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+    <div style="text-align: center; margin-bottom: 30px;">
+      <h1 style="color: #0078B3; font-size: 28px; margin: 0;">Swim With JJ</h1>
+    </div>
+    
+    <div style="background-color: #f7f7f7; border-radius: 8px; padding: 25px; margin-bottom: 25px;">
+      <h1 style="color: #0078B3; margin-top: 0; font-size: 24px;">Your Lesson Times Are Set!</h1>
+      
+      <p>Hello ${signup.parent.name},</p>
+      
+      <p>Great news! Your swimming lessons with JJ have been scheduled. Below you'll find the details of your upcoming sessions.</p>
+      
+      <div style="background-color: #E8F5FE; padding: 15px; border-radius: 5px; margin: 20px 0;">
+        <p style="margin: 0;"><strong>Payment Information:</strong></p>
+        <p style="margin: 5px 0 0 0;">Your credit card will now be charged the amount of <strong>${cost}</strong>.</p>
+        <p style="margin: 5px 0 0 0;">This charge will appear on your statement as "SwimWithJJ".</p>
+      </div>
+    </div>
+    
+    <div style="background-color: #f7f7f7; border-radius: 8px; padding: 25px;">
+      <h2 style="color: #0078B3; margin-top: 0; font-size: 20px;">Your Swimming Lessons Schedule</h2>
+      
+      ${lessonsHtml}
+      
+      <div style="background-color: #FFFFE0; padding: 15px; border-radius: 5px; margin-top: 20px;">
+        <p style="margin: 0;"><strong>Important Reminders:</strong></p>
+        <ul style="margin-top: 5px; padding-left: 20px;">
+          <li>Please arrive 10 minutes before your scheduled lesson time</li>
+          <li>Bring a swimsuit, towel, and goggles</li>
+          <li>If you need to reschedule, please contact us at least 24 hours in advance</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 14px; color: #777; text-align: center;">
+      <p>If you have any questions, please reply to this email or use the contact form on our website.</p>
+      <p>We look forward to seeing you in the pool!</p>
+      <p>
+        <a href="https://www.swimwithjj.com" style="color: #0078B3; text-decoration: none;">www.swimwithjj.com</a>
+      </p>
+      <p>&copy; ${new Date().getFullYear()} SwimWithJJ. All rights reserved.</p>
+    </div>
+  </body>
+  </html>
+  `;
+
   let client = SibApiV3Sdk.ApiClient.instance.authentications['api-key'].apiKey = sibApiKey.value();
 
   const msg = {
@@ -47,6 +117,7 @@ The total amount that will be charged is: ${cost}
     'replyTo': { 'email': process.env.EMAIL_FROM, 'name': process.env.EMAIL_FROM_NAME },
     'to': [{ 'name': signup.parent.name, 'email': signup.parent.email }],
     'textContent': body,
+    'htmlContent': html,
   }
 
   new SibApiV3Sdk.TransactionalEmailsApi()

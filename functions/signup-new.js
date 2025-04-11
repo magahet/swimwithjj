@@ -66,11 +66,11 @@ exports.signupNew = onDocumentCreated({
 
 function sendConfirmationEmail(signup) {
   // Send confirmation email
-
   const cost = utils.currencyFormatter.format(signup.paymentTotal)
 
   // Building Email message.
   const subject = 'SwimWithJJ Signup Confirmation'
+
   let text = `Thank You!
 
 You have completed the signup process at www.swimwithjj.com
@@ -83,11 +83,67 @@ You have signed up for the following sessions:
 
 `
 
+  let sessionsList = '';
   signup.children.forEach(child => {
     text += `${child.name}:\n`
     text += child.sessions.map(s => s.text).join("\n")
     text += "\n\n"
+
+    // HTML version
+    sessionsList += `<div style="margin-bottom: 15px;">
+      <strong>${child.name}:</strong>
+      <ul style="margin-top: 5px;">
+        ${child.sessions.map(s => `<li>${s.text}</li>`).join('')}
+      </ul>
+    </div>`;
   })
+
+  // Create HTML version of the email
+  const html = `
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SwimWithJJ Signup Confirmation</title>
+  </head>
+  <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+    <div style="text-align: center; margin-bottom: 30px;">
+      <h1 style="color: #0078B3; font-size: 28px; margin: 0;">Swim With JJ</h1>
+    </div>
+    
+    <div style="background-color: #f7f7f7; border-radius: 8px; padding: 25px; margin-bottom: 25px;">
+      <h1 style="color: #0078B3; margin-top: 0; font-size: 24px;">Thank You for Signing Up!</h1>
+      
+      <p>Hello ${signup.parent.name},</p>
+      
+      <p>You have successfully completed the signup process at <a href="https://www.swimwithjj.com" style="color: #0078B3; text-decoration: none; font-weight: bold;">swimwithjj.com</a>.</p>
+      
+      <p><strong>What happens next?</strong> JJ will contact you with your exact lesson times within the next two weeks.</p>
+      
+      <div style="background-color: #E8F5FE; padding: 15px; border-radius: 5px; margin: 20px 0;">
+        <p style="margin: 0;"><strong>Payment Information:</strong></p>
+        <p style="margin: 5px 0 0 0;">Your credit card will only be charged after you have received your lesson times.</p>
+        <p style="margin: 5px 0 0 0;">The total amount that will be charged is: <strong>${cost}</strong></p>
+      </div>
+    </div>
+    
+    <div style="background-color: #f7f7f7; border-radius: 8px; padding: 25px;">
+      <h2 style="color: #0078B3; margin-top: 0; font-size: 20px;">Your Swimming Sessions</h2>
+      
+      ${sessionsList}
+    </div>
+    
+    <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 14px; color: #777; text-align: center;">
+      <p>If you have any questions, please reply to this email or use the contact form on our website.</p>
+      <p>
+        <a href="https://www.swimwithjj.com" style="color: #0078B3; text-decoration: none;">www.swimwithjj.com</a>
+      </p>
+      <p>&copy; ${new Date().getFullYear()} SwimWithJJ. All rights reserved.</p>
+    </div>
+  </body>
+  </html>
+  `;
 
   let client = SibApiV3Sdk.ApiClient.instance.authentications['api-key'].apiKey = sibApiKey.value();
 
@@ -97,6 +153,7 @@ You have signed up for the following sessions:
     'replyTo': { 'email': process.env.EMAIL_FROM, 'name': process.env.EMAIL_FROM_NAME },
     'to': [{ 'name': signup.parent.name, 'email': signup.parent.email }],
     'textContent': text,
+    'htmlContent': html,
   }
 
   new SibApiV3Sdk.TransactionalEmailsApi()
