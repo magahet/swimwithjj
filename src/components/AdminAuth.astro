@@ -1,0 +1,136 @@
+---
+// Admin authentication component
+// Provides login interface for administrators
+---
+
+<div id="admin-auth" class="bg-white rounded-lg overflow-hidden">
+  <div id="auth-status" class="mb-4 py-2 text-center font-medium hidden"></div>
+  
+  <div id="login-form" class="space-y-3 p-4">
+    <h2 class="text-lg font-bold text-gray-800">Admin Login</h2>
+    
+    <div>
+      <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+      <input type="email" id="email" class="mt-1 block w-full px-3 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+    </div>
+    
+    <div>
+      <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+      <input type="password" id="password" class="mt-1 block w-full px-3 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+    </div>
+    
+    <div>
+      <button id="login-button" class="w-full flex justify-center py-1.5 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+        Sign In
+      </button>
+    </div>
+  </div>
+  
+  <div id="logout-container" class="hidden">
+    <div class="flex items-center justify-between space-x-4">
+      <span id="user-email" class="text-sm text-gray-600 font-medium"></span>
+      <button id="logout-button" class="px-4 py-1.5 bg-gray-200 text-gray-800 text-sm rounded hover:bg-gray-300">
+        Sign Out
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Import Firebase modules
+  import { auth } from '../lib/firebase';
+  import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
+  
+  // DOM Elements
+  const authStatus = document.getElementById('auth-status');
+  const loginForm = document.getElementById('login-form');
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+  const loginButton = document.getElementById('login-button');
+  const logoutContainer = document.getElementById('logout-container');
+  const userEmailElement = document.getElementById('user-email');
+  const logoutButton = document.getElementById('logout-button');
+  
+  // Show status message
+  const showStatus = (message, isError = false) => {
+    authStatus.textContent = message;
+    authStatus.classList.remove('hidden', 'bg-red-100', 'text-red-800', 'bg-green-100', 'text-green-800');
+    
+    if (isError) {
+      authStatus.classList.add('bg-red-100', 'text-red-800');
+    } else {
+      authStatus.classList.add('bg-green-100', 'text-green-800');
+    }
+  };
+  
+  // Handle login
+  loginButton.addEventListener('click', async () => {
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+    
+    if (!email || !password) {
+      showStatus('Please enter both email and password', true);
+      return;
+    }
+    
+    try {
+      showStatus('Signing in...');
+      await signInWithEmailAndPassword(auth, email, password);
+      // Auth state change listener will handle UI updates
+    } catch (error) {
+      console.error('Login error:', error);
+      showStatus('Login failed: ' + (error.message || 'Unknown error'), true);
+    }
+  });
+  
+  // Handle logout
+  logoutButton.addEventListener('click', async () => {
+    try {
+      await signOut(auth);
+      // Auth state change listener will handle UI updates
+    } catch (error) {
+      console.error('Logout error:', error);
+      showStatus('Logout failed: ' + (error.message || 'Unknown error'), true);
+    }
+  });
+  
+  // Listen for auth state changes
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User is signed in
+      console.log('User signed in:', user.email);
+      
+      // Update UI for authenticated user
+      loginForm.classList.add('hidden');
+      logoutContainer.classList.remove('hidden');
+      
+      if (userEmailElement) {
+        userEmailElement.textContent = user.email;
+      }
+      
+      // Dispatch event for other components
+      document.dispatchEvent(new CustomEvent('admin-authenticated', { 
+        detail: { user: { uid: user.uid, email: user.email } }
+      }));
+      
+      // Clear status after a delay
+      setTimeout(() => {
+        authStatus.classList.add('hidden');
+      }, 2000);
+    } else {
+      // User is signed out
+      console.log('User signed out');
+      
+      // Update UI for unauthenticated user
+      loginForm.classList.remove('hidden');
+      logoutContainer.classList.add('hidden');
+      
+      // Clear inputs
+      emailInput.value = '';
+      passwordInput.value = '';
+      
+      // Dispatch event for other components
+      document.dispatchEvent(new CustomEvent('admin-unauthenticated'));
+    }
+  });
+</script> 

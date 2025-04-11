@@ -1,0 +1,46 @@
+---
+// This component provides Firebase storage functionality
+// It doesn't render anything by default, but provides client-side scripts
+---
+
+<div id="firebase-storage-container" class="hidden">
+  <!-- Storage UI can be rendered here if needed -->
+</div>
+
+<script>
+  // This script will run on the client side
+  // Import Firebase storage functions from our utility file
+  import { storage } from '../lib/firebase';
+  
+  // Use dynamic imports to get client utilities
+  const getStorageUtils = async () => {
+    const module = await import('../lib/firebaseClient');
+    return {
+      uploadFile: module.uploadFile,
+      deleteFile: module.deleteFile
+    };
+  };
+  
+  // This component doesn't render any visible UI by default
+  // You can extend this or create additional components that use the Firebase storage functions
+  
+  // Initialize storage global helpers
+  const initStorageHelpers = async () => {
+    const utils = await getStorageUtils();
+    
+    // Example: Add a global helper for file uploads
+    window.firebaseUpload = async (path, file) => {
+      try {
+        const result = await utils.uploadFile(path, file);
+        console.log('File uploaded successfully:', result);
+        return result;
+      } catch (error) {
+        console.error('Error uploading file:', error);
+        throw error;
+      }
+    };
+  };
+  
+  // Initialize the helpers
+  initStorageHelpers();
+</script> 

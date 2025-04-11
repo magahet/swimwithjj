@@ -1,0 +1,889 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Sign-Up">
+	<div class="container mx-auto max-w-4xl">
+		<h1 class="text-3xl font-bold mb-6 text-center">Sign Up for Swim Lessons</h1>
+		
+		<div class="bg-white shadow-md rounded-lg p-6 mb-8">
+			<div class="mb-6">
+				<div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+					<p class="text-yellow-700">
+						Please do not sign-up unless you are 100% sure your child is able to participate in 
+						lessons and you are flexible enough to be placed at the lesson time given.
+					</p>
+				</div>
+				
+				<form id="signup-form" class="space-y-8">
+					<!-- Parent Information Section -->
+					<div class="bg-gray-50 p-6 rounded-lg">
+						<h2 class="text-xl font-bold mb-4">Parent's Information</h2>
+						
+						<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+							<div>
+								<label for="parent-name" class="sr-only">Full Name</label>
+								<input 
+									type="text" 
+									id="parent-name" 
+									name="parent-name" 
+									placeholder="Full Name" 
+									required
+									class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+								>
+							</div>
+							
+							<div>
+								<label for="parent-email" class="sr-only">Email</label>
+								<input 
+									type="email" 
+									id="parent-email" 
+									name="parent-email" 
+									placeholder="Email" 
+									required
+									class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+								>
+							</div>
+							
+							<div>
+								<label for="parent-phone" class="sr-only">Phone</label>
+								<input 
+									type="tel" 
+									id="parent-phone" 
+									name="parent-phone" 
+									placeholder="Phone" 
+									required
+									class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+								>
+							</div>
+						</div>
+						
+						<div class="mt-6">
+							<label class="font-semibold block mb-2">How many children are you signing up?</label>
+							<div class="flex flex-wrap gap-3">
+								<label class="inline-flex items-center">
+									<input type="radio" name="child-count" value="1" checked class="form-radio text-blue-600">
+									<span class="ml-2">1</span>
+								</label>
+								<label class="inline-flex items-center">
+									<input type="radio" name="child-count" value="2" class="form-radio text-blue-600">
+									<span class="ml-2">2</span>
+								</label>
+								<label class="inline-flex items-center">
+									<input type="radio" name="child-count" value="3" class="form-radio text-blue-600">
+									<span class="ml-2">3</span>
+								</label>
+								<label class="inline-flex items-center">
+									<input type="radio" name="child-count" value="4" class="form-radio text-blue-600">
+									<span class="ml-2">4</span>
+								</label>
+							</div>
+						</div>
+					</div>
+					
+					<!-- Children Container - Will be populated dynamically -->
+					<div id="children-container">
+						<!-- Child section template - First child is visible by default -->
+						<div class="child-section bg-gray-50 p-6 rounded-lg" data-child-index="1">
+							<h2 class="text-xl font-bold mb-4">Child 1 Information</h2>
+							
+							<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+								<div>
+									<label for="child-name-1" class="block mb-2">Child's Name (first name only)</label>
+									<input 
+										type="text" 
+										id="child-name-1" 
+										name="child-name-1" 
+										required
+										class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+									>
+								</div>
+								
+								<div>
+									<label for="child-birthday-1" class="block mb-2">Child's Date of Birth</label>
+									<input 
+										type="date" 
+										id="child-birthday-1" 
+										name="child-birthday-1" 
+										required
+										class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+									>
+								</div>
+							</div>
+							
+							<div class="mt-6">
+								<label for="child-level-1" class="block mb-2">Swimming Level</label>
+								<select 
+									id="child-level-1" 
+									name="child-level-1" 
+									required
+									class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+								>
+									<option value="">Select a level</option>
+									<option value="uncomfortable putting his or her face in the water">Uncomfortable putting his or her face in the water</option>
+									<option value="comfortable putting his or her face in the water">Comfortable putting his or her face in the water</option>
+									<option value="can swim the width of a pool">Can swim the width of a pool</option>
+									<option value="advanced swimmer, can swim length of a pool">Advanced swimmer, can swim length of a pool</option>
+								</select>
+							</div>
+							
+							<div class="mt-6">
+								<label class="block mb-2">Sessions</label>
+								
+								<!-- Selected Sessions Container -->
+								<div class="selected-sessions mb-3" data-child-index="1">
+									<div class="text-gray-500 italic no-sessions-selected">No sessions selected</div>
+									<div class="sessions-list hidden"></div>
+								</div>
+								
+								<!-- Add Sessions Button -->
+								<button 
+									type="button" 
+									class="add-sessions-btn px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+									data-child-index="1"
+								>
+									Add Sessions
+								</button>
+								
+								<!-- Hidden input to store selected sessions as JSON -->
+								<input 
+									type="hidden" 
+									id="child-sessions-1" 
+									name="child-sessions-1" 
+									value="[]" 
+								>
+							</div>
+						</div>
+					</div>
+					
+					<!-- Comments/Requests Section -->
+					<div class="bg-gray-50 p-6 rounded-lg">
+						<h2 class="text-xl font-bold mb-2">Comments / Special Requests / Needs</h2>
+						<p class="text-gray-600 mb-4">In a lesson with a friend, etc. (no specific time requests).</p>
+						
+						<textarea 
+							id="request-comments" 
+							name="request-comments" 
+							rows="3" 
+							class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+						></textarea>
+					</div>
+					
+					<!-- Payment Information -->
+					<div class="bg-gray-50 p-6 rounded-lg">
+						<h2 class="text-xl font-bold mb-4">Payment Information</h2>
+						<p class="text-gray-600 mb-6">* Your card will only be charged after JJ confirms your lesson times</p>
+						
+						<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+							<div>
+								<label for="card-name" class="block mb-2">Name on Card</label>
+								<input 
+									type="text" 
+									id="card-name" 
+									name="card-name" 
+									placeholder="Name on card"
+									required
+									class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+								>
+							</div>
+							
+							<div class="hidden">
+								<!-- Hidden field to store payment method ID -->
+								<input type="hidden" id="payment-method-id" name="payment-method-id">
+							</div>
+						</div>
+						
+						<!-- Stripe Elements will be mounted here -->
+						<div class="mt-6 space-y-4">
+							<div>
+								<label for="card-number-element" class="block mb-2">Card Number</label>
+								<div id="card-number-element" class="p-3 border border-gray-300 rounded-md"></div>
+								<div id="card-number-error" class="text-red-500 text-sm mt-1 hidden"></div>
+							</div>
+							
+							<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+								<div>
+									<label for="card-expiry-element" class="block mb-2">Expiration Date</label>
+									<div id="card-expiry-element" class="p-3 border border-gray-300 rounded-md"></div>
+									<div id="card-expiry-error" class="text-red-500 text-sm mt-1 hidden"></div>
+								</div>
+								
+								<div>
+									<label for="card-cvc-element" class="block mb-2">CVC</label>
+									<div id="card-cvc-element" class="p-3 border border-gray-300 rounded-md"></div>
+									<div id="card-cvc-error" class="text-red-500 text-sm mt-1 hidden"></div>
+								</div>
+							</div>
+							
+							<div id="payment-error" class="bg-red-100 text-red-800 p-3 rounded hidden"></div>
+						</div>
+					</div>
+					
+					<div>
+						<button 
+							type="submit" 
+							id="submit-button"
+							class="w-full md:w-auto px-6 py-3 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+						>
+							Submit Registration
+						</button>
+						<div id="submit-spinner" class="hidden flex justify-center items-center mt-4">
+							<div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div>
+							<span class="ml-2">Processing...</span>
+						</div>
+					</div>
+				</form>
+				
+				<!-- Success message (hidden by default) -->
+				<div id="signup-success" class="bg-green-100 text-green-800 p-4 rounded mt-4 hidden">
+					<h3 class="font-bold text-lg">Thank You!</h3>
+					<p class="mt-2">
+						You have completed the signup process. JJ will confirm your exact lesson times 
+						<strong>within the next 2 weeks.</strong> If you have any additional questions, 
+						please use the contact form.
+					</p>
+				</div>
+				
+				<!-- Error message (hidden by default) -->
+				<div id="signup-error" class="bg-red-100 text-red-800 p-4 rounded mt-4 hidden">
+					<h3 class="font-bold text-lg">Error</h3>
+					<p class="mt-2" id="error-message">
+						There was a problem submitting your sign-up form. Please try again or contact us if the problem persists.
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Session Selection Modal -->
+	<div id="sessions-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+		<div class="bg-white rounded-lg p-6 max-w-lg w-full max-h-[90vh] overflow-y-auto">
+			<div class="flex justify-between items-center mb-4">
+				<h3 class="text-xl font-bold">Select Sessions</h3>
+				<button id="close-modal" class="text-gray-500 hover:text-gray-700">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+					</svg>
+				</button>
+			</div>
+			
+			<div id="session-selection-loading" class="py-4">
+				<p class="text-center text-gray-500">Loading available sessions...</p>
+			</div>
+			
+			<div id="session-selection-error" class="bg-red-100 text-red-700 p-3 rounded mb-4 hidden">
+				Error loading sessions. Please try again.
+			</div>
+			
+			<div id="session-selection-content" class="hidden">
+				<div class="mb-4">
+					<p class="text-gray-600 mb-2">Select available sessions for your child:</p>
+				</div>
+				
+				<div id="sessions-list" class="space-y-3 mb-6"></div>
+				
+				<div class="flex justify-end mt-6">
+					<button id="save-sessions" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+						Save Selections
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</Layout>
+
+<!-- Include Stripe.js -->
+<script src="https://js.stripe.com/v3/" defer></script>
+
+<script>
+	import { getOpenSessions } from '../lib/sessionManager';
+	import { initStripe, createElements, createPaymentMethod } from '../lib/stripeClient';
+	import { getSettings } from '../lib/initSettings';
+	import { collection, addDoc, serverTimestamp, doc, setDoc } from 'firebase/firestore';
+	import { db } from '../lib/firebase';
+	
+	// Global variables to track current modal state
+	let currentChildIndex = 1;
+	let availableSessions = [];
+	let selectedSessions = {};
+	let stripeElements = null;
+	let stripeElementsCreated = false;
+	
+	// Function to create child information section
+	function createChildSection(index) {
+		const template = document.querySelector('.child-section[data-child-index="1"]');
+		const childContainer = document.getElementById('children-container');
+		
+		// Clone the template
+		const newSection = template.cloneNode(true);
+		
+		// Update the section attributes and heading
+		newSection.setAttribute('data-child-index', index);
+		const heading = newSection.querySelector('h2');
+		heading.textContent = `Child ${index} Information`;
+		
+		// Update input IDs and names
+		updateElementAttributes(newSection, 'child-name', index);
+		updateElementAttributes(newSection, 'child-birthday', index);
+		updateElementAttributes(newSection, 'child-level', index);
+		
+		// Update session selection elements
+		const addButton = newSection.querySelector('.add-sessions-btn');
+		if (addButton) {
+			addButton.setAttribute('data-child-index', index);
+		}
+		
+		const selectedSessionsDiv = newSection.querySelector('.selected-sessions');
+		if (selectedSessionsDiv) {
+			selectedSessionsDiv.setAttribute('data-child-index', index);
+			
+			// Reset the sessions display for this new child
+			const noSessionsEl = selectedSessionsDiv.querySelector('.no-sessions-selected');
+			const sessionsListEl = selectedSessionsDiv.querySelector('.sessions-list');
+			
+			if (noSessionsEl) {
+				noSessionsEl.classList.remove('hidden');
+			}
+			
+			if (sessionsListEl) {
+				sessionsListEl.classList.add('hidden');
+				sessionsListEl.innerHTML = '';
+			}
+		}
+		
+		const hiddenInput = newSection.querySelector('input[type="hidden"]');
+		if (hiddenInput) {
+			hiddenInput.id = `child-sessions-${index}`;
+			hiddenInput.name = `child-sessions-${index}`;
+			hiddenInput.value = "[]"; // Ensure the value is reset to empty array
+		}
+		
+		// Initialize selected sessions array for this child
+		selectedSessions[index] = [];
+		
+		// Add the new section to the container
+		childContainer.appendChild(newSection);
+		
+		// Add event listener to the Add Sessions button
+		addButton.addEventListener('click', () => openSessionsModal(index));
+	}
+	
+	// Helper function to update element IDs and names
+	function updateElementAttributes(section, baseId, index) {
+		const element = section.querySelector(`[id^="${baseId}-"]`);
+		if (element) {
+			element.id = `${baseId}-${index}`;
+			element.name = `${baseId}-${index}`;
+			// Update the label for as well if there's a label
+			const label = section.querySelector(`label[for^="${baseId}-"]`);
+			if (label) {
+				label.setAttribute('for', `${baseId}-${index}`);
+			}
+		}
+	}
+	
+	// Function to update child sections based on selected count
+	function updateChildSections(count) {
+		const childContainer = document.getElementById('children-container');
+		const currentSections = childContainer.querySelectorAll('.child-section');
+		
+		// If we need to remove sections
+		if (currentSections.length > count) {
+			for (let i = currentSections.length - 1; i >= count; i--) {
+				const index = i + 1;
+				currentSections[i].remove();
+				// Clean up session selections for removed children
+				delete selectedSessions[index];
+			}
+		}
+		// If we need to add sections
+		else if (currentSections.length < count) {
+			for (let i = currentSections.length + 1; i <= count; i++) {
+				createChildSection(i);
+			}
+		}
+	}
+	
+	// Function to open the sessions modal for a specific child
+	function openSessionsModal(childIndex) {
+		// Store current child index
+		currentChildIndex = childIndex;
+		
+		// Show modal
+		const modal = document.getElementById('sessions-modal');
+		modal.classList.remove('hidden');
+		
+		// Show loading and hide content/error
+		document.getElementById('session-selection-loading').classList.remove('hidden');
+		document.getElementById('session-selection-content').classList.add('hidden');
+		document.getElementById('session-selection-error').classList.add('hidden');
+		
+		// Load available sessions
+		loadAvailableSessions();
+	}
+	
+	// Function to close the sessions modal
+	function closeSessionsModal() {
+		const modal = document.getElementById('sessions-modal');
+		modal.classList.add('hidden');
+	}
+	
+	// Function to load available sessions from Firebase
+	async function loadAvailableSessions() {
+		try {
+			// Get open sessions from Firebase
+			availableSessions = await getOpenSessions();
+			
+			// Sort sessions by ID
+			availableSessions.sort((a, b) => parseInt(a.id) - parseInt(b.id));
+			
+			// Generate session list HTML
+			const sessionsListEl = document.getElementById('sessions-list');
+			sessionsListEl.innerHTML = '';
+			
+			// Get the current selected sessions for this child
+			const childSelectedSessions = selectedSessions[currentChildIndex] || [];
+			
+			if (availableSessions.length === 0) {
+				sessionsListEl.innerHTML = '<p class="text-center text-gray-500">No sessions are currently available.</p>';
+			} else {
+				// Get the current selected sessions for this child
+				const selectedSessionIds = childSelectedSessions.map(s => s.id);
+				
+				// Create checkboxes for each session
+				availableSessions.forEach(session => {
+					const isChecked = selectedSessionIds.includes(session.id);
+					const sessionItem = document.createElement('div');
+					sessionItem.className = 'session-item p-3 border rounded hover:bg-gray-50 cursor-pointer';
+					sessionItem.setAttribute('data-session-id', session.id);
+					
+					sessionItem.innerHTML = `
+						<div class="flex items-start">
+							<input 
+								type="checkbox" 
+								id="session-${session.id}" 
+								value="${session.id}" 
+								${isChecked ? 'checked' : ''}
+								class="mt-1 mr-3"
+							>
+							<div class="flex-1">
+								<div class="font-medium">Session ${session.id}</div>
+								<div class="text-sm text-gray-600">${session.dates}</div>
+								<div class="text-sm text-gray-600">${session.days}, ${session.times}</div>
+								<div class="text-sm font-medium mt-1">$${session.price}</div>
+								${session.notes ? `<div class="text-sm text-gray-500 mt-1">${session.notes}</div>` : ''}
+							</div>
+						</div>
+					`;
+					
+					// Add click event for the entire session item
+					sessionItem.addEventListener('click', (e) => {
+						// Don't toggle if clicking directly on the checkbox (it handles its own state)
+						if (e.target.type !== 'checkbox') {
+							const checkbox = sessionItem.querySelector('input[type="checkbox"]');
+							checkbox.checked = !checkbox.checked;
+						}
+					});
+					
+					sessionsListEl.appendChild(sessionItem);
+				});
+			}
+			
+			// Show content and hide loading/error
+			document.getElementById('session-selection-loading').classList.add('hidden');
+			document.getElementById('session-selection-content').classList.remove('hidden');
+			
+		} catch (error) {
+			console.error('Error loading sessions:', error);
+			document.getElementById('session-selection-loading').classList.add('hidden');
+			document.getElementById('session-selection-error').classList.remove('hidden');
+			document.getElementById('session-selection-error').textContent = 'Error loading sessions: ' + error.message;
+		}
+	}
+	
+	// Function to save the selected sessions for a child
+	function saveSelectedSessions() {
+		// Get all checked session checkboxes
+		const checkedSessions = Array.from(
+			document.querySelectorAll('#sessions-list input[type="checkbox"]:checked')
+		).map(checkbox => checkbox.value);
+		
+		// Filter available sessions to get only the selected ones
+		const childSelectedSessions = availableSessions
+			.filter(session => checkedSessions.includes(session.id))
+			.map(session => ({
+				id: session.id,
+				text: `Session ${session.id}: ${session.dates}`,
+				dates: session.dates,
+				days: session.days,
+				times: session.times,
+				price: session.price
+			}));
+		
+		// Update the selected sessions object for this child
+		selectedSessions[currentChildIndex] = childSelectedSessions;
+		
+		// Update the hidden input value
+		const hiddenInput = document.getElementById(`child-sessions-${currentChildIndex}`);
+		hiddenInput.value = JSON.stringify(childSelectedSessions);
+		
+		// Update the UI to show selected sessions
+		updateSelectedSessionsDisplay(currentChildIndex);
+		
+		// Close the modal
+		closeSessionsModal();
+	}
+	
+	// Function to update the display of selected sessions for a child
+	function updateSelectedSessionsDisplay(childIndex) {
+		const childSelectedSessions = selectedSessions[childIndex] || [];
+		const selectedSessionsContainer = document.querySelector(`.selected-sessions[data-child-index="${childIndex}"]`);
+		
+		if (!selectedSessionsContainer) return;
+		
+		const noSessionsEl = selectedSessionsContainer.querySelector('.no-sessions-selected');
+		const sessionsListEl = selectedSessionsContainer.querySelector('.sessions-list');
+		
+		// Update the add/change sessions button text
+		const addSessionsBtn = document.querySelector(`.add-sessions-btn[data-child-index="${childIndex}"]`);
+		
+		if (childSelectedSessions.length === 0) {
+			// No sessions selected
+			noSessionsEl.classList.remove('hidden');
+			sessionsListEl.classList.add('hidden');
+			sessionsListEl.innerHTML = '';
+			
+			// Update button text to "Add Sessions"
+			if (addSessionsBtn) {
+				addSessionsBtn.textContent = 'Add Sessions';
+			}
+		} else {
+			// Sessions selected, show them
+			noSessionsEl.classList.add('hidden');
+			sessionsListEl.classList.remove('hidden');
+			
+			// Create sessions list HTML
+			sessionsListEl.innerHTML = childSelectedSessions.map(session => `
+				<div class="session-item bg-blue-50 p-2 rounded mb-2">
+					<div class="font-medium">Session ${session.id}</div>
+					<div class="text-sm">${session.dates}</div>
+					<div class="text-sm">${session.days}, ${session.times}</div>
+				</div>
+			`).join('');
+			
+			// Update button text to "Change Sessions"
+			if (addSessionsBtn) {
+				addSessionsBtn.textContent = 'Change Sessions';
+			}
+		}
+	}
+	
+	// Calculate total payment amount from selected sessions
+	function calculateTotalPayment() {
+		let total = 0;
+		
+		Object.values(selectedSessions).forEach(sessions => {
+			sessions.forEach(session => {
+				total += parseFloat(session.price) || 0;
+			});
+		});
+		
+		return total;
+	}
+	
+	// Initialize Stripe Elements
+	async function initializeStripeElements() {
+		try {
+			// Get stripe publishable key from settings
+			const settings = await getSettings();
+			const stripePublishKey = settings.stripePublishKey;
+			
+			if (!stripePublishKey) {
+				throw new Error('Stripe publishable key not found in settings');
+			}
+			
+			// Initialize Stripe
+			initStripe(stripePublishKey);
+			
+			// Create and mount elements
+			const { elements, cardNumberElement, cardExpiryElement, cardCvcElement } = createElements();
+			stripeElements = elements;
+			
+			// Mount elements to their containers
+			cardNumberElement.mount('#card-number-element');
+			cardExpiryElement.mount('#card-expiry-element');
+			cardCvcElement.mount('#card-cvc-element');
+			
+			// Add event listeners for element validation
+			cardNumberElement.on('change', (event) => {
+				const errorElement = document.getElementById('card-number-error');
+				if (event.error) {
+					errorElement.textContent = event.error.message;
+					errorElement.classList.remove('hidden');
+				} else {
+					errorElement.classList.add('hidden');
+				}
+			});
+			
+			cardExpiryElement.on('change', (event) => {
+				const errorElement = document.getElementById('card-expiry-error');
+				if (event.error) {
+					errorElement.textContent = event.error.message;
+					errorElement.classList.remove('hidden');
+				} else {
+					errorElement.classList.add('hidden');
+				}
+			});
+			
+			cardCvcElement.on('change', (event) => {
+				const errorElement = document.getElementById('card-cvc-error');
+				if (event.error) {
+					errorElement.textContent = event.error.message;
+					errorElement.classList.remove('hidden');
+				} else {
+					errorElement.classList.add('hidden');
+				}
+			});
+			
+			stripeElementsCreated = true;
+		} catch (error) {
+			console.error('Error initializing Stripe Elements:', error);
+			showError('Failed to initialize payment form: ' + error.message);
+		}
+	}
+	
+	// Handle form submission
+	async function handleFormSubmit(event) {
+		event.preventDefault();
+		
+		// Get the submit button and spinner
+		const submitButton = document.getElementById('submit-button');
+		const submitSpinner = document.getElementById('submit-spinner');
+		
+		// Hide error message if visible
+		hideError();
+		
+		// Validate form
+		if (!validateForm()) {
+			return;
+		}
+		
+		// Disable submit button and show spinner
+		submitButton.disabled = true;
+		submitSpinner.classList.remove('hidden');
+		
+		try {
+			// Get billing details for payment method
+			const billingDetails = {
+				name: document.getElementById('card-name').value,
+				email: document.getElementById('parent-email').value,
+			};
+			
+			// Create payment method
+			const paymentMethod = await createPaymentMethod(stripeElements, billingDetails);
+			
+			// Store payment method ID in hidden field
+			document.getElementById('payment-method-id').value = paymentMethod.id;
+			
+			// Prepare form data
+			const formData = prepareFormData(paymentMethod.id);
+			
+			// Submit form data to Firestore
+			await submitFormData(formData);
+			
+			// Show success message and hide form
+			document.getElementById('signup-form').classList.add('hidden');
+			document.getElementById('signup-success').classList.remove('hidden');
+			
+			// Scroll to top
+			window.scrollTo({ top: 0, behavior: 'smooth' });
+		} catch (error) {
+			console.error('Form submission error:', error);
+			showError(error.message);
+		} finally {
+			// Re-enable submit button and hide spinner
+			submitButton.disabled = false;
+			submitSpinner.classList.add('hidden');
+		}
+	}
+	
+	// Prepare form data for submission
+	function prepareFormData(paymentMethodId) {
+		// Get form values
+		const parentName = document.getElementById('parent-name').value;
+		const parentEmail = document.getElementById('parent-email').value;
+		const parentPhone = document.getElementById('parent-phone').value;
+		const requestComments = document.getElementById('request-comments') ? 
+			document.getElementById('request-comments').value : '';
+		
+		// Calculate total payment
+		const paymentTotal = calculateTotalPayment();
+		
+		// Get child count
+		const childCount = parseInt(document.querySelector('input[name="child-count"]:checked').value);
+		
+		// Prepare children data
+		const children = [];
+		for (let i = 1; i <= childCount; i++) {
+			const childName = document.getElementById(`child-name-${i}`).value;
+			const childBirthday = document.getElementById(`child-birthday-${i}`).value;
+			const childLevel = document.getElementById(`child-level-${i}`).value;
+			const childSessions = selectedSessions[i] || [];
+			
+			children.push({
+				name: childName,
+				birthday: childBirthday,
+				level: childLevel,
+				sessions: childSessions
+			});
+		}
+		
+		// Return the complete signup data object
+		return {
+			parent: {
+				name: parentName,
+				email: parentEmail,
+				phone: parentPhone
+			},
+			children: children,
+			request: requestComments,
+			status: 'pending',
+			paymentTotal: paymentTotal,
+			paymentMethodId: paymentMethodId,
+			created: serverTimestamp()
+		};
+	}
+	
+	// Submit form data to Firestore
+	async function submitFormData(formData) {
+		try {
+			// Generate a custom document ID from parent name and current datetime
+			// Get just the first name for brevity, or full name if it's a single word
+			const nameParts = formData.parent.name.trim().split(/\s+/);
+			const nameForId = nameParts.length > 1 ? nameParts[0] : formData.parent.name;
+			
+			// Clean the name: lowercase, remove non-alphanumeric chars, and limit length
+			const cleanName = nameForId.toLowerCase().replace(/[^a-z0-9]/g, '').substring(0, 20);
+			
+			// Format current date as YYYYMMDD-HHMMSS
+			const now = new Date();
+			const datePart = now.getFullYear().toString() +
+				(now.getMonth() + 1).toString().padStart(2, '0') +
+				now.getDate().toString().padStart(2, '0');
+			const timePart = now.getHours().toString().padStart(2, '0') +
+				now.getMinutes().toString().padStart(2, '0') +
+				now.getSeconds().toString().padStart(2, '0');
+			
+			// Create the custom document ID
+			const customDocId = `${cleanName}-${datePart}-${timePart}`;
+			
+			// Add document to signups collection with custom ID
+			const signupDocRef = doc(db, 'signups', customDocId);
+			await setDoc(signupDocRef, formData);
+		} catch (error) {
+			console.error('Error adding signup to Firestore:', error);
+			throw new Error('Failed to save signup information');
+		}
+	}
+	
+	// Validate form before submission
+	function validateForm() {
+		// Check parent information
+		const parentName = document.getElementById('parent-name').value.trim();
+		const parentEmail = document.getElementById('parent-email').value.trim();
+		const parentPhone = document.getElementById('parent-phone').value.trim();
+		
+		if (!parentName || !parentEmail || !parentPhone) {
+			showError('Please complete all parent information fields.');
+			return false;
+		}
+		
+		// Check if at least one session is selected for each child
+		const childCount = parseInt(document.querySelector('input[name="child-count"]:checked').value);
+		for (let i = 1; i <= childCount; i++) {
+			const childSessions = selectedSessions[i] || [];
+			if (childSessions.length === 0) {
+				showError(`Please select at least one session for Child ${i}.`);
+				return false;
+			}
+			
+			// Check child information
+			const childName = document.getElementById(`child-name-${i}`).value.trim();
+			const childBirthday = document.getElementById(`child-birthday-${i}`).value;
+			const childLevel = document.getElementById(`child-level-${i}`).value;
+			
+			if (!childName || !childBirthday || !childLevel) {
+				showError(`Please complete all information for Child ${i}.`);
+				return false;
+			}
+		}
+		
+		// Check payment information
+		const cardName = document.getElementById('card-name').value.trim();
+		if (!cardName) {
+			showError('Please enter the name on your card.');
+			return false;
+		}
+		
+		// Check if Stripe Elements are complete
+		if (!stripeElementsCreated) {
+			showError('Payment form has not loaded properly. Please refresh the page and try again.');
+			return false;
+		}
+		
+		return true;
+	}
+	
+	// Show error message
+	function showError(message) {
+		const errorElement = document.getElementById('signup-error');
+		const errorMessageElement = document.getElementById('error-message');
+		
+		errorMessageElement.textContent = message;
+		errorElement.classList.remove('hidden');
+		
+		// Scroll to error message
+		errorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+	}
+	
+	// Hide error message
+	function hideError() {
+		document.getElementById('signup-error').classList.add('hidden');
+	}
+	
+	// Initialize the form
+	document.addEventListener('DOMContentLoaded', async () => {
+		// Initialize Stripe Elements
+		await initializeStripeElements();
+		
+		// Initialize selected sessions for first child
+		selectedSessions[1] = [];
+		
+		// Add listeners to the child count radio buttons
+		const childCountRadios = document.querySelectorAll('input[name="child-count"]');
+		
+		childCountRadios.forEach(radio => {
+			radio.addEventListener('change', (e) => {
+				const count = parseInt(e.target.value, 10);
+				updateChildSections(count);
+			});
+		});
+		
+		// Initialize with the default selected value (1)
+		updateChildSections(1);
+		
+		// Add event listener to first Add Sessions button
+		const addSessionButtons = document.querySelectorAll('.add-sessions-btn');
+		addSessionButtons.forEach(button => {
+			const childIndex = parseInt(button.getAttribute('data-child-index'), 10);
+			button.addEventListener('click', () => openSessionsModal(childIndex));
+		});
+		
+		// Add event listeners to modal buttons
+		document.getElementById('close-modal').addEventListener('click', closeSessionsModal);
+		document.getElementById('save-sessions').addEventListener('click', saveSelectedSessions);
+		
+		// Add form submit event listener
+		document.getElementById('signup-form').addEventListener('submit', handleFormSubmit);
+	});
+</script> 

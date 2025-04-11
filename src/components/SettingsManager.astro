@@ -1,0 +1,68 @@
+---
+// Settings Manager Component
+// This component allows fetching and using the site settings
+---
+
+<div id="settings-manager" class="hidden">
+  <!-- Settings UI will be rendered here if needed -->
+</div>
+
+<script>
+  // Use dynamic imports to avoid client/server mismatch
+  const settingsModule = import('../lib/initSettings');
+  
+  // Initialize settings when the page loads
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      // Get the module exports
+      const { getSettings } = await settingsModule;
+      
+      try {
+        // Get the current settings or initialize them if they don't exist
+        const settings = await getSettings();
+        console.log('Site settings loaded:', settings);
+        
+        // Make settings available globally
+        window.siteSettings = settings;
+        
+        // Dispatch an event to notify other components that settings are loaded
+        const event = new CustomEvent('settings-loaded', { detail: settings });
+        document.dispatchEvent(event);
+      } catch (error) {
+        console.error('Error loading settings:', error);
+        window.siteSettings = null;
+        
+        // Dispatch an error event that components can listen for
+        const errorEvent = new CustomEvent('settings-error', { detail: error.message });
+        document.dispatchEvent(errorEvent);
+      }
+    } catch (error) {
+      console.error('Error importing settings module:', error);
+    }
+  });
+  
+  // Add global helper for updating settings (admin use)
+  window.updateSiteSettings = async (newSettings) => {
+    try {
+      const { updateSettings } = await settingsModule;
+      const updated = await updateSettings(newSettings);
+      
+      // Update the global settings
+      window.siteSettings = updated;
+      
+      // Dispatch an event to notify other components that settings were updated
+      const event = new CustomEvent('settings-updated', { detail: updated });
+      document.dispatchEvent(event);
+      
+      return updated;
+    } catch (error) {
+      console.error('Error updating settings:', error);
+      
+      // Dispatch an error event
+      const errorEvent = new CustomEvent('settings-update-error', { detail: error.message });
+      document.dispatchEvent(errorEvent);
+      
+      throw error;
+    }
+  };
+</script> 
