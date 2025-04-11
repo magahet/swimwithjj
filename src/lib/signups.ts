@@ -99,20 +99,29 @@ export const getSignupsBySession = async (sessionId: number): Promise<Signup[]> 
 // Update signup
 export const updateSignup = async (id: string, signupData: Partial<Signup>): Promise<Signup> => {
     try {
+        console.log(`[Firebase] Updating signup ${id} with data:`, JSON.stringify(signupData));
+
         const signupRef = doc(db, COLLECTION_NAME, id);
         const docSnap = await getDoc(signupRef);
 
         if (!docSnap.exists()) {
+            console.error(`[Firebase] Signup with ID ${id} does not exist`);
             throw new Error(`Signup with ID ${id} does not exist`);
         }
 
+        console.log(`[Firebase] Existing signup data:`, JSON.stringify(docSnap.data()));
+
+        console.log(`[Firebase] Calling updateDoc with:`, signupData);
         await updateDoc(signupRef, signupData);
+        console.log(`[Firebase] updateDoc completed successfully`);
 
         // Get the updated document
         const updatedSnap = await getDoc(signupRef);
+        console.log(`[Firebase] Updated document data:`, JSON.stringify(updatedSnap.data()));
+
         return { id, ...updatedSnap.data() } as Signup;
     } catch (error) {
-        console.error(`Error updating signup ${id}:`, error);
+        console.error(`[Firebase] Error updating signup ${id}:`, error);
         throw error;
     }
 };

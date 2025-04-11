@@ -15,7 +15,8 @@ import {
     getDoc,
     getDocs,
     query,
-    where
+    where,
+    setDoc
 } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { auth, db, storage } from './firebase';
@@ -45,6 +46,16 @@ export const getCurrentUser = (): Promise<User | null> => {
 // Firestore functions
 export const createDocument = (collectionName: string, data: any) => {
     return addDoc(collection(db, collectionName), {
+        ...data,
+        createdAt: new Date(),
+        updatedAt: new Date()
+    });
+};
+
+// Create a document with a custom ID
+export const createDocumentWithId = (collectionName: string, docId: string, data: any) => {
+    const docRef = doc(db, collectionName, docId);
+    return setDoc(docRef, {
         ...data,
         createdAt: new Date(),
         updatedAt: new Date()

@@ -89,7 +89,7 @@ import Layout from '../layouts/Layout.astro';
 							
 							<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 								<div>
-									<label for="child-name-1" class="block mb-2">Child's Name</label>
+									<label for="child-name-1" class="block mb-2">Child's Name (first name only)</label>
 									<input 
 										type="text" 
 										id="child-name-1" 
@@ -100,12 +100,11 @@ import Layout from '../layouts/Layout.astro';
 								</div>
 								
 								<div>
-									<label for="child-age-1" class="block mb-2">Child's Age</label>
+									<label for="child-birthday-1" class="block mb-2">Child's Date of Birth</label>
 									<input 
-										type="number" 
-										id="child-age-1" 
-										name="child-age-1" 
-										min="3"
+										type="date" 
+										id="child-birthday-1" 
+										name="child-birthday-1" 
 										required
 										class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 									>
@@ -121,9 +120,10 @@ import Layout from '../layouts/Layout.astro';
 									class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 								>
 									<option value="">Select a level</option>
-									<option value="beginner">Beginner - Never had lessons before</option>
-									<option value="intermediate">Intermediate - Can float and do basic strokes</option>
-									<option value="advanced">Advanced - Working on technique</option>
+									<option value="uncomfortable putting his or her face in the water">Uncomfortable putting his or her face in the water</option>
+									<option value="comfortable putting his or her face in the water">Comfortable putting his or her face in the water</option>
+									<option value="can swim the width of a pool">Can swim the width of a pool</option>
+									<option value="advanced swimmer, can swim length of a pool">Advanced swimmer, can swim length of a pool</option>
 								</select>
 							</div>
 							
@@ -299,7 +299,7 @@ import Layout from '../layouts/Layout.astro';
 	import { getOpenSessions } from '../lib/sessionManager';
 	import { initStripe, createElements, createPaymentMethod } from '../lib/stripeClient';
 	import { getSettings } from '../lib/initSettings';
-	import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+	import { collection, addDoc, serverTimestamp, doc, setDoc } from 'firebase/firestore';
 	import { db } from '../lib/firebase';
 	
 	// Global variables to track current modal state
@@ -324,7 +324,7 @@ import Layout from '../layouts/Layout.astro';
 		
 		// Update input IDs and names
 		updateElementAttributes(newSection, 'child-name', index);
-		updateElementAttributes(newSection, 'child-age', index);
+		updateElementAttributes(newSection, 'child-birthday', index);
 		updateElementAttributes(newSection, 'child-level', index);
 		
 		// Update session selection elements
@@ -726,13 +726,13 @@ import Layout from '../layouts/Layout.astro';
 		const children = [];
 		for (let i = 1; i <= childCount; i++) {
 			const childName = document.getElementById(`child-name-${i}`).value;
-			const childAge = document.getElementById(`child-age-${i}`).value;
+			const childBirthday = document.getElementById(`child-birthday-${i}`).value;
 			const childLevel = document.getElementById(`child-level-${i}`).value;
 			const childSessions = selectedSessions[i] || [];
 			
 			children.push({
 				name: childName,
-				birthday: childAge, // Keeping as birthday field to match interface
+				birthday: childBirthday,
 				level: childLevel,
 				sessions: childSessions
 			});
@@ -757,9 +757,29 @@ import Layout from '../layouts/Layout.astro';
 	// Submit form data to Firestore
 	async function submitFormData(formData) {
 		try {
-			// Add document to signups collection
-			const signupsRef = collection(db, 'signups');
-			await addDoc(signupsRef, formData);
+			// Generate a custom document ID from parent name and current datetime
+			// Get just the first name for brevity, or full name if it's a single word
+			const nameParts = formData.parent.name.trim().split(/\s+/);
+			const nameForId = nameParts.length > 1 ? nameParts[0] : formData.parent.name;
+			
+			// Clean the name: lowercase, remove non-alphanumeric chars, and limit length
+			const cleanName = nameForId.toLowerCase().replace(/[^a-z0-9]/g, '').substring(0, 20);
+			
+			// Format current date as YYYYMMDD-HHMMSS
+			const now = new Date();
+			const datePart = now.getFullYear().toString() +
+				(now.getMonth() + 1).toString().padStart(2, '0') +
+				now.getDate().toString().padStart(2, '0');
+			const timePart = now.getHours().toString().padStart(2, '0') +
+				now.getMinutes().toString().padStart(2, '0') +
+				now.getSeconds().toString().padStart(2, '0');
+			
+			// Create the custom document ID
+			const customDocId = `${cleanName}-${datePart}-${timePart}`;
+			
+			// Add document to signups collection with custom ID
+			const signupDocRef = doc(db, 'signups', customDocId);
+			await setDoc(signupDocRef, formData);
 		} catch (error) {
 			console.error('Error adding signup to Firestore:', error);
 			throw new Error('Failed to save signup information');
@@ -768,16 +788,46 @@ import Layout from '../layouts/Layout.astro';
 	
 	// Validate form before submission
 	function validateForm() {
-		// Check if at least one session is selected
-		let hasSelectedSessions = false;
-		Object.values(selectedSessions).forEach(sessions => {
-			if (sessions.length > 0) {
-				hasSelectedSessions = true;
-			}
-		});
+		// Check parent information
+		const parentName = document.getElementById('parent-name').value.trim();
+		const parentEmail = document.getElementById('parent-email').value.trim();
+		const parentPhone = document.getElementById('parent-phone').value.trim();
 		
-		if (!hasSelectedSessions) {
-			showError('Please select at least one session for each child.');
+		if (!parentName || !parentEmail || !parentPhone) {
+			showError('Please complete all parent information fields.');
+			return false;
+		}
+		
+		// Check if at least one session is selected for each child
+		const childCount = parseInt(document.querySelector('input[name="child-count"]:checked').value);
+		for (let i = 1; i <= childCount; i++) {
+			const childSessions = selectedSessions[i] || [];
+			if (childSessions.length === 0) {
+				showError(`Please select at least one session for Child ${i}.`);
+				return false;
+			}
+			
+			// Check child information
+			const childName = document.getElementById(`child-name-${i}`).value.trim();
+			const childBirthday = document.getElementById(`child-birthday-${i}`).value;
+			const childLevel = document.getElementById(`child-level-${i}`).value;
+			
+			if (!childName || !childBirthday || !childLevel) {
+				showError(`Please complete all information for Child ${i}.`);
+				return false;
+			}
+		}
+		
+		// Check payment information
+		const cardName = document.getElementById('card-name').value.trim();
+		if (!cardName) {
+			showError('Please enter the name on your card.');
+			return false;
+		}
+		
+		// Check if Stripe Elements are complete
+		if (!stripeElementsCreated) {
+			showError('Payment form has not loaded properly. Please refresh the page and try again.');
 			return false;
 		}
 		

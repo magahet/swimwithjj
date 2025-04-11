@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - 2024-06-25
+
+### Added
+- Contact form functionality with Firestore integration
+- Custom document ID generation for both signups and contact form submissions
+- Improved admin interface for signup management with enhanced filtering
+- Direct session time update capability in admin interface
+- Pagination for signup listings in admin dashboard
+- Loading indicators and better error handling throughout the application
+
+### Changed
+- Modernized signup data handling with more robust error handling
+- Enhanced child registration form with date of birth instead of age
+- Updated swimming level options to be more descriptive
+- Improved admin dashboard with more comprehensive signup search capabilities
+- Better form validation on signup and contact forms
+
+### Fixed
+- Error handling in session management functionality
+- Layout issues in admin interface for various screen sizes
+- Improved function detection for compatibility with different module structures
+
 ## [0.4.0] - 2025-04-10
 
 ### Added
