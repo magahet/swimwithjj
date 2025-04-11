@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.2] - 2024-07-01
+
+### Added
+- Placeholder hints to session creation form fields for better UX
+- Dynamic sign-up availability states (open, coming soon, closed)
+- Condition-based rendering for sign-up page based on site settings
+
+### Changed
+- Updated package name to "swimwithjj" in package.json and package-lock.json
+- Improved code organization in sign-up page with conditional rendering
+- Enhanced form field clarity with descriptive placeholders
+
+### Fixed
+- Sign-up form code reorganization for better maintainability
+- Early exit in sign-up JavaScript when form isn't available
+
 ## [0.5.1] - 2024-06-28
 
 ### Added
