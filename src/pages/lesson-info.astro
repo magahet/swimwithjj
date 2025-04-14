@@ -87,19 +87,23 @@ import Layout from '../layouts/Layout.astro';
 	// Function to check if lessons info is active and render sessions
 	async function checkSettingsAndRenderSessions() {
 		try {
-			// First, check if lessonInfoActive is true
+			// Check for admin_preview parameter in URL
+			const urlParams = new URLSearchParams(window.location.search);
+			const adminPreview = urlParams.has('admin_preview');
+			
+			// First, check if lessonInfoActive is true or admin_preview is present
 			const settings = await getSettings();
 			const sessionsSection = document.getElementById('sessions-section');
 			
-			if (!settings.lessonInfoActive) {
-				// If settings.lessonInfoActive is false, hide the sessions section
+			if (!settings.lessonInfoActive && !adminPreview) {
+				// If settings.lessonInfoActive is false and no admin_preview, hide the sessions section
 				if (sessionsSection) {
 					sessionsSection.classList.add('hidden');
 				}
 				return;
 			}
 			
-			// If settings.lessonInfoActive is true, show the sessions section
+			// If settings.lessonInfoActive is true or admin_preview is present, show the sessions section
 			if (sessionsSection) {
 				sessionsSection.classList.remove('hidden');
 			}
@@ -112,6 +116,17 @@ import Layout from '../layouts/Layout.astro';
 					toggleButton.textContent = showClosedSessions ? 'Hide Closed Sessions' : 'Show Closed Sessions';
 					renderSessions();
 				});
+			}
+			
+			// If admin_preview is present, add a banner notification
+			if (adminPreview) {
+				const container = document.querySelector('.container');
+				if (container) {
+					const adminBanner = document.createElement('div');
+					adminBanner.className = 'bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4';
+					adminBanner.innerHTML = '<p><strong>Admin Preview Mode:</strong> You are viewing this page with admin privileges. This content may not be visible to regular users.</p>';
+					container.insertBefore(adminBanner, container.firstChild);
+				}
 			}
 			
 			// Proceed with rendering sessions

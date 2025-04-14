@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.3] - 2024-07-08
+
+### Added
+- Admin preview mode for sign-up forms via URL parameter
+- Admin banner notification when viewing in preview mode
+- URL parameter detection for displaying sign-up forms to admins
+
+### Changed
+- Improved form initialization with additional error handling
+- Enhanced DOM event listeners with null checks for better stability
+- Restructured sign-up form HTML for better maintainability
+
+### Fixed
+- Sign-up form JavaScript to handle dynamically loaded content
+- Event listener initialization for dynamically created elements
+- Form display logic to support admin preview mode
+
 ## [0.5.2] - 2024-07-01
 
 ### Added

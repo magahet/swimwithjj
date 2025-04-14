@@ -54,6 +54,21 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
       <h2 class="text-xl font-semibold text-gray-900 mb-2">Email Templates</h2>
       <p class="text-gray-600">Preview all email templates sent to users and customers.</p>
     </a>
+    
+    <div class="p-6 bg-white rounded-lg shadow-md border border-gray-200">
+      <h2 class="text-xl font-semibold mb-4">Preview Pages</h2>
+      <p class="mb-4 text-gray-600">
+        Preview pages regardless of their visibility settings. These links override normal visibility controls.
+      </p>
+      <div class="space-y-3">
+        <a href="/sign-up?admin_preview=true" class="block px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600" target="_blank">
+          Preview Signup Page
+        </a>
+        <a href="/lesson-info?admin_preview=true" class="block px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600" target="_blank">
+          Preview Lesson Info
+        </a>
+      </div>
+    </div>
   </div>
   
   <div class="mt-8 p-4 bg-blue-50 border border-blue-100 rounded-lg">
