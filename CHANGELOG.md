@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.4] - 2024-07-10
+
+### Added
+- Playwright testing framework for automated tests
+- Accessibility tests with axe-core integration
+- Visual regression tests for key pages
+- Navigation flow tests for user journey verification
+- Basic page content tests for correctness
+- New npm scripts for running various test suites
+- Screenshots directory to .gitignore
+
+### Changed
+- Improved accessibility: added underline to links in FAQ page
+- Enhanced visual styling with consistent headings on homepage
+- Improved map accessibility with proper title attribute
+- Darkened maroon color in CSS variables for better contrast
+- Added proper styling classes to "Learn More" button
+
+### Fixed
+- Map iframe missing closing attributes
+
 ## [0.5.3] - 2024-07-08
 
 ### Added

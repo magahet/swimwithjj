@@ -6,7 +6,14 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test": "npx playwright test",
+    "test:ui": "npx playwright test --ui",
+    "test:pages": "npx playwright test pages.spec.ts",
+    "test:visual": "npx playwright test visual.spec.ts",
+    "test:a11y": "npx playwright test accessibility.spec.ts",
+    "test:nav": "npx playwright test navigation.spec.ts",
+    "test:report": "npx playwright show-report"
   },
   "dependencies": {
     "astro": "^5.6.1",
@@ -17,6 +24,9 @@
   },
   "devDependencies": {
     "@astrojs/tailwind": "^6.0.2",
+    "@axe-core/playwright": "^4.8.5",
+    "@playwright/test": "^1.41.2",
+    "@types/node": "^22.14.1",
     "autoprefixer": "^10.4.21",
     "postcss": "^8.5.3",
     "tailwindcss": "^3.4.17"
