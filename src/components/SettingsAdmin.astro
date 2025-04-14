@@ -25,11 +25,6 @@
     </div>
     
     <div>
-      <label class="block mb-1 font-medium">Stripe Publish Key</label>
-      <input type="text" id="stripe-key" class="w-full p-2 border rounded">
-    </div>
-    
-    <div>
       <button id="save-settings" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
         Save Settings
       </button>
@@ -54,7 +49,6 @@
     const settingsError = document.getElementById('settings-error');
     const signupStateSelect = document.getElementById('signup-state');
     const lessonInfoCheckbox = document.getElementById('lesson-info-active');
-    const stripeKeyInput = document.getElementById('stripe-key');
     const saveButton = document.getElementById('save-settings');
     const feedbackEl = document.getElementById('settings-feedback');
     
@@ -80,7 +74,6 @@
         // Update form with current settings
         signupStateSelect.value = settings.signupState || 'closed';
         lessonInfoCheckbox.checked = !!settings.lessonInfoActive;
-        stripeKeyInput.value = settings.stripePublishKey || '';
         
         // Show settings content
         settingsContent.classList.remove('hidden');
@@ -101,8 +94,7 @@
         
         const updatedSettings = {
           signupState: signupStateSelect.value,
-          lessonInfoActive: lessonInfoCheckbox.checked,
-          stripePublishKey: stripeKeyInput.value
+          lessonInfoActive: lessonInfoCheckbox.checked
         };
         
         // Update settings in Firestore
@@ -122,7 +114,6 @@
       const settings = event.detail;
       signupStateSelect.value = settings.signupState || 'closed';
       lessonInfoCheckbox.checked = !!settings.lessonInfoActive;
-      stripeKeyInput.value = settings.stripePublishKey || '';
     });
   }
 </script> 
