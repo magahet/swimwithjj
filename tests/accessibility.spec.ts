@@ -12,7 +12,9 @@ const pages = [
     { path: '/testimonials', name: 'Testimonials' },
     { path: '/contact', name: 'Contact' },
     { path: '/sign-up', name: 'Sign Up' },
-    { path: '/lesson-info', name: 'Lesson Info' }
+    { path: '/lesson-info', name: 'Lesson Info' },
+    { path: '/sign-up?admin_preview', name: 'Sign Up with admin preview' },
+    { path: '/lesson-info?admin_preview', name: 'Lesson Info with admin preview' }
 ];
 
 // Run accessibility tests on each page

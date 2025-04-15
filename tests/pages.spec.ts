@@ -183,6 +183,39 @@ test('Sign Up page content and layout', async ({ page }) => {
     }
 });
 
+// Test Sign Up page with admin preview
+test('Sign Up page with admin_preview shows the form regardless of signup state', async ({ page }) => {
+    await page.goto(`${baseURL}/sign-up?admin_preview`);
+
+    // Verify page title
+    await expect(page).toHaveTitle(/Sign-Up - Swim With JJ/);
+
+    // Check for admin preview banner
+    const adminBanner = page.locator('div.bg-yellow-100.border-l-4.border-yellow-500');
+    await expect(adminBanner).toBeVisible();
+    await expect(adminBanner).toContainText('Admin Preview Mode');
+
+    // Verify the signup form is visible with admin preview, regardless of signup state
+    const signupForm = page.locator('form#signup-form');
+    await expect(signupForm).toBeVisible();
+
+    // Check form fields
+    await expect(page.locator('#parent-name')).toBeVisible();
+    await expect(page.locator('#parent-email')).toBeVisible();
+    await expect(page.locator('#parent-phone')).toBeVisible();
+
+    // Check child count radio buttons - use first child count radio button to avoid strict mode violation
+    await expect(page.getByRole('radio', { name: '1' })).toBeVisible();
+
+    // Check first child section fields
+    await expect(page.locator('#child-name-1')).toBeVisible();
+    await expect(page.locator('#child-birthday-1')).toBeVisible();
+    await expect(page.locator('#child-level-1')).toBeVisible();
+
+    // Check for add sessions button
+    await expect(page.locator('.add-sessions-btn').first()).toBeVisible();
+});
+
 // Test Lesson Info page
 test('Lesson Info page content and layout', async ({ page }) => {
     await page.goto(`${baseURL}/lesson-info`);
@@ -209,4 +242,40 @@ test('Lesson Info page content and layout', async ({ page }) => {
     if (tableCount > 0) {
         await expect(tables.first()).toBeVisible();
     }
+});
+
+// Test Lesson Info page with admin preview
+test('Lesson Info page with admin_preview shows session information', async ({ page }) => {
+    await page.goto(`${baseURL}/lesson-info?admin_preview`);
+
+    // Verify page title
+    await expect(page).toHaveTitle(/Lesson Info - Swim With JJ/);
+
+    // Check for admin preview banner
+    const adminBanner = page.locator('div.bg-yellow-100.border-l-4.border-yellow-500');
+    await expect(adminBanner).toBeVisible();
+    await expect(adminBanner).toContainText('Admin Preview Mode');
+
+    // Check that sessions section is visible
+    const sessionsSection = page.locator('#sessions-section');
+    await expect(sessionsSection).toBeVisible();
+    await expect(sessionsSection).not.toHaveClass(/hidden/);
+
+    // Check for session container
+    await expect(page.locator('#sessions-container')).toBeVisible();
+
+    // Check for toggle button for closed sessions
+    await expect(page.locator('#toggle-closed-sessions')).toBeVisible();
+
+    // Wait for sessions to load and verify at least one is visible, or a message is shown
+    await page.waitForTimeout(1000); // Allow time for session data to load
+
+    // Either session cards or a "no sessions" message should be present
+    const sessionCards = page.locator('#sessions-container div.bg-white');
+    const noSessionsMessage = page.locator('#sessions-container p.text-gray-500');
+
+    const cardCount = await sessionCards.count();
+    const hasMessage = await noSessionsMessage.count() > 0;
+
+    expect(cardCount > 0 || hasMessage).toBeTruthy();
 }); 

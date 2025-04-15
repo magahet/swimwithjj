@@ -21,6 +21,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Updated button colors from blue-500/600 to blue-700/800 for better contrast
 - Added aria attributes to form elements for better screen reader support
+- Improved test organization and removed temporary test files
+- Streamlined test execution and reporting
+
+### Removed
+- Deleted example.spec.ts and debug.spec.ts test files
 
 ## [0.5.4] - 2024-07-10
 

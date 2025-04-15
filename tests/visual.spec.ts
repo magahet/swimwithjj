@@ -244,6 +244,58 @@ for (const viewport of viewports) {
             // Take a screenshot for visual comparison
             await page.screenshot({ path: `screenshots/lesson-info-${viewport.name}.png`, fullPage: true });
         });
+
+        // Sign Up page with admin preview visual test
+        test(`Sign Up page with admin preview visual elements on ${viewport.name}`, async ({ page, browserName }) => {
+            await page.goto(`${baseURL}/sign-up?admin_preview`);
+
+            // Check for admin preview banner
+            const adminBanner = page.locator('div.bg-yellow-100.border-l-4.border-yellow-500');
+            await expect(adminBanner).toBeVisible();
+            await expect(adminBanner).toContainText('Admin Preview Mode');
+
+            // Check for sign up form (should always be visible with admin preview)
+            const signupForm = page.locator('form#signup-form');
+            await expect(signupForm).toBeVisible();
+
+            // Check form fields - this should always be visible in admin preview
+            await expect(page.locator('#parent-name')).toBeVisible();
+            await expect(page.locator('#parent-email')).toBeVisible();
+            await expect(page.locator('#parent-phone')).toBeVisible();
+
+            // Check child information section
+            await expect(page.getByRole('heading', { name: /Child 1 Information/i })).toBeVisible();
+            await expect(page.locator('#child-name-1')).toBeVisible();
+            await expect(page.locator('#child-birthday-1')).toBeVisible();
+            await expect(page.locator('#child-level-1')).toBeVisible();
+
+            // Take a screenshot for visual comparison
+            await page.screenshot({ path: `screenshots/signup-admin-preview-${viewport.name}.png`, fullPage: true });
+        });
+
+        // Lesson Info page with admin preview visual test
+        test(`Lesson Info page with admin preview visual elements on ${viewport.name}`, async ({ page, browserName }) => {
+            await page.goto(`${baseURL}/lesson-info?admin_preview`);
+
+            // Check for admin preview banner
+            const adminBanner = page.locator('div.bg-yellow-100.border-l-4.border-yellow-500');
+            await expect(adminBanner).toBeVisible();
+            await expect(adminBanner).toContainText('Admin Preview Mode');
+
+            // Check for sessions section (should always be visible with admin preview)
+            const sessionsSection = page.locator('#sessions-section');
+            await expect(sessionsSection).toBeVisible();
+            await expect(sessionsSection).not.toHaveClass(/hidden/);
+
+            // Check for session container
+            await expect(page.locator('#sessions-container')).toBeVisible();
+
+            // Check for toggle button for closed sessions
+            await expect(page.locator('#toggle-closed-sessions')).toBeVisible();
+
+            // Take a screenshot for visual comparison
+            await page.screenshot({ path: `screenshots/lesson-info-admin-preview-${viewport.name}.png`, fullPage: true });
+        });
     });
 }
 

@@ -194,4 +194,29 @@ test('Branding elements should be consistent across pages', async ({ page }) => 
             }
         }
     }
+});
+
+// Test admin preview functionality and navigation between admin preview pages
+test('Admin preview banner should be consistent across admin preview pages', async ({ page }) => {
+    // Start with lesson info page with admin preview
+    await page.goto(`${baseURL}/lesson-info?admin_preview`);
+
+    // Check for admin preview banner
+    const adminBanner = page.locator('div.bg-yellow-100.border-l-4.border-yellow-500');
+    await expect(adminBanner).toBeVisible();
+    await expect(adminBanner).toContainText('Admin Preview Mode');
+
+    // Check for session information visibility (which requires admin_preview)
+    await expect(page.locator('#sessions-section')).toBeVisible();
+
+    // Navigate directly to sign-up page with admin preview
+    await page.goto(`${baseURL}/sign-up?admin_preview`);
+    await page.waitForLoadState('domcontentloaded');
+
+    // Check admin banner is present on sign-up page
+    await expect(adminBanner).toBeVisible();
+    await expect(adminBanner).toContainText('Admin Preview Mode');
+
+    // Check that sign-up form is visible (which requires admin_preview if signup is closed)
+    await expect(page.locator('form#signup-form')).toBeVisible();
 }); 
