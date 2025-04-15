@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.5] - 2024-07-12
+
+### Fixed
+- Accessibility issues in sign-up form and session modal:
+  - Improved color contrast on all buttons (Add Sessions, Save Selections, Submit Registration) to meet WCAG 2.0 AA standard
+  - Added proper labeling for the comments/requests textarea
+  - Enhanced modal dialog with proper ARIA attributes (role, aria-modal, aria-labelledby)
+  - Improved keyboard accessibility including focus trap for modal dialog
+  - Added keyboard event handling for Escape key to close modals
+  - Implemented proper focus management when opening/closing the modal
+  - Added aria-label for the modal close button
+  - Improved session checkboxes with proper labeling and keyboard support
+
+### Changed
+- Updated button colors from blue-500/600 to blue-700/800 for better contrast
+- Added aria attributes to form elements for better screen reader support
+
 ## [0.5.4] - 2024-07-10
 
 ### Added
