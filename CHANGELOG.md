@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.6] - 2024-07-14
+
+### Fixed
+- Accessibility issues with mobile navigation:
+  - Added aria-label attribute to main navigation mobile toggle button
+  - Added aria-label attribute to admin panel mobile toggle button
+  - Improved screen reader support for navigation elements
+
+### Added
+- Form testing documentation and new test files:
+  - Added README-FORM-TESTS.md with form testing instructions
+  - Added form-submit.spec.ts for form submission tests
+  - Added test utilities for better test organization
+
 ## [0.5.5] - 2024-07-12
 
 ### Fixed
