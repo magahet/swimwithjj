@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.7] - 2024-07-15
+
+### Added
+- Total Payment Summary section in the sign-up form:
+  - Added payment summary UI with total amount display
+  - Implemented dynamic price display for each session
+  - Added JavaScript function to update total payment amount
+  - Enhanced session selection display with price information
+
 ## [0.5.6] - 2024-07-14
 
 ### Fixed
