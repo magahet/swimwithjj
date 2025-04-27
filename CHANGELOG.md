@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.9] - 2024-07-18
+
+### Added
+- Enhanced MailChimp integration with tag support:
+  - Added ability to tag subscribers with custom tags from environment variables
+  - Implemented automatic tagging for both new and existing subscribers
+  - Added tag support for both signup and contact form submissions
+  - Created fallback handling for when tag is not defined
+
+### Changed
+- Improved MailChimp subscriber management with smarter tag handling
+- Enhanced error handling for existing MailChimp subscribers
+- Updated Cloud Functions configuration with environment variable support
+
 ## [0.5.8] - 2024-07-16
 
 ### Removed

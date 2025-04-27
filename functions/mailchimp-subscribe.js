@@ -3,9 +3,15 @@ const { onDocumentCreated } = require('firebase-functions/v2/firestore');
 const { defineSecret } = require('firebase-functions/params');
 const mailchimp = require('@mailchimp/mailchimp_marketing');
 
+// Load environment variables
+require('dotenv').config();
+
 // Define secrets for MailChimp
 const mailchimpApiKey = defineSecret('MAILCHIMP_API_KEY');
 const mailchimpListId = defineSecret('MAILCHIMP_LIST_ID');
+
+// Get tag from environment variables
+const TAG = process.env.MAILCHIMP_TAG;
 
 /**
  * Get email from Firestore document based on collection
@@ -73,18 +79,54 @@ async function subscribeToMailchimp(event, collection) {
             server: server,
         });
 
-        // Add member to list
-        const response = await mailchimp.lists.addListMember(mailchimpListId.value(), {
+        // Add member to list with tag if TAG is set
+        const memberData = {
             email_address: email,
-            status: 'subscribed',
-        });
+            status: 'subscribed'
+        };
 
-        logger.info(`Successfully added ${email} to MailChimp list:`, response);
+        // Only add tags if TAG is defined
+        if (TAG) {
+            memberData.tags = [TAG];
+            logger.info(`Will add tag "${TAG}" to member`);
+        }
+
+        const response = await mailchimp.lists.addListMember(mailchimpListId.value(), memberData);
+
+        if (TAG) {
+            logger.info(`Successfully added ${email} to MailChimp list with tag "${TAG}":`, response);
+        } else {
+            logger.info(`Successfully added ${email} to MailChimp list:`, response);
+        }
     } catch (error) {
         // Handle errors from MailChimp API (e.g., member already exists)
         if (error.status === 400 && error.response && error.response.body &&
             error.response.body.title === 'Member Exists') {
-            logger.info(`Email ${email} is already subscribed to the MailChimp list`);
+            if (TAG) {
+                logger.info(`Email ${email} is already subscribed to the MailChimp list. Attempting to add tag.`);
+
+                try {
+                    // If member already exists, try to add the tag to their profile
+                    // First, get the MD5 hash of the email address (required by Mailchimp)
+                    const crypto = require('crypto');
+                    const subscriberHash = crypto.createHash('md5').update(email.toLowerCase()).digest('hex');
+
+                    // Then, update the member's tags
+                    await mailchimp.lists.updateListMemberTags(
+                        mailchimpListId.value(),
+                        subscriberHash,
+                        {
+                            tags: [{ name: TAG, status: 'active' }]
+                        }
+                    );
+
+                    logger.info(`Successfully added tag "${TAG}" to existing member ${email}`);
+                } catch (tagError) {
+                    logger.error(`Error adding tag to existing member ${email}:`, tagError);
+                }
+            } else {
+                logger.info(`Email ${email} is already subscribed to the MailChimp list.`);
+            }
         } else {
             logger.error(`Error adding ${email} to MailChimp list:`, error);
         }
@@ -96,6 +138,10 @@ exports.signupSubscribe = onDocumentCreated({
     document: 'signups/{uid}',
     secrets: [mailchimpApiKey, mailchimpListId],
     region: 'us-central1',
+    invoker: 'private',
+    environment: {
+        MAILCHIMP_TAG: process.env.MAILCHIMP_TAG
+    }
 }, async (event) => {
     await subscribeToMailchimp(event, 'signups');
 });
@@ -104,6 +150,10 @@ exports.messageSubscribe = onDocumentCreated({
     document: 'messages/{uid}',
     secrets: [mailchimpApiKey, mailchimpListId],
     region: 'us-central1',
+    invoker: 'private',
+    environment: {
+        MAILCHIMP_TAG: process.env.MAILCHIMP_TAG
+    }
 }, async (event) => {
     await subscribeToMailchimp(event, 'messages');
 }); 
