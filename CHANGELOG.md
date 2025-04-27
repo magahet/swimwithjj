@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.8] - 2024-07-16
+
+### Removed
+- "Important Reminders" section from lesson times email templates:
+  - Removed from both the actual email template in functions/signup-changed.js
+  - Removed from the preview template in public/email-previews.html
+
 ## [0.5.7] - 2024-07-15
 
 ### Added

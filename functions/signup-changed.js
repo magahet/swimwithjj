@@ -86,15 +86,6 @@ The total amount that will be charged is: ${cost}
       <h2 style="color: #0078B3; margin-top: 0; font-size: 20px;">Your Swimming Lessons Schedule</h2>
       
       ${lessonsHtml}
-      
-      <div style="background-color: #FFFFE0; padding: 15px; border-radius: 5px; margin-top: 20px;">
-        <p style="margin: 0;"><strong>Important Reminders:</strong></p>
-        <ul style="margin-top: 5px; padding-left: 20px;">
-          <li>Please arrive 10 minutes before your scheduled lesson time</li>
-          <li>Bring a swimsuit, towel, and goggles</li>
-          <li>If you need to reschedule, please contact us at least 24 hours in advance</li>
-        </ul>
-      </div>
     </div>
     
     <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 14px; color: #777; text-align: center;">
