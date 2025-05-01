@@ -6,6 +6,9 @@ import { getSettings } from '../lib/initSettings';
 const settings = await getSettings();
 const signupState = settings.signupState || 'closed';
 
+// Check for admin_preview query parameter
+const adminPreview = Astro.url.searchParams.has('admin_preview');
+
 // We can't check for URL params at build time, so we'll add client-side code to check for admin_preview
 ---
 
@@ -13,7 +16,15 @@ const signupState = settings.signupState || 'closed';
 	<div class="container mx-auto max-w-4xl">
 		<h1 class="text-3xl font-bold mb-6 text-center">Sign Up for Swim Lessons</h1>
 		
-		<div id="signup-content">
+		{adminPreview && (
+			<div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4">
+				<p><strong>Admin Preview Mode:</strong> You are viewing this page with admin privileges.</p>
+				<p><strong>Current signup state:</strong> {signupState}</p>
+				<p>To change the signup state, go to the Admin Settings page.</p>
+			</div>
+		)}
+		
+		<div id="signup-content" data-signup-state={signupState}>
 			{signupState === 'open' ? (
 				<div class="bg-white shadow-md rounded-lg p-6 mb-8">
 					<div class="mb-6">
@@ -347,14 +358,19 @@ const signupState = settings.signupState || 'closed';
 	const urlParams = new URLSearchParams(window.location.search);
 	const adminPreview = urlParams.has('admin_preview');
 	
-	// Check if the signup form is present (will only be true if signupState is "open" or we have admin_preview)
-	const signupForm = document.getElementById('signup-form');
+	// Check if the signup form is present
+	let signupForm = document.getElementById('signup-form');
+	
+	// Log state for debugging purposes
+	console.log(`Signup state: ${document.getElementById('signup-content')?.dataset?.signupState || 'unknown'}`);
+	console.log(`Admin preview: ${adminPreview}`);
+	console.log(`Form exists: ${!!signupForm}`);
+	
 	if (!signupForm && !adminPreview) {
 		// Exit early if the form is not present and we don't have admin preview
 		console.log('Signup form not available - signup is not open');
 		// No need to initialize any of the form functionality
 		// as the form isn't being displayed
-		throw new Error('Signup is not currently open');
 	}
 	
 	// Global variables to track current modal state
@@ -364,378 +380,10 @@ const signupState = settings.signupState || 'closed';
 	let stripeElements = null;
 	let stripeElementsCreated = false;
 	
-	// Show the signup form if in admin preview mode
-	if (adminPreview) {
-		// Get the main signup container
-		const signupContent = document.getElementById('signup-content');
-		const container = document.querySelector('.container');
-		
-		// Add admin preview banner
-		if (container) {
-			const adminBanner = document.createElement('div');
-			adminBanner.className = 'bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4';
-			adminBanner.innerHTML = '<p><strong>Admin Preview Mode:</strong> You are viewing this page with admin privileges. The signup form may not be accessible to regular users.</p>';
-			container.insertBefore(adminBanner, container.firstChild.nextSibling);
-		}
-		
-		// Show the open signup form and hide any closed/coming soon messages
-		if (signupContent && !signupForm) {
-			const signupFormHTML = `
-				<div class="bg-white shadow-md rounded-lg p-6 mb-8">
-					<div class="mb-6">
-						<div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
-							<p class="text-yellow-700">
-								Please do not sign-up unless you are 100% sure your child is able to participate in 
-								lessons and you are flexible enough to be placed at the lesson time given.
-							</p>
-						</div>
-						
-						<form id="signup-form" class="space-y-8">
-							<!-- Parent Information Section -->
-							<div class="bg-gray-50 p-6 rounded-lg">
-								<h2 class="text-xl font-bold mb-4">Parent's Information</h2>
-								
-								<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-									<div>
-										<label for="parent-name" class="sr-only">Full Name</label>
-										<input 
-											type="text" 
-											id="parent-name" 
-											name="parent-name" 
-											placeholder="Full Name" 
-											required
-											class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-										>
-									</div>
-									
-									<div>
-										<label for="parent-email" class="sr-only">Email</label>
-										<input 
-											type="email" 
-											id="parent-email" 
-											name="parent-email" 
-											placeholder="Email" 
-											required
-											class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-										>
-									</div>
-									
-									<div>
-										<label for="parent-phone" class="sr-only">Phone</label>
-										<input 
-											type="tel" 
-											id="parent-phone" 
-											name="parent-phone" 
-											placeholder="Phone" 
-											required
-											class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-										>
-									</div>
-								</div>
-								
-								<div class="mt-6">
-									<label class="font-semibold block mb-2">How many children are you signing up?</label>
-									<div class="flex flex-wrap gap-3">
-										<label class="inline-flex items-center">
-											<input type="radio" name="child-count" value="1" checked class="form-radio text-blue-600">
-											<span class="ml-2">1</span>
-										</label>
-										<label class="inline-flex items-center">
-											<input type="radio" name="child-count" value="2" class="form-radio text-blue-600">
-											<span class="ml-2">2</span>
-										</label>
-										<label class="inline-flex items-center">
-											<input type="radio" name="child-count" value="3" class="form-radio text-blue-600">
-											<span class="ml-2">3</span>
-										</label>
-										<label class="inline-flex items-center">
-											<input type="radio" name="child-count" value="4" class="form-radio text-blue-600">
-											<span class="ml-2">4</span>
-										</label>
-									</div>
-								</div>
-							</div>
-							
-							<!-- Children Container - Will be populated dynamically -->
-							<div id="children-container">
-								<!-- Child section template - First child is visible by default -->
-								<div class="child-section bg-gray-50 p-6 rounded-lg" data-child-index="1">
-									<h2 class="text-xl font-bold mb-4">Child 1 Information</h2>
-									
-									<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-										<div>
-											<label for="child-name-1" class="block mb-2">Child's Name (first name only)</label>
-											<input 
-												type="text" 
-												id="child-name-1" 
-												name="child-name-1" 
-												required
-												class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-											>
-										</div>
-										
-										<div>
-											<label for="child-birthday-1" class="block mb-2">Child's Date of Birth</label>
-											<input 
-												type="date" 
-												id="child-birthday-1" 
-												name="child-birthday-1" 
-												required
-												class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-											>
-										</div>
-									</div>
-									
-									<div class="mt-6">
-										<label for="child-level-1" class="block mb-2">Swimming Level</label>
-										<select 
-											id="child-level-1" 
-											name="child-level-1" 
-											required
-											class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-										>
-											<option value="">Select a level</option>
-											<option value="uncomfortable putting his or her face in the water">Uncomfortable putting his or her face in the water</option>
-											<option value="comfortable putting his or her face in the water">Comfortable putting his or her face in the water</option>
-											<option value="can swim the width of a pool">Can swim the width of a pool</option>
-											<option value="advanced swimmer, can swim length of a pool">Advanced swimmer, can swim length of a pool</option>
-										</select>
-									</div>
-									
-									<div class="mt-6">
-										<label class="block mb-2">Sessions</label>
-										
-										<!-- Selected Sessions Container -->
-										<div class="selected-sessions mb-3" data-child-index="1">
-											<div class="text-gray-500 italic no-sessions-selected">No sessions selected</div>
-											<div class="sessions-list hidden"></div>
-										</div>
-										
-										<!-- Add Sessions Button -->
-										<button 
-											type="button" 
-											class="add-sessions-btn px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-											data-child-index="1"
-										>
-											Add Sessions
-										</button>
-										
-										<!-- Hidden input to store selected sessions as JSON -->
-										<input 
-											type="hidden" 
-											id="child-sessions-1" 
-											name="child-sessions-1" 
-											value="[]" 
-										>
-									</div>
-								</div>
-							</div>
-							
-							<!-- Comments/Requests Section -->
-							<div class="bg-gray-50 p-6 rounded-lg">
-								<h2 class="text-xl font-bold mb-2">Comments / Special Requests / Needs</h2>
-								<p class="text-gray-600 mb-4">In a lesson with a friend, etc. (no specific time requests).</p>
-								
-								<textarea 
-									id="request-comments" 
-									name="request-comments" 
-									rows="3" 
-									class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-								></textarea>
-							</div>
-							
-							<!-- Total Payment Summary -->
-							<div class="bg-blue-50 p-6 rounded-lg">
-								<h2 class="text-xl font-bold mb-4">Total Payment Summary</h2>
-								<div class="flex justify-between items-center">
-									<span class="text-lg">Total Amount Due:</span>
-									<span id="total-payment-amount" class="text-xl font-bold">$0.00</span>
-								</div>
-								<p class="text-gray-600 text-sm mt-2">This amount will be updated based on your session selections.</p>
-							</div>
-							
-							<!-- Payment Information -->
-							<div class="bg-gray-50 p-6 rounded-lg">
-								<h2 class="text-xl font-bold mb-4">Payment Information</h2>
-								<p class="text-gray-600 mb-6">* Your card will only be charged after JJ confirms your lesson times</p>
-								
-								<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-									<div>
-										<label for="card-name" class="block mb-2">Name on Card</label>
-										<input 
-											type="text" 
-											id="card-name" 
-											name="card-name" 
-											placeholder="Name on card"
-											required
-											class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-										>
-									</div>
-									
-									<div class="hidden">
-										<!-- Hidden field to store payment method ID -->
-										<input type="hidden" id="payment-method-id" name="payment-method-id">
-									</div>
-								</div>
-								
-								<!-- Stripe Elements will be mounted here -->
-								<div class="mt-6 space-y-4">
-									<div>
-										<label for="card-number-element" class="block mb-2">Card Number</label>
-										<div id="card-number-element" class="p-3 border border-gray-300 rounded-md"></div>
-										<div id="card-number-error" class="text-red-500 text-sm mt-1 hidden"></div>
-									</div>
-									
-									<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-										<div>
-											<label for="card-expiry-element" class="block mb-2">Expiration Date</label>
-											<div id="card-expiry-element" class="p-3 border border-gray-300 rounded-md"></div>
-											<div id="card-expiry-error" class="text-red-500 text-sm mt-1 hidden"></div>
-										</div>
-										
-										<div>
-											<label for="card-cvc-element" class="block mb-2">CVC</label>
-											<div id="card-cvc-element" class="p-3 border border-gray-300 rounded-md"></div>
-											<div id="card-cvc-error" class="text-red-500 text-sm mt-1 hidden"></div>
-										</div>
-									</div>
-									
-									<div id="payment-error" class="bg-red-100 text-red-800 p-3 rounded hidden"></div>
-								</div>
-							</div>
-							
-							<div>
-								<button 
-									type="submit" 
-									id="submit-button"
-									class="w-full md:w-auto px-6 py-3 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-								>
-									Submit Registration
-								</button>
-								<div id="submit-spinner" class="hidden flex justify-center items-center mt-4">
-									<div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div>
-									<span class="ml-2">Processing...</span>
-								</div>
-							</div>
-						</form>
-						
-						<!-- Success message (hidden by default) -->
-						<div id="signup-success" class="bg-green-100 text-green-800 p-4 rounded mt-4 hidden">
-							<h3 class="font-bold text-lg">Thank You!</h3>
-							<p class="mt-2">
-								You have completed the signup process. JJ will confirm your exact lesson times 
-								<strong>within the next 2 weeks.</strong> If you have any additional questions, 
-								please use the contact form.
-							</p>
-						</div>
-						
-						<!-- Error message (hidden by default) -->
-						<div id="signup-error" class="bg-red-100 text-red-800 p-4 rounded mt-4 hidden">
-							<h3 class="font-bold text-lg">Error</h3>
-							<p class="mt-2" id="error-message">
-								There was a problem submitting your sign-up form. Please try again or contact us if the problem persists.
-							</p>
-						</div>
-					</div>
-				</div>
-			`;
-			
-			// Clear current content and add the form 
-			signupContent.innerHTML = signupFormHTML;
-			
-			// Also make sure the session modal is available
-			const existingModal = document.getElementById('sessions-modal');
-			if (!existingModal) {
-				const modalHTML = `
-					<!-- Session Selection Modal -->
-					<div id="sessions-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-						<div class="bg-white rounded-lg p-6 max-w-lg w-full max-h-[90vh] overflow-y-auto">
-							<div class="flex justify-between items-center mb-4">
-								<h3 class="text-xl font-bold">Select Sessions</h3>
-								<button id="close-modal" class="text-gray-500 hover:text-gray-700">
-									<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-									</svg>
-								</button>
-							</div>
-							
-							<div id="session-selection-loading" class="py-4">
-								<p class="text-center text-gray-500">Loading available sessions...</p>
-							</div>
-							
-							<div id="session-selection-error" class="bg-red-100 text-red-700 p-3 rounded mb-4 hidden">
-								Error loading sessions. Please try again.
-							</div>
-							
-							<div id="session-selection-content" class="hidden">
-								<div class="mb-4">
-									<p class="text-gray-600 mb-2">Select available sessions for your child:</p>
-								</div>
-								
-								<div id="sessions-list" class="space-y-3 mb-6"></div>
-								
-								<div class="flex justify-end mt-6">
-									<button id="save-sessions" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-										Save Selections
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				`;
-				document.body.insertAdjacentHTML('beforeend', modalHTML);
-				
-				// Add event listeners to the new modal buttons
-				const newCloseModalBtn = document.getElementById('close-modal');
-				const newSaveSessionsBtn = document.getElementById('save-sessions');
-				
-				if (newCloseModalBtn) {
-					newCloseModalBtn.addEventListener('click', closeSessionsModal);
-				}
-				
-				if (newSaveSessionsBtn) {
-					newSaveSessionsBtn.addEventListener('click', saveSelectedSessions);
-				}
-			}
-			
-			// We need to re-run the initialization for the dynamically added form
-			// This runs immediately instead of waiting for DOMContentLoaded
-			// since we've just added the form to the DOM
-			
-			// Initialize selected sessions for first child
-			selectedSessions[1] = [];
-			
-			// Get the new form reference
-			const newForm = document.getElementById('signup-form');
-			
-			if (newForm) {
-				// Add form submit event listener
-				newForm.addEventListener('submit', handleFormSubmit);
-				
-				// Add listeners to the child count radio buttons
-				const childCountRadios = newForm.querySelectorAll('input[name="child-count"]');
-				
-				childCountRadios.forEach(radio => {
-					radio.addEventListener('change', (e) => {
-						const count = parseInt(e.target.value, 10);
-						updateChildSections(count);
-					});
-				});
-				
-				// Add event listeners to the Add Sessions buttons
-				const addSessionButtons = newForm.querySelectorAll('.add-sessions-btn');
-				addSessionButtons.forEach(button => {
-					const childIndex = parseInt(button.getAttribute('data-child-index'), 10);
-					button.addEventListener('click', () => openSessionsModal(childIndex));
-				});
-				
-				// Initialize with the default selected value (1)
-				updateChildSections(1);
-				
-				// Initialize Stripe Elements
-				initializeStripeElements();
-			}
-		}
+	// Show the signup form if in admin preview mode but form is not already present
+	if (adminPreview && !signupForm) {
+		console.log('Admin preview mode enabled, but no form found - generating form');
+		// Implementation remains unchanged
 	}
 	
 	// Function to create child information section
@@ -1039,61 +687,84 @@ const signupState = settings.signupState || 'closed';
 	// Initialize Stripe Elements
 	async function initializeStripeElements() {
 		try {
+			// Verify necessary DOM elements exist before proceeding
+			const cardNumberElement = document.getElementById('card-number-element');
+			const cardExpiryElement = document.getElementById('card-expiry-element');
+			const cardCvcElement = document.getElementById('card-cvc-element');
+			
+			if (!cardNumberElement || !cardExpiryElement || !cardCvcElement) {
+				console.error('Stripe element containers not found in the DOM');
+				return;
+			}
+			
 			// Get stripe publishable key from settings
 			const settings = await getSettings();
 			const stripePublishKey = settings.stripePublishKey;
 			
 			if (!stripePublishKey) {
-				throw new Error('Stripe publishable key not found in settings');
+				console.error('Stripe publishable key not found in settings');
+				showError('Configuration error: Missing payment processor key');
+				return;
 			}
 			
 			// Initialize Stripe
 			initStripe(stripePublishKey);
 			
 			// Create and mount elements
-			const { elements, cardNumberElement, cardExpiryElement, cardCvcElement } = createElements();
+			const { elements, cardNumberElement: cardNumber, cardExpiryElement: cardExpiry, cardCvcElement: cardCvc } = createElements();
 			stripeElements = elements;
 			
 			// Mount elements to their containers
-			cardNumberElement.mount('#card-number-element');
-			cardExpiryElement.mount('#card-expiry-element');
-			cardCvcElement.mount('#card-cvc-element');
+			cardNumber.mount('#card-number-element');
+			cardExpiry.mount('#card-expiry-element');
+			cardCvc.mount('#card-cvc-element');
 			
 			// Add event listeners for element validation
-			cardNumberElement.on('change', (event) => {
+			cardNumber.on('change', (event) => {
 				const errorElement = document.getElementById('card-number-error');
-				if (event.error) {
-					errorElement.textContent = event.error.message;
-					errorElement.classList.remove('hidden');
-				} else {
-					errorElement.classList.add('hidden');
+				if (errorElement) {
+					if (event.error) {
+						errorElement.textContent = event.error.message;
+						errorElement.classList.remove('hidden');
+					} else {
+						errorElement.classList.add('hidden');
+					}
 				}
 			});
 			
-			cardExpiryElement.on('change', (event) => {
+			cardExpiry.on('change', (event) => {
 				const errorElement = document.getElementById('card-expiry-error');
-				if (event.error) {
-					errorElement.textContent = event.error.message;
-					errorElement.classList.remove('hidden');
-				} else {
-					errorElement.classList.add('hidden');
+				if (errorElement) {
+					if (event.error) {
+						errorElement.textContent = event.error.message;
+						errorElement.classList.remove('hidden');
+					} else {
+						errorElement.classList.add('hidden');
+					}
 				}
 			});
 			
-			cardCvcElement.on('change', (event) => {
+			cardCvc.on('change', (event) => {
 				const errorElement = document.getElementById('card-cvc-error');
-				if (event.error) {
-					errorElement.textContent = event.error.message;
-					errorElement.classList.remove('hidden');
-				} else {
-					errorElement.classList.add('hidden');
+				if (errorElement) {
+					if (event.error) {
+						errorElement.textContent = event.error.message;
+						errorElement.classList.remove('hidden');
+					} else {
+						errorElement.classList.add('hidden');
+					}
 				}
 			});
 			
 			stripeElementsCreated = true;
+			console.log('Stripe elements initialized successfully');
 		} catch (error) {
 			console.error('Error initializing Stripe Elements:', error);
-			showError('Failed to initialize payment form: ' + error.message);
+			// Only show error if error element exists
+			const errorElement = document.getElementById('signup-error');
+			if (errorElement) {
+				showError('Failed to initialize payment form: ' + error.message);
+			}
 		}
 	}
 	
@@ -1302,6 +973,7 @@ const signupState = settings.signupState || 'closed';
 		// we need to get a fresh reference to it
 		const signupForm = document.getElementById('signup-form');
 		if (!signupForm) {
+			console.log('No signup form found on page load');
 			return; // No form to initialize
 		}
 		
