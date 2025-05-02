@@ -266,6 +266,48 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
       }
     };
     
+    // Function to calculate age from birthday
+    const calculateAge = (birthday) => {
+      if (!birthday) return 'N/A';
+      
+      try {
+        const birthDate = new Date(birthday);
+        const today = new Date();
+        
+        if (isNaN(birthDate.getTime())) {
+          return 'Invalid Date';
+        }
+        
+        let years = today.getFullYear() - birthDate.getFullYear();
+        let months = today.getMonth() - birthDate.getMonth();
+        
+        // Adjust years and months if birth month is after current month
+        // or if birth day is after current day in the same month
+        if (months < 0 || (months === 0 && today.getDate() < birthDate.getDate())) {
+          years--;
+          months += 12;
+        }
+        
+        // Handle case where birth day is after current day but in the same month
+        if (today.getDate() < birthDate.getDate()) {
+          months--;
+          if (months < 0) {
+            months += 12;
+          }
+        }
+        
+        // Format the output
+        if (years === 0) {
+          return `${months} month${months !== 1 ? 's' : ''}`;
+        } else {
+          return `${years} year${years !== 1 ? 's' : ''}, ${months} month${months !== 1 ? 's' : ''}`;
+        }
+      } catch (error) {
+        console.error('Error calculating age:', error, birthday);
+        return 'Invalid Date';
+      }
+    };
+    
     // Function to view signup details
     const viewSignup = async (signupId) => {
       hideModalError();
@@ -328,7 +370,7 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
                 <div class="p-3 ${index !== 0 ? 'border-t' : ''}">
                   <div class="flex justify-between">
                     <p class="font-medium">${child.name}</p>
-                    <p class="text-sm">DOB: ${child.birthday || 'N/A'}</p>
+                    <p class="text-sm">Age: ${calculateAge(child.birthday) || 'N/A'}</p>
                   </div>
                   <p class="text-sm mb-2">Level: ${child.level || 'N/A'}</p>
                   

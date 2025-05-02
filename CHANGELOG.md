@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2024-07-20
+
+### Changed
+- Enhanced child information display in admin signup edit modal:
+  - Changed display of date of birth (DOB) to show age in years and months
+  - Added age calculation function that dynamically computes age from birthday
+  - Improved readability of child information in the admin interface
+  - Age calculation handles edge cases (leap years, month transitions)
+  - Original date of birth is still stored in Firestore (display change only)
+
 ## [0.5.9] - 2024-07-18
 
 ### Added
